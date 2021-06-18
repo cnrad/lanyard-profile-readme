@@ -8,17 +8,23 @@ type Data = {
   error?: any;
 }
 
+type Parameters = {
+    animated?: string;
+}
+
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+
+    let params: Parameters = req.query;
     let userid = req.query.id[0];
     res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
 
     axios.get(`https://api.lanyard.rest/v1/users/${userid}`)
     .then((response) => {
         // let svg = renderCard(response.data);
-        res.send(renderCard(response.data));
+        res.send(renderCard(response.data, params));
     })
     .catch((err) => {
         console.log(err);
