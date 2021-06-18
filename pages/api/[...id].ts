@@ -13,14 +13,16 @@ export default function handler(
   res: NextApiResponse<Data>
 ) {
     let userid = req.query.id[0];
+    res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
 
     axios.get(`https://api.lanyard.rest/v1/users/${userid}`)
     .then((response) => {
-        renderCard(response.data);
-        res.status(200).json(response.data);
+        // let svg = renderCard(response.data);
+        res.send(renderCard(response.data));
     })
-    .catch((e) => {
-        res.send({ error: {e} })
+    .catch((err) => {
+        console.log(err);
+        res.send({ error: 'Please provide a valid Discord user ID!' })
     });
 
     console.log(req.query);
