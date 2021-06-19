@@ -42,7 +42,7 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
     console.log(Object.keys(body.data.activities).length);
 
     return `
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400px" height="218px">
+            <svg xmlns:xhtml="http://www.w3.org/1999/xhtml" width="400px" height="218px">
 
                 <foreignObject>
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
