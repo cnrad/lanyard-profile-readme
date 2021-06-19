@@ -13,7 +13,9 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
     let avatarExtension: string = "webp";
     let activity: any = false;
 
-    if(body.data.activities[Object.keys(body.data.activities).length - 1].type === 0) activity = body.data.activities[Object.keys(body.data.activities).length - 1];
+    if(body.data.activities.length > 0) {
+        if(body.data.activities[Object.keys(body.data.activities).length - 1].type === 0) activity = body.data.activities[Object.keys(body.data.activities).length - 1];
+    }
 
     if(body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
     if(params.animated === "false") avatarExtension = "webp";
@@ -150,38 +152,6 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                             </a>
                         </div>
 
-                        ${body.data.spotify && !body.data.activities[1] ? 
-
-                            `
-                            <div style="
-                                display: flex;
-                                flex-direction: row;
-                                height: 120px;
-                                margin-left: 15px;
-                                font-size: 0.75rem;
-                                padding-top: 18px;
-                            ">
-                                <img src="${body.data.spotify.album_art_url}" style="
-                                    width: 80px; 
-                                    height: 80px; 
-                                    border: solid 0.5px #222;
-                                    border-radius: 10px; 
-                                    margin-right: 15px;
-                                "/>
-
-                                <div style="
-                                    color: #999;
-                                    line-height: 0.5rem;
-                                ">
-                                    <p style="font-size: 0.7rem; color: #1CB853; margin-bottom: 20px;">LISTENING NOW...</p> 
-                                    <p style="color: #fff; font-weight: bold;">${body.data.spotify.song}</p>
-                                    <p style="color: #ccc">${body.data.spotify.artist}</p>
-                                </div>
-                            </div>
-                            `
-                        
-                        : ``}
-
                         ${activity ? 
                             
                             `
@@ -198,7 +168,7 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                                     width: auto;
                                     height: auto;
                                 ">
-                                ${activity.assets > 0 ? 
+                                ${activity.assets ? 
                                     `
                                     <img src="https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp" style="
                                         width: 80px; 
@@ -242,7 +212,39 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                         
                         : ``}
 
-                        ${!activity && !body.data.listening_to_spotify === false ? 
+                        ${body.data.listening_to_spotify === true && body.data.activities[Object.keys(body.data.activities).length - 1].type === 2 ? 
+
+                            `
+                            <div style="
+                                display: flex;
+                                flex-direction: row;
+                                height: 120px;
+                                margin-left: 15px;
+                                font-size: 0.75rem;
+                                padding-top: 18px;
+                            ">
+                                <img src="${body.data.spotify.album_art_url}" style="
+                                    width: 80px; 
+                                    height: 80px; 
+                                    border: solid 0.5px #222;
+                                    border-radius: 10px; 
+                                    margin-right: 15px;
+                                "/>
+
+                                <div style="
+                                    color: #999;
+                                    line-height: 0.5rem;
+                                ">
+                                    <p style="font-size: 0.7rem; color: #1CB853; margin-bottom: 20px;">LISTENING NOW...</p> 
+                                    <p style="color: #fff; font-weight: bold;">${body.data.spotify.song}</p>
+                                    <p style="color: #ccc">${body.data.spotify.artist}</p>
+                                </div>
+                            </div>
+                            `
+                        
+                        : ``}
+
+                        ${!activity && body.data.listening_to_spotify === false ? 
                             `<div style="
                                 display: flex;
                                 flex-direction: row;
