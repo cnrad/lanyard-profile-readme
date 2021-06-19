@@ -108,7 +108,7 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                                     ${
                                         flags.map((v) => {
                                             return(
-                                                `<img src="/assets/badges/${v}.png" style="
+                                                `<img src="https://lanyard-profile-readme.vercel.app/assets/badges/${v}.png" style="
                                                     width: 15px; 
                                                     height: 15px; 
                                                     position: relative; 
@@ -178,7 +178,7 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                                     "/>
                                     `
                                 : `
-                                    <img src="/assets/unknown.png" style="
+                                    <img src="https://lanyard-profile-readme.vercel.app/assets/unknown.png" style="
                                         width: 80px; 
                                         height: 80px; 
                                         filter: invert(100);
