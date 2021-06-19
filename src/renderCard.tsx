@@ -150,7 +150,7 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                                     width: auto;
                                     height: auto;
                                 ">
-                                ${activity.assets ? 
+                                ${activity.assets.large_image ? 
                                     `
                                     <img src="https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp" style="
                                         width: 80px; 
@@ -167,7 +167,7 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                                     "/>
                                 `}
 
-                                ${activity.assets ? 
+                                ${activity.assets.small_image ? 
                                     `<img src="https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp" style="
                                         width: 30px;
                                         height: 30px;
