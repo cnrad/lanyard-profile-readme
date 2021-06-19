@@ -23,8 +23,7 @@ export default function handler(
 
     axios.get(`https://api.lanyard.rest/v1/users/${userid}`)
     .then((response) => {
-        // let svg = renderCard(response.data);
-        res.send(renderCard(response.data, params));
+        res.status(200).send(renderCard(response.data, params));
     })
     .catch((err) => {
         console.log(err);
