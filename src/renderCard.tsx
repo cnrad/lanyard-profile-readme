@@ -17,7 +17,8 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
         if(body.data.activities[Object.keys(body.data.activities).length - 1].type === 0) activity = body.data.activities[Object.keys(body.data.activities).length - 1];
     }
 
-    if(body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
+    
+    if(body.data.discord_user.avatar !== null && body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
     if(params.animated === "false") avatarExtension = "webp";
 
     switch(body.data.discord_status){
@@ -73,7 +74,10 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                                 height: 80px;
                                 width: 80px;
                             ">
-                                <img src="https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=2048" style="
+                                <img ${body.data.discord_user.avatar !== null ?
+                                    `src="https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=2048"` :
+                                    `src="https://discord.com/assets/1f0bfc0865d324c2587920a7d80c609b.png"`} 
+                                style="
                                     border: solid 3px ${avatarBorderColor};
                                     border-radius: 50%;
                                     width: 50px;
