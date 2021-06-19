@@ -42,9 +42,8 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
     console.log(Object.keys(body.data.activities).length);
 
     return `
-            <svg xmlns:xhtml="http://www.w3.org/1999/xhtml" width="400px" height="218px">
-
-                <foreignObject>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="218px">
+                <foreignObject x="0" y="0" width="410" height="218">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
                         position: absolute;
                         width: 400px;
