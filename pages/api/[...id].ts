@@ -20,6 +20,7 @@ export default function handler(
     let params: Parameters = req.query;
     let userid = req.query.id[0];
     res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+    res.setHeader("content-security-policy", "default-src 'none'; style-src 'unsafe-inline'");
 
     axios.get(`https://api.lanyard.rest/v1/users/${userid}`)
     .then((response) => {

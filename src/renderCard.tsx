@@ -51,7 +51,7 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                         inset: 0;
                         background-color: #1a1c1f;
                         color: #fff;
-                        font-family: 'Century Gothic';
+                        font-family: 'Century Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
                         font-size: 16px;
                         display: flex;
                         flex-direction: column;
