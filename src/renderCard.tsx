@@ -45,6 +45,9 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
     return `
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="218px">
                 <foreignObject x="0" y="0" width="410" height="218">
+                    <head>
+                        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src *; style-src 'unsafe-inline'" />
+                    </head>
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
                         position: absolute;
                         width: 400px;
@@ -90,7 +93,7 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                             </div>
                             <div style="
                                 height: 80px;
-                                width: 240px;
+                                width: 260px;
                             ">
                                 <div style="
                                     display: flex;
@@ -112,8 +115,8 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                                         flags.map((v) => {
                                             return(
                                                 `<img src="https://lanyard-profile-readme.vercel.app/assets/badges/${v}.png" style="
-                                                    width: 15px; 
-                                                    height: 15px; 
+                                                    width: 20px; 
+                                                    height: 20px; 
                                                     position: relative; 
                                                     top: 50%; 
                                                     transform: translate(0%, -50%);
