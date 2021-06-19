@@ -132,23 +132,6 @@ const renderCard = (body: LanyardTypes.Root, params: Parameters): any => {
                                 </h1>
 
                             </div>
-                            <a style="
-                                position: relative;
-                                top: 50%;
-                                width: 30px;
-                                height: 15px;
-                                transform: translate(0, -50%);
-                                background-color: #3BA55D;
-                                color: #fff;
-                                text-align: center;
-                                text-decoration: none;
-                                border-radius: 5px;
-                                font-size: 0.75rem;
-                                padding: 5px 10px;
-                            " 
-                            href="https://discord.com/users/${body.data.discord_user.id}">
-                                ADD
-                            </a>
                         </div>
 
                         ${activity ? 
