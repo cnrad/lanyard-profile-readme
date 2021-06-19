@@ -12,7 +12,7 @@ type Parameters = {
     animated?: string;
 }
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
@@ -22,15 +22,19 @@ export default function handler(
     res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
     res.setHeader("content-security-policy", "default-src 'none'; img-src *; style-src 'unsafe-inline'");
 
-    axios.get(`https://api.lanyard.rest/v1/users/${userid}`)
+    let lanyardData: any;
+
+    await axios.get(`https://api.lanyard.rest/v1/users/${userid}`)
     .then((response) => {
-        res.status(200).send(renderCard(response.data, params));
+        return lanyardData = response;
     })
     .catch((err) => {
         console.log(err);
         res.send({ error: 'Please provide a valid Discord user ID!' })
     });
 
+    let svg = await renderCard(lanyardData.data, params);
+    res.status(200).send(svg);
+
     console.log(req.query);
-    
 }
