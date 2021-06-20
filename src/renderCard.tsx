@@ -150,6 +150,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         margin-top: 16px;
                                         color: ${theme === 'dark' ? '#aaa' : '#333'};
                                         font-weight: lighter;
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        text-overflow: ellipsis;
                                     ">
                                         ${body.data.activities[0].emoji ?
                                             `<img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/emojis/${body.data.activities[0].emoji.id}.${statusExtension}`)}" style="
@@ -183,7 +186,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     width: auto;
                                     height: auto;
                                 ">
-                                ${activity.assets.large_image ? 
+                                ${activity.assets && activity.assets.large_image ? 
                                     `
                                     <img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`)}" style="
                                         width: 80px; 
@@ -194,13 +197,14 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     `
                                 : `
                                     <img src="data:image/png;base64,${await encodeBase64(`https://lanyard-profile-readme.vercel.app/assets/unknown.png`)}" style="
-                                        width: 80px; 
-                                        height: 80px; 
+                                        width: 70px; 
+                                        height: 70px; 
+                                        margin-top: 4px;
                                         filter: invert(100);
                                     "/>
                                 `}
 
-                                ${activity.assets.small_image ? 
+                                ${activity.assets && activity.assets.small_image ? 
                                     `<img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`)}" style="
                                         width: 30px;
                                         height: 30px;
