@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Home() {
 
@@ -22,7 +22,7 @@ export default function Home() {
 
                 <Container>
 
-                    <p style={{fontSize: "1rem", fontWeight: "bold", marginTop: "1rem"}}>Make sure you're in the <a style={{color: "#fff"}} href="https://discord.gg/wscam7vngf">Discord</a> for this to work.</p>
+                    <p style={{fontSize: "1rem", fontWeight: "bold", marginTop: "1rem"}}>Make sure you're in the <a style={{color: "#fff"}} rel="noreferrer" href="https://discord.gg/wscam7vngf">Discord</a> for this to work.</p>
 
                     <Input maxLength={18} type="text" placeholder="Paste your Discord user ID here" onChange={((e) => setUserId(e.target.value))}>
 
@@ -34,7 +34,7 @@ export default function Home() {
                         [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/{userId})](https://discord.com/users/{userId})
                     </Link>
 
-                    <span style={{fontSize: "1rem", fontStyle: "italic", marginTop: "1rem"}}>For further customization, check out the <a target="_blank" href="https://github.com/cnrad/lanyard-profile-readme" style={{color: "#fff", fontWeight: "bold"}}>repo</a>!</span>
+                    <span style={{fontSize: "1rem", fontStyle: "italic", marginTop: "1rem"}}>For further customization, check out the <a rel="noreferrer" target="_blank" href="https://github.com/cnrad/lanyard-profile-readme" style={{color: "#fff", fontWeight: "bold"}}>repo</a>!</span>
 
                     <Example>
                         <p style={{fontSize: "1rem", fontWeight: "bold", marginTop: "1rem"}}>Preview</p>
@@ -43,7 +43,7 @@ export default function Home() {
                             ? 
                                 <p>Please provide a valid user ID!</p> 
                             :
-                                <img src={`https://lanyard-profile-readme.vercel.app/api/${userId}`} />
+                                <img src={`https://lanyard-profile-readme.vercel.app/api/${userId}`} alt="Discord Presence Preview" />
                         }
                         
                     </Example>
@@ -65,7 +65,7 @@ const Background = styled.div`
     background-size: cover;
     color: #fff;
     font-size: 20px;
-    font-family: 'Poppins', sans-serif;
+    font-family: Poppins, sans-serif;
 
     display: flex;
     flex-direction: column;
