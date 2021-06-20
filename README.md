@@ -1,13 +1,13 @@
 <!-- markdownlint-disable -->
 # lanyard-profile-readme
 
-🏷️ Utilize Lanyard in your GitHub Profile
+🏷️ Utilize Lanyard to display your Discord Presence in your GitHub Profile
 
-_Special thanks to [@Phineas](github.com/Phineas/) for creating Lanyard, and making this project possible_
+_Special thanks to [@Phineas](https://github.com/Phineas/) for creating Lanyard, and making this project possible_
 
 ## Usage
 
-First, join the Lanyard [Discord](discord.gg/wscam7vngf) (if you haven't already) for this to work.
+First, join the Lanyard [Discord](https://discord.gg/wscam7vngf) (if you haven't already) for this to work.
 
 In a `README.md` file, include the following, replacing `:id` with your Discord user ID:
 
@@ -15,7 +15,7 @@ In a `README.md` file, include the following, replacing `:id` with your Discord 
 [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/:id)](https://discord.com/users/:id)
 ```
 
-It should display something similar to the following (I am using my Discord user ID as an example):
+It should display something similar the following (I am using my Discord user ID as an example):
 
 [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/705665813994012695)](https://discord.com/users/705665813994012695)
 
@@ -36,3 +36,14 @@ Append the query param `bg=:color` to the end of the URL, replacing `:color` wit
 ### ___Toggle Animated Avatar___
 
 If you have an animated avatar, append the query param `animated=:bool` to the end of the URL, replacing `:bool` with `true` or `false`. This is set to `true` by default.
+
+## ___Example URL and result___
+
+```
+[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=8fd8ff&animated=false)](https://discord.com/users/94490510688792576)
+```
+
+[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=8fd8ff&animated=false)](https://discord.com/users/94490510688792576)
+
+\
+_If you're using this in your profile, feel free to show support and give this repo a ⭐ star! It means a lot, thank you :)_
