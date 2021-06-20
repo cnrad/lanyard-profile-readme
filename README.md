@@ -15,7 +15,7 @@ In a `README.md` file, include the following, replacing `:id` with your Discord 
 [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/:id)](https://discord.com/users/:id)
 ```
 
-It should display something similar the following (I am using my Discord user ID as an example):
+It should display something similar to the following (I am using my Discord user ID as an example):
 
 [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/705665813994012695)](https://discord.com/users/705665813994012695)
 
@@ -37,13 +37,17 @@ Append the query param `bg=:color` to the end of the URL, replacing `:color` wit
 
 If you have an animated avatar, append the query param `animated=:bool` to the end of the URL, replacing `:bool` with `true` or `false`. This is set to `true` by default.
 
+### ___Hide Discriminator___
+
+If you don't want people seeing your discriminator (most likely for privacy reasons), append the query param `hideDiscrim=true` to the end of the URL. Your discriminator is shown by default. 
+
 ## ___Example URL and result___
 
 ```
-[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=8fd8ff&animated=false)](https://discord.com/users/94490510688792576)
+[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true)](https://discord.com/users/94490510688792576)
 ```
 
-[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=8fd8ff&animated=false)](https://discord.com/users/94490510688792576)
+[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true)](https://discord.com/users/94490510688792576)
 
 \
 _If you're using this in your profile, feel free to show support and give this repo a ⭐ star! It means a lot, thank you :)_
