@@ -1,13 +1,13 @@
+//probably the messiest code i've ever written but it works so :)
+
 import * as LanyardTypes from './LanyardTypes';
-import { useState } from "react";
 import { getFlags } from "./getFlags";
 import encodeBase64 from './toBase64';
-import { encode } from 'querystring';
 import { Badges } from '../public/assets/badges/BadgesEncoded'
 
-const imageToBase64 = require('image-to-base64');
-
 type Parameters = {
+    theme?: string;
+    bg?: string;
     animated?: string;
 }
 
@@ -16,7 +16,12 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let avatarBorderColor: string = "#747F8D";
     let userStatus: string = "";
     let avatarExtension: string = "webp";
+    let statusExtension: string = "webp";
     let activity: any = false;
+
+    if(body.data.activities[0]){
+        if(body.data.activities[0].emoji && body.data.activities[0].emoji.animated === true) statusExtension = "gif";
+    }
 
     if(body.data.activities.length > 0) {
         if(body.data.activities[Object.keys(body.data.activities).length - 1].type === 0) activity = body.data.activities[Object.keys(body.data.activities).length - 1];
@@ -130,17 +135,27 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     }
 
                                 </div>
-                            
-                                <h1 style="
-                                    font-size: 0.9rem;
-                                    margin-top: 15px;
-                                    color: #888;
-                                    font-weight: lighter;
-                                    display: ${userStatus.length > 0 ? "inherit" : "none"}
-                                ">
-                                    ${userStatus}
-                                </h1>
-
+                                
+                                ${userStatus.length > 0 ? `
+                                    <h1 style="
+                                        font-size: 0.9rem;
+                                        margin-top: 16px;
+                                        color: #888;
+                                        font-weight: lighter;
+                                    ">
+                                        ${body.data.activities[0].emoji ?
+                                            `<img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/emojis/${body.data.activities[0].emoji.id}.${statusExtension}`)}" style="
+                                                width: 15px; 
+                                                height: 15px; 
+                                                position: relative; 
+                                                top: 10px; 
+                                                transform: translate(0%, -50%);
+                                                margin: 0 2px 0 0;
+                                            " />`
+                                        : ``}
+                                        ${userStatus}
+                                    </h1>`
+                                : ``}
                             </div>
                         </div>
 
