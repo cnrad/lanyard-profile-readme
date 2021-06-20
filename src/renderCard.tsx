@@ -256,7 +256,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 ">
                                     <p style="font-size: 0.75rem; color: #1CB853; margin-bottom: 20px;">LISTENING NOW...</p> 
                                     <p style="color: ${theme === 'dark' ? '#fff' : '#000'}; font-weight: bold;">${body.data.spotify.song}</p>
-                                    <p style="color: ${theme === 'dark' ? '#ccc' : '#777'}">${body.data.spotify.artist}</p>
+                                    <p style="color: ${theme === 'dark' ? '#ccc' : '#777'}">By ${body.data.spotify.artist.replaceAll(";", ",")}</p>
                                 </div>
                             </div>
                             `
