@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export default function Home() {
 
-    let [userId, setUserId] = useState('')
+    let [userId, setUserId] = useState(':id')
 
     return (
         <>
@@ -36,10 +36,8 @@ export default function Home() {
 
                     <span style={{fontSize: "1rem", fontStyle: "italic", marginTop: "1rem"}}>For further customization, check out the <a rel="noreferrer" target="_blank" href="https://github.com/cnrad/lanyard-profile-readme" style={{color: "#fff", fontWeight: "bold"}}>repo</a>!</span>
 
-                    <Example>
-                        <p style={{fontSize: "1rem", fontWeight: "bold", marginTop: "1rem"}}>Preview</p>
-                        <img src={`https://lanyard-profile-readme.vercel.app/api/${userId}`} alt="[Please provide a valid user ID!]" />
-                    </Example>
+                    <Example src={`https://lanyard-profile-readme.vercel.app/api/${userId}`} alt="[Please provide a valid user ID!]" style={{color: "#ff8787"}}/>
+
 
                 </Container>
 
@@ -122,7 +120,9 @@ const Link = styled.div`
     scrollbar-width: thin;
 `
 
-const Example = styled.div`
+const Example = styled.img`
+    margin-top: 1.5rem;
+
     @media(max-height: 800px){
         display: none;
     }
