@@ -212,7 +212,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 flex-direction: row;
                                 height: 120px;
                                 margin-left: 15px;
-                                font-size: 0.75rem;
+                                font-size: 0.8rem;
                                 padding-top: 18px;
                             ">
                                 <img src="data:image/png;base64,${await encodeBase64(body.data.spotify.album_art_url)}" style="
@@ -227,7 +227,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     color: #999;
                                     line-height: 0.5rem;
                                 ">
-                                    <p style="font-size: 0.7rem; color: #1CB853; margin-bottom: 20px;">LISTENING NOW...</p> 
+                                    <p style="font-size: 0.75rem; color: #1CB853; margin-bottom: 20px;">LISTENING NOW...</p> 
                                     <p style="color: #fff; font-weight: bold;">${body.data.spotify.song}</p>
                                     <p style="color: #ccc">${body.data.spotify.artist}</p>
                                 </div>
@@ -246,7 +246,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                             ">
                                 <p style="
                                     font-style: italic; 
-                                    font-size: 0.75rem;
+                                    font-size: 0.8rem;
                                     color: #777;
                                     height: auto;
                                 ">
