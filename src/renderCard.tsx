@@ -222,12 +222,29 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 </div>
                                 <div style="
                                     color: #999;
-                                    line-height: 0.5rem;
+                                    margin-top: -3px;
+                                    line-height: 1;
+                                    width: 279px;
                                 ">
-                                    <p style="font-size: 0.7rem; color: #7289DA; margin-bottom: 20px;">PLAYING A GAME...</p> 
-                                    <p style="color: ${theme === 'dark' ? '#fff' : '#000'}; font-weight: bold;">${activity.name}</p>
+                                    <p style="font-size: 0.7rem; color: #7289DA; margin-bottom: 15px;">PLAYING A GAME...</p> 
+                                    <p style="
+                                        color: ${theme === 'dark' ? '#fff' : '#000'}; \
+                                        font-weight: bold;
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        text-overflow: ellipsis;
+                                        height: 15px;
+                                        margin: 7px 0;
+                                    ">${activity.name}</p>
                                     ${activity.details ? 
-                                        `<p style="color: ${theme === 'dark' ? '#ccc' : '#777'}">${activity.details}</p>`
+                                        `<p style="
+                                            color: ${theme === 'dark' ? '#ccc' : '#777'};
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                            text-overflow: ellipsis;
+                                            height: 15px;
+                                            margin: 7px 0;
+                                        ">${activity.details}</p>`
                                     : ``}
                                    
                                 </div>
