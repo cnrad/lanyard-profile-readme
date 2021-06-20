@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/styled-components": "^5.1.10",
     "axios": "^0.21.1",
+    "framer-motion": "^4.1.17",
     "image-to-base64": "^2.2.0",
     "next": "11.0.0",
     "react": "17.0.2",
