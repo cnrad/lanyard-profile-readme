@@ -9,6 +9,7 @@ type Parameters = {
     theme?: string;
     bg?: string;
     animated?: string;
+    hideDiscrim?: string;
 }
 
 const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<any> => {
@@ -20,6 +21,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let activity: any = false;
     let backgroundColor: string = '1a1c1f';
     let theme = 'dark';
+    let discrim = 'show';
 
     if(body.data.activities[0]){
         if(body.data.activities[0].emoji && body.data.activities[0].emoji.animated === true) statusExtension = "gif";
@@ -34,6 +36,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     if(body.data.discord_user.avatar !== null && body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
 
     if(params.animated === "false") avatarExtension = "webp";
+    if(params.hideDiscrim === "true") discrim = "hide";
     if(params.theme === 'light'){
         backgroundColor = '#eee';
         theme = 'light';
@@ -124,7 +127,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         font-size: 1.15rem;
                                         margin: 0 5px 0 0;
                                     ">
-                                        ${body.data.discord_user.username}<span style="color: ${theme === 'dark' ? '#ccc' : '#666'}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>
+                                        ${body.data.discord_user.username}${discrim !== 'hide' ?
+                                            `<span style="color: ${theme === 'dark' ? '#ccc' : '#666'}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>`
+                                        : ''}
                                     </h1>
 
                                     ${
@@ -252,11 +257,28 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
 
                                 <div style="
                                     color: #999;
-                                    line-height: 0.5rem;
+                                    margin-top: -3px;
+                                    line-height: 1;
+                                    width: 279px;
                                 ">
-                                    <p style="font-size: 0.75rem; color: #1CB853; margin-bottom: 20px;">LISTENING NOW...</p> 
-                                    <p style="color: ${theme === 'dark' ? '#fff' : '#000'}; font-weight: bold;">${body.data.spotify.song.replace(/\&/g, "and")}</p>
-                                    <p style="color: ${theme === 'dark' ? '#ccc' : '#777'}; ">By ${body.data.spotify.artist.replace(/\;/g, ",")}</p>
+                                    <p style="font-size: 0.75rem; color: #1CB853; margin-bottom: 15px;">LISTENING NOW...</p> 
+                                    <p style="
+                                        height: 15px; 
+                                        color: ${theme === 'dark' ? '#fff' : '#000'}; 
+                                        font-weight: bold; 
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        text-overflow: ellipsis;
+                                        margin: 7px 0;
+                                    ">${body.data.spotify.song.replace(/\&/g, "and")}</p>
+                                    <p style="
+                                        margin: 7px 0;
+                                        height: 15px; 
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        text-overflow: ellipsis;
+                                        color: ${theme === 'dark' ? '#ccc' : '#777'}; 
+                                    ">By ${body.data.spotify.artist.replace(/\;/g, ",")}</p>
                                 </div>
                             </div>
                             `
