@@ -295,7 +295,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         white-space: nowrap;
                                         text-overflow: ellipsis;
                                         color: ${theme === 'dark' ? '#ccc' : '#777'}; 
-                                    ">By ${body.data.spotify.artist.replace(/\;/g, ",")}</p>
+                                    ">By ${body.data.spotify.artist.replace(/\;/g, ",").replace(/\&/g, "and")}</p>
                                 </div>
                             </div>
                             `

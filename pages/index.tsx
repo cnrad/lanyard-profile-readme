@@ -38,14 +38,7 @@ export default function Home() {
 
                     <Example>
                         <p style={{fontSize: "1rem", fontWeight: "bold", marginTop: "1rem"}}>Preview</p>
-                        {
-                            userId.length < 17 
-                            ? 
-                                <p>Please provide a valid user ID!</p> 
-                            :
-                                <img src={`https://lanyard-profile-readme.vercel.app/api/${userId}`} alt="Discord Presence Preview" />
-                        }
-                        
+                        <img src={`https://lanyard-profile-readme.vercel.app/api/${userId}`} alt="[Please provide a valid user ID!]" />
                     </Example>
 
                 </Container>
