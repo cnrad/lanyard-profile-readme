@@ -15,7 +15,7 @@ In a `README.md` file, include the following, replacing `:id` with your Discord 
 [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/:id)](https://discord.com/users/:id)
 ```
 
-It should display something similar the following (I am using my Discord user ID as an example):
+It should display something similar to the following (I am using my Discord user ID as an example):
 
 [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/705665813994012695)](https://discord.com/users/705665813994012695)
 

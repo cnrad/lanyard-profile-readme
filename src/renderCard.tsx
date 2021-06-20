@@ -18,6 +18,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let avatarExtension: string = "webp";
     let statusExtension: string = "webp";
     let activity: any = false;
+    let backgroundColor: string = '1a1c1f';
+    let theme = 'dark';
 
     if(body.data.activities[0]){
         if(body.data.activities[0].emoji && body.data.activities[0].emoji.animated === true) statusExtension = "gif";
@@ -30,7 +32,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let defaultAvatar: string = "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAMAAABrrFhUAAAAY1BMVEVYZfJib/OMlfahqPeWn/eBi/XLz/vq6/7////19f5tePTq7P22vPnV2Pyrsvirsvl3gvT09f7Axfp3gfRtePNsePPg4v22vPq2u/qCi/WhqPjf4/zf4v2Xn/essvjLzvuXnvdbidFTAAAETElEQVR4AezBgQAAAACAoP2pF6kCAAAAAAAAAAAAAAAAAAAAAIDZudMtV1UlDuCFRKlWIEJ6uOwbzXn/lzzzYc/GWiT6zya/79WrLeYSc5Vq9IFWa3Sr6JehWt0ZZn5RtFJvmHnodPsrPLx1/B9PKx1ziLOPnIRRO84EXaAP/CWnR3pArTWcybpA5G8NsX20pw+cSbpAngEeOQenY+Cf8KIZ4FuDfSV4Ko/7hS7wNjYH7W3MvNeHtn2jvxn+OXcgaP0x8KJo43vgnwqu85EXDfGVULWON9G1BOmDN/M/AnTgDSWC0xve0KAITeSsykFw4qzOQWB4YwNBOfLmPAHpeXsvr5XOgJkjGA3vIlU6A2bvOHvAnXwiCMrwTl5UpUtg5us7BAB2gcg78nXugaC6QORd+bo7AEAXiLwzX+8SANEFNHPdXcAwV90FDgxA037+zwAc7aZlCKnSNTDrADZBdU6DBwbha5wCAabBkWGkSqfAzFa6C8xeADYB9Y2ByEBsbSMAYAy0zHWPActQLPQuKBh3DiwiDRlwzwFOv9JfTpORh5x5rVfQc8CQiLLJiEMaA1oW6XgVq+grVh4yY56JA68x07fm8hCIhXCUPn823zgkG/HK4Rf6kYv8YBt5BQ03BQyv9CMq8M/JQ7IItw+e6cd8QQjKTqCX3OMTtOdCCNZOoCnqkrYgZEFD2/FF/08qDAE4Dji+TtHPKHknVmBboVB2i9HI9zIGahZUhaVqVxCyQEEVQ7rSBMj3QiPUUTCWJkC+8zrQVjzmELBYG2H5jDYUFqAiQDlMtAwKQgjr+nwoq9O2BSEQJQFVWKeNBSEQ6+BYeG3BFIUAHIfasmsLh7IQgLcjDZd0AWXEIZRDMDYCuuj73g95yJGxEuBLPmr6VBSyzMO9Fpzko3kqeA1r8W4GHOWNKQ/JIl4COL4SZf2lPAQhAY4lYrv860rlIVmHlYAsuBhjFwpCwO4LOkb0TMAzAc8EPBPwTMAGngl4JuCZgMig4jMB27AMykJUhCr4ekwzKI10T9hpwzcz6DNSUbRdORzThW/CJSKagd4LjKurof1suFCYVR54MDckpsBXDLk3pliQgxBTHneBrwiaNtOfeUUKCnMQYlKC32x2r7SlmSUpoOQdi5xtoqx1DNP8WW9kKSCVvAu8QnC2USR4/I2bP5vDmhS80pdOjXULw8dc7HSiL6ljYLTmz/ooKvJTdkqTt9G5s/mHczH6qXlV9I32Ehi0+QVfQbn7HryHhvY033V1Tuu3CRncOIj3rL3EV9pf7+53ced0bY+MIZm7ndEt9uNnkxN8OSWhAvjjZ8ktnIoKaMDHF0yH8S416C4Rpv7bU094pWJ9QFv4BJOBvnkFzjWKMvhu4G78IibMIz2EFM3KFUAwCEI+ID9MDia6kd/+enpFj+YE+af+aA8OZAAAAAAG+Vvf46sAAAAAAAAAAAAAAAAAAAAAAFYCeHSjWah9hFcAAAAASUVORK5CYII=";
 
     if(body.data.discord_user.avatar !== null && body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
+
     if(params.animated === "false") avatarExtension = "webp";
+    if(params.theme === 'light'){
+        backgroundColor = '#eee';
+        theme = 'light';
+    }
+    if(params.bg) backgroundColor = params.bg;
 
     switch(body.data.discord_status){
         case "online": 
@@ -61,8 +69,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         width: 400px;
                         height: 200px;
                         inset: 0;
-                        background-color: #1a1c1f;
-                        color: #fff;
+                        background-color: #${backgroundColor};
+                        color: ${theme === 'dark' ? '#fff' : '#000'};
                         font-family: 'Century Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
                         font-size: 16px;
                         display: flex;
@@ -77,7 +85,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                             display: flex;
                             flex-direction: row;
                             padding-bottom: 5px;
-                            border-bottom: solid 0.5px #333;
+                            border-bottom: solid 0.5px ${theme === 'dark' ? 'hsl(0, 0%, 100%, 10%)' : 'hsl(0, 0%, 0%, 10%)'};
                         ">
                             <div style="
                                 display: flex;
@@ -86,7 +94,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 width: 80px;
                             ">
                                 <img ${body.data.discord_user.avatar !== null ?
-                                    `src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=512`)}"` :
+                                    `src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=256`)}"` :
                                     `src="data:image/png;base64,${defaultAvatar}"`} 
                                 style="
                                     border: solid 3px ${avatarBorderColor};
@@ -116,7 +124,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         font-size: 1.15rem;
                                         margin: 0 5px 0 0;
                                     ">
-                                        ${body.data.discord_user.username}<span style="color: #aaa; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>
+                                        ${body.data.discord_user.username}<span style="color: ${theme === 'dark' ? '#ccc' : '#666'}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>
                                     </h1>
 
                                     ${
@@ -140,7 +148,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     <h1 style="
                                         font-size: 0.9rem;
                                         margin-top: 16px;
-                                        color: #888;
+                                        color: ${theme === 'dark' ? '#aaa' : '#333'};
                                         font-weight: lighter;
                                     ">
                                         ${body.data.activities[0].emoji ?
@@ -208,9 +216,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     line-height: 0.5rem;
                                 ">
                                     <p style="font-size: 0.7rem; color: #7289DA; margin-bottom: 20px;">PLAYING A GAME...</p> 
-                                    <p style="color: #fff; font-weight: bold;">${activity.name}</p>
+                                    <p style="color: ${theme === 'dark' ? '#fff' : '#000'}; font-weight: bold;">${activity.name}</p>
                                     ${activity.details ? 
-                                        `<p style="color: #ccc">${activity.details}</p>`
+                                        `<p style="color: ${theme === 'dark' ? '#ccc' : '#777'}">${activity.details}</p>`
                                     : ``}
                                    
                                 </div>
@@ -243,8 +251,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     line-height: 0.5rem;
                                 ">
                                     <p style="font-size: 0.75rem; color: #1CB853; margin-bottom: 20px;">LISTENING NOW...</p> 
-                                    <p style="color: #fff; font-weight: bold;">${body.data.spotify.song}</p>
-                                    <p style="color: #ccc">${body.data.spotify.artist}</p>
+                                    <p style="color: ${theme === 'dark' ? '#fff' : '#000'}; font-weight: bold;">${body.data.spotify.song}</p>
+                                    <p style="color: ${theme === 'dark' ? '#ccc' : '#777'}">${body.data.spotify.artist}</p>
                                 </div>
                             </div>
                             `
@@ -262,7 +270,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 <p style="
                                     font-style: italic; 
                                     font-size: 0.8rem;
-                                    color: #777;
+                                    color: ${theme === 'dark' ? '#aaa' : '#444'};
                                     height: auto;
                                 ">
                                     I'm not currently doing anything!
