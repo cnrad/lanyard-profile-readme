@@ -3,11 +3,11 @@
 
 🏷️ Utilize Lanyard to display your Discord Presence in your GitHub Profile
 
-_Special thanks to [@Phineas](github.com/Phineas/) for creating Lanyard, and making this project possible_
+_Special thanks to [@Phineas](https://github.com/Phineas/) for creating Lanyard, and making this project possible_
 
 ## Usage
 
-First, join the Lanyard [Discord](discord.gg/wscam7vngf) (if you haven't already) for this to work.
+First, join the Lanyard [Discord](https://discord.gg/wscam7vngf) (if you haven't already) for this to work.
 
 In a `README.md` file, include the following, replacing `:id` with your Discord user ID:
 
