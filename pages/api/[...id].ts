@@ -25,7 +25,7 @@ export default async function handler(
   res.setHeader("content-security-policy", "default-src 'none'; img-src * data:; style-src 'unsafe-inline'");
 
   try {
-    lanyardData = (await axios.get(`https://api.lanyard.rest/v1/users/${userid}`)).data;
+    lanyardData = await axios.get(`https://api.lanyard.rest/v1/users/${userid}`);
   } catch (e) {
     console.log(e)
     res.send({ error: `Something went wrong! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.` })

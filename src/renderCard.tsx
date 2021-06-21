@@ -11,6 +11,7 @@ type Parameters = {
     animated?: string;
     hideDiscrim?: string;
     hideStatus?: string;
+    borderRadius?: string;
 }
 
 const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<string> => {
@@ -24,18 +25,21 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         backgroundColor: string = '1a1c1f',
         theme = 'dark',
         discrim = 'show',
-        hideStatus = 'false';
+        hideStatus = 'false',
+        borderRadius = '10px';
 
-    if (body.data.activities[0] && body.data.activities[0].emoji && body.data.activities[0].emoji.animated) statusExtension = "gif";
+    if (body.data.activities[0]?.emoji?.animated) statusExtension = "gif";
+    if (body.data.discord_user.avatar && body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
     if (body.data.activities.length > 0 && body.data.activities[Object.keys(body.data.activities).length - 1].type === 0) activity = body.data.activities[Object.keys(body.data.activities).length - 1];
     if (params.animated === "false") avatarExtension = "webp";
     if (params.hideStatus === 'true') hideStatus = 'true';
     if (params.hideDiscrim === "true") discrim = "hide";
-    if (params.bg) backgroundColor = params.bg;
     if (params.theme === 'light') {
         backgroundColor = '#eee';
         theme = 'light';
     }
+    if (params.bg) backgroundColor = params.bg;
+    if (params.borderRadius) borderRadius = params.borderRadius;
 
     switch (body.data.discord_status) {
         case "online":
@@ -73,7 +77,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         display: flex;
                         flex-direction: column;
                         padding: 5px;
-                        border-radius: 10px;
+                        border-radius: ${borderRadius};
                     ">
                         <div style="
                             width: 400px;
@@ -120,8 +124,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         font-size: 1.15rem;
                                         margin: 0 5px 0 0;
                                     ">
-                                    ${body.data.discord_user.username}${discrim !== 'hide' ? `
-                                        <span style="color: ${theme === 'dark' ? '#ccc' : '#666'}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>` : ''}
+                                    ${body.data.discord_user.username}${discrim !== 'hide' ? `<span style="color: ${theme === 'dark' ? '#ccc' : '#666'}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>` : ''}
                                     </h1>
 
                                     ${flags.map((v) => `
@@ -153,7 +156,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             transform: translate(0%, -50%);
                                             margin: 0 2px 0 0;
                                         " />`: ``}
-                                    ${body.data.activities[0].emoji && !body.data.activities[0].emoji.id ? body.data.activities[0].emoji.name + ' ' + userStatus : userStatus}
+                                    ${body.data.activities[0].emoji && !body.data.activities[0].emoji.id ? body.data.activities[0].emoji.name + ' ' + userStatus.replace(/\&/g, "and") : userStatus.replace(/\&/g, "and")}
                                 </h1>` : ``}
                             </div>
                         </div>

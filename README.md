@@ -33,6 +33,10 @@ Append the query param `theme=:theme` to the end of the URL, replacing `:theme` 
 
 Append the query param `bg=:color` to the end of the URL, replacing `:color` with a hex color of your choice (omit the #)
 
+### ___Border Radius___
+
+Append the query param `borderRadius=:radius` to the end of the URL, replacing `:radius` with a radius of your choice. (default `10px`)
+
 ### ___Toggle Animated Avatar___
 
 If you have an animated avatar, append the query param `animated=:bool` to the end of the URL, replacing `:bool` with `true` or `false`. This is set to `true` by default.
@@ -41,17 +45,19 @@ If you have an animated avatar, append the query param `animated=:bool` to the e
 
 If you don't want people seeing your discriminator (most likely for privacy reasons), append the query param `hideDiscrim=true` to the end of the URL. Your discriminator is shown by default. 
 
-### ___Hide Status
+### ___Hide Status___
 
 If you don't want people seeing your status, append the query param `hideStatus=true` to the end of the URL. Your status is shown by default if you have one. 
 
 ## ___Example URL and result___
 
 ```
-[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true)](https://discord.com/users/94490510688792576)
+[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true&borderRadius=30px)](https://discord.com/users/94490510688792576)
 ```
 
-[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true)](https://discord.com/users/94490510688792576)
+[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true&borderRadius=30px)](https://discord.com/users/94490510688792576)
 
 \
+Note: Current Nitro & Boosting badges do not work due to Discord API limitations.
+
 _If you're using this in your profile, feel free to show support and give this repo a ⭐ star! It means a lot, thank you :)_
