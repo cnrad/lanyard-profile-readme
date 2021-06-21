@@ -124,8 +124,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         font-size: 1.15rem;
                                         margin: 0 5px 0 0;
                                     ">
-                                    ${body.data.discord_user.username}${discrim !== 'hide' ? `
-                                        <span style="color: ${theme === 'dark' ? '#ccc' : '#666'}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>` : ''}
+                                    ${body.data.discord_user.username}${discrim !== 'hide' ? `<span style="color: ${theme === 'dark' ? '#ccc' : '#666'}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>` : ''}
                                     </h1>
 
                                     ${flags.map((v) => `
