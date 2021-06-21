@@ -9,7 +9,7 @@ type Data = {
 }
 
 type Parameters = {
-    animated?: string;
+  animated?: string;
 }
 
 export default async function handler(
@@ -17,24 +17,21 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
 
-    let params: Parameters = req.query;
-    let userid = req.query.id[0];
-    res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
-    res.setHeader("content-security-policy", "default-src 'none'; img-src *; style-src 'unsafe-inline'");
+  let params: Parameters = req.query,
+    userid = req.query.id[0],
+    lanyardData: any;
 
-    let lanyardData: any;
 
-    await axios.get(`https://api.lanyard.rest/v1/users/${userid}`)
-    .then((response) => {
-        return lanyardData = response;
-    })
-    .catch((err) => {
-        console.log(err);
-        res.send({ error: `Something went wrong! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.` })
-    });
+  res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+  res.setHeader("content-security-policy", "default-src 'none'; img-src * data:; style-src 'unsafe-inline'");
 
-    let svg = await renderCard(lanyardData.data, params);
-    res.status(200).send(svg);
+  try {
+    lanyardData = (await axios.get(`https://api.lanyard.rest/v1/users/${userid}`)).data;
+  } catch (e) {
+    console.log(e)
+    res.send({ error: `Something went wrong! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.` })
+  }
 
-    console.log(req.query);
+  let svg = await renderCard(lanyardData.data, params);
+  res.status(200).send(svg as any);
 }
