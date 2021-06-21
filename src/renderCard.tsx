@@ -154,7 +154,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             transform: translate(0%, -50%);
                                             margin: 0 2px 0 0;
                                         " />`: ``}
-                                    ${body.data.activities[0].emoji && !body.data.activities[0].emoji.id ? body.data.activities[0].emoji.name + ' ' + userStatus : userStatus}
+                                    ${body.data.activities[0].emoji && !body.data.activities[0].emoji.id ? body.data.activities[0].emoji.name + ' ' + userStatus.replace(/\&/g, "and") : userStatus.replace(/\&/g, "and")}
                                 </h1>` : ``}
                             </div>
                         </div>
