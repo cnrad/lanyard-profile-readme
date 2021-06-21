@@ -33,6 +33,10 @@ Append the query param `theme=:theme` to the end of the URL, replacing `:theme` 
 
 Append the query param `bg=:color` to the end of the URL, replacing `:color` with a hex color of your choice (omit the #)
 
+### ___Border Radius___
+
+Append the query param `borderRadius=:radius` to the end of the URL, replacing `:radius` with a radius of your choice. (default `10px`)
+
 ### ___Toggle Animated Avatar___
 
 If you have an animated avatar, append the query param `animated=:bool` to the end of the URL, replacing `:bool` with `true` or `false`. This is set to `true` by default.

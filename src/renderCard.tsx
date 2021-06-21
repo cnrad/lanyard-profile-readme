@@ -11,6 +11,7 @@ type Parameters = {
     animated?: string;
     hideDiscrim?: string;
     hideStatus?: string;
+    borderRadius?: string;
 }
 
 const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<string> => {
@@ -24,7 +25,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         backgroundColor: string = '1a1c1f',
         theme = 'dark',
         discrim = 'show',
-        hideStatus = 'false';
+        hideStatus = 'false',
+        borderRadius = '10px';
 
     if (body.data.activities[0]?.emoji?.animated) statusExtension = "gif";
     if (body.data.discord_user.avatar && body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
@@ -37,6 +39,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         theme = 'light';
     }
     if (params.bg) backgroundColor = params.bg;
+    if (params.borderRadius) borderRadius = params.borderRadius;
 
     switch (body.data.discord_status) {
         case "online":
@@ -74,7 +77,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         display: flex;
                         flex-direction: column;
                         padding: 5px;
-                        border-radius: 10px;
+                        border-radius: ${borderRadius};
                     ">
                         <div style="
                             width: 400px;
