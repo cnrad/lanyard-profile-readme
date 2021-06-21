@@ -166,15 +166,18 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                             <div style="
                                 display: flex;
                                 flex-direction: row;
+                                align-items: center;
                                 height: 120px;
                                 margin-left: 15px;
                                 font-size: 0.75rem;
-                                padding-top: 18px;
+                                margin-top: 5px;
+
                             ">
                                 <div style="
-                                    margin-right: 15px; 
                                     width: auto;
                                     height: auto;
+                                    margin-right: 15px;
+
                                 ">
                                 ${activity.assets && activity.assets.large_image ? `
                                     <img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`)}" style="
@@ -185,9 +188,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     "/>
                                     ` : `
                                     <img src="data:image/png;base64,${await encodeBase64(`https://lanyard-profile-readme.vercel.app/assets/unknown.png`)}" style="
-                                        width: 70px; 
-                                        height: 70px; 
-                                        margin-top: 4px;
+                                        width: 80px; 
+                                        height: 80px; 
                                         filter: invert(100);
                                     "/>
                                 `}
@@ -202,28 +204,23 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 </div>
                                 <div style="
                                     color: #999;
-                                    margin-top: -3px;
-                                    line-height: 1;
+                                    display: flex;
+                                    flex-direction: column;
+                                    line-height: 0.1;
                                     width: 279px;
                                 ">
-                                    <p style="font-size: 0.7rem; color: ${theme === 'dark' ? '#7289DA' : '#334da6'}; margin-bottom: 15px;">PLAYING A GAME...</p> 
+                                    <p style="font-size: 0.75rem; color: ${theme === 'dark' ? '#7289DA' : '#334da6'};  font-weight: 600; height: fit-content; white-space: nowrap;">PLAYING A GAME...</p> 
                                     <p style="
-                                        color: ${theme === 'dark' ? '#fff' : '#000'}; \
-                                        font-weight: bold;
-                                        overflow: hidden;
-                                        white-space: nowrap;
+                                        color: ${theme === 'dark' ? '#fff' : '#000'}; 
+                                        font-weight: bold; 
+                                        height: fit-content;
                                         text-overflow: ellipsis;
-                                        height: 15px;
-                                        margin: 7px 0;
                                     ">${activity.name}</p>
                                     ${activity.details ? `
                                         <p style="
                                             color: ${theme === 'dark' ? '#ccc' : '#777'};
-                                            overflow: hidden;
                                             white-space: nowrap;
                                             text-overflow: ellipsis;
-                                            height: 15px;
-                                            margin: 7px 0;
                                         ">${activity.details}</p>` : ``}
                                 </div>
                             </div>
@@ -233,10 +230,11 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                 <div style="
                     display: flex;
                     flex-direction: row;
+                    align-items: center;
                     height: 120px;
                     margin-left: 15px;
-                    font-size: 0.8rem;
-                    padding-top: 18px;
+                    font-size: 0.75rem;
+                    margin-top: 5px;
                 ">
                     <img src="data:image/png;base64,${await encodeBase64(body.data.spotify.album_art_url)}" style="
                         width: 80px; 
@@ -248,24 +246,20 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
 
                     <div style="
                         color: #999;
-                        margin-top: -3px;
-                        line-height: 1;
+                        display: flex;
+                        justify-content: center;
+                        flex-direction: column;
+                        line-height: 0.1;
                         width: 279px;
                     ">
-                        <p style="font-size: 0.75rem; color: ${theme === 'dark' ? '#1CB853' : '#0d943d'}; margin-bottom: 15px;">LISTENING NOW...</p> 
+                        <p style="font-size: 0.75rem; font-weight: 600; color: ${theme === 'dark' ? '#1CB853' : '#0d943d'}; ">LISTENING TO SPOTIFY...</p> 
                         <p style="
-                            height: 15px; 
                             color: ${theme === 'dark' ? '#fff' : '#000'}; 
                             font-weight: bold; 
-                            overflow: hidden;
                             white-space: nowrap;
                             text-overflow: ellipsis;
-                            margin: 7px 0;
                         ">${body.data.spotify.song.replace(/\&/g, "and")}</p>
                         <p style="
-                            margin: 7px 0;
-                            height: 15px; 
-                            overflow: hidden;
                             white-space: nowrap;
                             text-overflow: ellipsis;
                             color: ${theme === 'dark' ? '#ccc' : '#777'}; 
