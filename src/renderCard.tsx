@@ -54,7 +54,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
 
     const flags: string[] = getFlags(body.data.discord_user.public_flags);
 
-    if (body.data.activities[0] && body.data.activities[0].type === 4) userStatus = body.data.activities[0].state;
+    if(body.data.activities[0] && body.data.activities[0].state && body.data.activities[0].type === 4) userStatus = body.data.activities[0].state;
 
     console.log(Object.keys(body.data.activities).length);
 
