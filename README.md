@@ -54,4 +54,5 @@ If you don't want people seeing your status, append the query param `hideStatus=
 [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true)](https://discord.com/users/94490510688792576)
 
 \
+Note: Discord nitro and Nitro Boosting badges do not work due to discord api limitations.
 _If you're using this in your profile, feel free to show support and give this repo a ⭐ star! It means a lot, thank you :)_
