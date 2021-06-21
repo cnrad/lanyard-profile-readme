@@ -179,7 +179,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     <img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`)}" style="
                                         width: 80px; 
                                         height: 80px; 
-                                        border: solid 0.5px #222;
+                                        // border: solid 0.5px #222;
                                         border-radius: 10px; 
                                     "/>
                                     ` : `
@@ -192,11 +192,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 `}
                                 ${activity.assets && activity.assets.small_image ? `
                                     <img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`)}" style="
-                                        width: 30px;
-                                        height: 30px;
+                                        width: 25px;
+                                        height: 25px;
+                                        background-color: #${backgroundColor};
+                                        border: 2px solid #${backgroundColor};
                                         border-radius: 50%;
-                                        margin-left: -26px;
-                                        margin-bottom: -8px;
+                                        margin-left: -25px;
+                                        margin-bottom: -5px;
                                     "/>`: ``}
                                 </div>
                                 <div style="
@@ -205,9 +207,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     line-height: 1;
                                     width: 279px;
                                 ">
-                                    <p style="font-size: 0.7rem; color: ${theme === 'dark' ? '#7289DA' : '#334da6'}; margin-bottom: 15px;">PLAYING A GAME...</p> 
+                                    <p style="font-size: 0.7rem; color: ${theme === 'dark' ? '#7289DA' : '#334da6'}; margin-bottom: 15px; font-weight: 600;">PLAYING A GAME...</p> 
                                     <p style="
-                                        color: ${theme === 'dark' ? '#fff' : '#000'}; \
+                                        color: ${theme === 'dark' ? '#eee' : '#000'}; \
                                         font-weight: bold;
                                         overflow: hidden;
                                         white-space: nowrap;
@@ -251,7 +253,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         line-height: 1;
                         width: 279px;
                     ">
-                        <p style="font-size: 0.75rem; color: ${theme === 'dark' ? '#1CB853' : '#0d943d'}; margin-bottom: 15px;">LISTENING NOW...</p> 
+                        <p style="font-size: 0.75rem; color: ${theme === 'dark' ? '#1CB853' : '#0d943d'}; margin-bottom: 15px;" font-weight: 600;>LISTENING NOW...</p> 
                         <p style="
                             height: 15px; 
                             color: ${theme === 'dark' ? '#fff' : '#000'}; 
