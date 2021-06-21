@@ -30,7 +30,7 @@ export default async function handler(
     })
     .catch((err) => {
         console.log(err);
-        res.send({ error: 'Please provide a valid Discord user ID!' })
+        res.send({ error: `Something went wrong! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.` })
     });
 
     let svg = await renderCard(lanyardData.data, params);

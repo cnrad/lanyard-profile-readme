@@ -10,6 +10,7 @@ type Parameters = {
     bg?: string;
     animated?: string;
     hideDiscrim?: string;
+    hideStatus?: string;
 }
 
 const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<any> => {
@@ -22,6 +23,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let backgroundColor: string = '1a1c1f';
     let theme = 'dark';
     let discrim = 'show';
+    let hideStatus = 'false';
 
     if(body.data.activities[0]){
         if(body.data.activities[0].emoji && body.data.activities[0].emoji.animated === true) statusExtension = "gif";
@@ -42,6 +44,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         theme = 'light';
     }
     if(params.bg) backgroundColor = params.bg;
+    if(params.hideStatus === 'true') hideStatus = 'true';
 
     switch(body.data.discord_status){
         case "online": 
@@ -118,7 +121,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     display: flex;
                                     flex-direction: row;
                                     position: relative;
-                                    top: ${userStatus.length > 0 ? "35%" : "50%"};
+                                    top: ${userStatus.length > 0 && hideStatus !== "true" ? "35%" : "50%"};
                                     transform: translate(0, -50%);
                                     height: 25px;
                                 ">
@@ -149,7 +152,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
 
                                 </div>
                                 
-                                ${userStatus.length > 0 ? `
+                                ${userStatus.length > 0 && hideStatus !== "true" ? `
                                     <h1 style="
                                         font-size: 0.9rem;
                                         margin-top: 16px;
@@ -226,7 +229,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     line-height: 1;
                                     width: 279px;
                                 ">
-                                    <p style="font-size: 0.7rem; color: #7289DA; margin-bottom: 15px;">PLAYING A GAME...</p> 
+                                    <p style="font-size: 0.7rem; color: ${theme === 'dark' ? '#7289DA' : '#334da6'}; margin-bottom: 15px;">PLAYING A GAME...</p> 
                                     <p style="
                                         color: ${theme === 'dark' ? '#fff' : '#000'}; \
                                         font-weight: bold;
@@ -278,7 +281,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     line-height: 1;
                                     width: 279px;
                                 ">
-                                    <p style="font-size: 0.75rem; color: #1CB853; margin-bottom: 15px;">LISTENING NOW...</p> 
+                                    <p style="font-size: 0.75rem; color: ${theme === 'dark' ? '#1CB853' : '#0d943d'}; margin-bottom: 15px;">LISTENING NOW...</p> 
                                     <p style="
                                         height: 15px; 
                                         color: ${theme === 'dark' ? '#fff' : '#000'}; 

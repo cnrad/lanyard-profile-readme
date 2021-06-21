@@ -41,6 +41,10 @@ If you have an animated avatar, append the query param `animated=:bool` to the e
 
 If you don't want people seeing your discriminator (most likely for privacy reasons), append the query param `hideDiscrim=true` to the end of the URL. Your discriminator is shown by default. 
 
+### ___Hide Status
+
+If you don't want people seeing your status, append the query param `hideStatus=true` to the end of the URL. Your status is shown by default if you have one. 
+
 ## ___Example URL and result___
 
 ```
