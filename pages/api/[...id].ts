@@ -20,7 +20,7 @@ export default async function handler(
     let params: Parameters = req.query;
     let userid = req.query.id[0];
     res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
-    res.setHeader("content-security-policy", "default-src 'none'; img-src *; style-src 'unsafe-inline'");
+    res.setHeader("content-security-policy", "default-src 'none'; img-src * data:; style-src 'unsafe-inline'");
 
     let lanyardData: any;
 
