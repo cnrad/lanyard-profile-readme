@@ -26,7 +26,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         discrim = 'show',
         hideStatus = 'false';
 
-    if (body.data.activities[0] && body.data.activities[0].emoji && body.data.activities[0].emoji.animated) statusExtension = "gif";
+    if (body.data.activities[0]?.emoji?.animated) statusExtension = "gif";
+    if (body.data.discord_user.avatar && body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
     if (body.data.activities.length > 0 && body.data.activities[Object.keys(body.data.activities).length - 1].type === 0) activity = body.data.activities[Object.keys(body.data.activities).length - 1];
     if (params.animated === "false") avatarExtension = "webp";
     if (params.hideStatus === 'true') hideStatus = 'true';
