@@ -54,7 +54,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
 
     const flags: string[] = getFlags(body.data.discord_user.public_flags);
 
-    if(body.data.activities[0] && body.data.activities[0].state && body.data.activities[0].type === 4) userStatus = body.data.activities[0].state;
+    if (body.data.activities[0] && body.data.activities[0].state && body.data.activities[0].type === 4) userStatus = body.data.activities[0].state;
 
     console.log(Object.keys(body.data.activities).length);
 
@@ -124,19 +124,15 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         <span style="color: ${theme === 'dark' ? '#ccc' : '#666'}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>` : ''}
                                     </h1>
 
-                                    ${flags.map((v) => {
-                return (`
-                                            <img src="data:image/png;base64,${Badges[v]}" style="
-                                                width: 20px; 
-                                                height: 20px; 
-                                                position: relative; 
-                                                top: 50%; 
-                                                transform: translate(0%, -50%);
-                                                margin: 0 0 0 4px;
-                                            " />`
-                )
-            }).join('')
-        }
+                                    ${flags.map((v) => `
+                                        <img src="data:image/png;base64,${Badges[v]}" style="
+                                            width: 20px; 
+                                            height: 20px; 
+                                            position: relative; 
+                                            top: 50%; 
+                                            transform: translate(0%, -50%);
+                                            margin: 0 0 0 4px;
+                                        " />`).join('')}
                                 </div>
                                 ${userStatus.length > 0 && hideStatus !== "true" ? `
                                     <h1 style="
@@ -156,14 +152,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             top: 10px; 
                                             transform: translate(0%, -50%);
                                             margin: 0 2px 0 0;
-                                        " />`
-                : ``}
-
-                                                            ${body.data.activities[0].emoji && !body.data.activities[0].emoji.id ?
-                body.data.activities[0].emoji.name + ' ' + userStatus
-                :
-                userStatus
-            }
+                                        " />`: ``}
+                                    ${body.data.activities[0].emoji && !body.data.activities[0].emoji.id ? body.data.activities[0].emoji.name + ' ' + userStatus : userStatus}
                                 </h1>` : ``}
                             </div>
                         </div>
