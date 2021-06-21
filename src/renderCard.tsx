@@ -32,11 +32,11 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     if (params.animated === "false") avatarExtension = "webp";
     if (params.hideStatus === 'true') hideStatus = 'true';
     if (params.hideDiscrim === "true") discrim = "hide";
-    if (params.bg) backgroundColor = params.bg;
     if (params.theme === 'light') {
         backgroundColor = '#eee';
         theme = 'light';
     }
+    if (params.bg) backgroundColor = params.bg;
 
     switch (body.data.discord_status) {
         case "online":
