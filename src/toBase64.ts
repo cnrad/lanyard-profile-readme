@@ -1,22 +1,13 @@
-const imageToBase64 = require('image-to-base64');
+import imageToBase64 from "image-to-base64";
 
-const encodeBase64 = async (url: string): Promise<string> => {
+export const encodeBase64 = async (url: string): Promise<string> => {
+    let response = "";
 
-    let encoded: string = '';
+    try {
+        response = await imageToBase64(url);
+    } catch (e) {
+        console.log(e)
+    }
 
-    await imageToBase64(url)
-    .then(
-        (response: string) => {
-            return encoded = response;
-        }
-    )
-    .catch(
-        (error: any) => {
-            console.log(error);
-        }
-    ) 
-
-    return encoded;
+    return response;
 }
-
-export default encodeBase64;
