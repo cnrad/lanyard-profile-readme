@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
 
-export default function LandyardReadMe({ Component, pageProps }: AppProps) {
+export default function LanyardReadMe({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />
 }

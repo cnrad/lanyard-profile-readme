@@ -116,32 +116,28 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     transform: translate(0, -50%);
                                     height: 25px;
                                 ">
-
                                     <h1 style="
                                         font-size: 1.15rem;
                                         margin: 0 5px 0 0;
                                     ">
-                                        ${body.data.discord_user.username}${discrim !== 'hide' ?
-            `<span style="color: ${theme === 'dark' ? '#ccc' : '#666'}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>`
-            : ''}
+                                    ${body.data.discord_user.username}${discrim !== 'hide' ? `
+                                        <span style="color: ${theme === 'dark' ? '#ccc' : '#666'}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>` : ''}
                                     </h1>
 
                                     ${flags.map((v) => {
-                return (
-                    `<img src="data:image/png;base64,${Badges[v]}" style="
-                                                    width: 20px; 
-                                                    height: 20px; 
-                                                    position: relative; 
-                                                    top: 50%; 
-                                                    transform: translate(0%, -50%);
-                                                    margin: 0 0 0 4px;
-                                                " />`
+                return (`
+                                            <img src="data:image/png;base64,${Badges[v]}" style="
+                                                width: 20px; 
+                                                height: 20px; 
+                                                position: relative; 
+                                                top: 50%; 
+                                                transform: translate(0%, -50%);
+                                                margin: 0 0 0 4px;
+                                            " />`
                 )
             }).join('')
         }
-
                                 </div>
-                                
                                 ${userStatus.length > 0 && hideStatus !== "true" ? `
                                     <h1 style="
                                         font-size: 0.9rem;
@@ -152,31 +148,27 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         white-space: nowrap;
                                         text-overflow: ellipsis;
                                     ">
-                                        ${body.data.activities[0].emoji && body.data.activities[0].emoji.id ?
-                `<img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/emojis/${body.data.activities[0].emoji.id}.${statusExtension}`)}" style="
-                                                width: 15px; 
-                                                height: 15px; 
-                                                position: relative; 
-                                                top: 10px; 
-                                                transform: translate(0%, -50%);
-                                                margin: 0 2px 0 0;
-                                            " />`
+                                    ${body.data.activities[0].emoji && body.data.activities[0].emoji.id ? `
+                                        <img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/emojis/${body.data.activities[0].emoji.id}.${statusExtension}`)}" style="
+                                            width: 15px; 
+                                            height: 15px; 
+                                            position: relative; 
+                                            top: 10px; 
+                                            transform: translate(0%, -50%);
+                                            margin: 0 2px 0 0;
+                                        " />`
                 : ``}
 
-                                        ${body.data.activities[0].emoji && !body.data.activities[0].emoji.id ?
+                                                            ${body.data.activities[0].emoji && !body.data.activities[0].emoji.id ?
                 body.data.activities[0].emoji.name + ' ' + userStatus
                 :
                 userStatus
             }
-
-                                    </h1>`
-            : ``}
+                                </h1>` : ``}
                             </div>
                         </div>
 
-                        ${activity ?
-
-            `
+                        ${activity ? `
                             <div style="
                                 display: flex;
                                 flex-direction: row;
@@ -190,16 +182,14 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     width: auto;
                                     height: auto;
                                 ">
-                                ${activity.assets && activity.assets.large_image ?
-                `
+                                ${activity.assets && activity.assets.large_image ? `
                                     <img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`)}" style="
                                         width: 80px; 
                                         height: 80px; 
                                         border: solid 0.5px #222;
                                         border-radius: 10px; 
                                     "/>
-                                    `
-                : `
+                                    ` : `
                                     <img src="data:image/png;base64,${await encodeBase64(`https://lanyard-profile-readme.vercel.app/assets/unknown.png`)}" style="
                                         width: 70px; 
                                         height: 70px; 
@@ -207,17 +197,14 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         filter: invert(100);
                                     "/>
                                 `}
-
-                                ${activity.assets && activity.assets.small_image ?
-                `<img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`)}" style="
+                                ${activity.assets && activity.assets.small_image ? `
+                                    <img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`)}" style="
                                         width: 30px;
                                         height: 30px;
                                         border-radius: 50%;
                                         margin-left: -26px;
                                         margin-bottom: -8px;
-                                    "/>`
-                : ``}
-
+                                    "/>`: ``}
                                 </div>
                                 <div style="
                                     color: #999;
@@ -235,89 +222,80 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         height: 15px;
                                         margin: 7px 0;
                                     ">${activity.name}</p>
-                                    ${activity.details ?
-                `<p style="
+                                    ${activity.details ? `
+                                        <p style="
                                             color: ${theme === 'dark' ? '#ccc' : '#777'};
                                             overflow: hidden;
                                             white-space: nowrap;
                                             text-overflow: ellipsis;
                                             height: 15px;
                                             margin: 7px 0;
-                                        ">${activity.details}</p>`
-                : ``}
-                                   
+                                        ">${activity.details}</p>` : ``}
                                 </div>
                             </div>
-                            `
+                            `: ``}
 
-            : ``}
+            ${body.data.listening_to_spotify === true && body.data.activities[Object.keys(body.data.activities).length - 1].type === 2 ? `
+                <div style="
+                    display: flex;
+                    flex-direction: row;
+                    height: 120px;
+                    margin-left: 15px;
+                    font-size: 0.8rem;
+                    padding-top: 18px;
+                ">
+                    <img src="data:image/png;base64,${await encodeBase64(body.data.spotify.album_art_url)}" style="
+                        width: 80px; 
+                        height: 80px; 
+                        border: solid 0.5px #222;
+                        border-radius: 10px; 
+                        margin-right: 15px;
+                    "/>
 
-                        ${body.data.listening_to_spotify === true && body.data.activities[Object.keys(body.data.activities).length - 1].type === 2 ?
-
-            `
-                            <div style="
-                                display: flex;
-                                flex-direction: row;
-                                height: 120px;
-                                margin-left: 15px;
-                                font-size: 0.8rem;
-                                padding-top: 18px;
-                            ">
-                                <img src="data:image/png;base64,${await encodeBase64(body.data.spotify.album_art_url)}" style="
-                                    width: 80px; 
-                                    height: 80px; 
-                                    border: solid 0.5px #222;
-                                    border-radius: 10px; 
-                                    margin-right: 15px;
-                                "/>
-
-                                <div style="
-                                    color: #999;
-                                    margin-top: -3px;
-                                    line-height: 1;
-                                    width: 279px;
-                                ">
-                                    <p style="font-size: 0.75rem; color: ${theme === 'dark' ? '#1CB853' : '#0d943d'}; margin-bottom: 15px;">LISTENING NOW...</p> 
-                                    <p style="
-                                        height: 15px; 
-                                        color: ${theme === 'dark' ? '#fff' : '#000'}; 
-                                        font-weight: bold; 
-                                        overflow: hidden;
-                                        white-space: nowrap;
-                                        text-overflow: ellipsis;
-                                        margin: 7px 0;
-                                    ">${body.data.spotify.song.replace(/\&/g, "and")}</p>
-                                    <p style="
-                                        margin: 7px 0;
-                                        height: 15px; 
-                                        overflow: hidden;
-                                        white-space: nowrap;
-                                        text-overflow: ellipsis;
-                                        color: ${theme === 'dark' ? '#ccc' : '#777'}; 
-                                    ">By ${body.data.spotify.artist.replace(/\;/g, ",").replace(/\&/g, "and")}</p>
-                                </div>
-                            </div>
-                            `
-
-            : ``}
-
-                        ${!activity && body.data.listening_to_spotify === false ?
+                    <div style="
+                        color: #999;
+                        margin-top: -3px;
+                        line-height: 1;
+                        width: 279px;
+                    ">
+                        <p style="font-size: 0.75rem; color: ${theme === 'dark' ? '#1CB853' : '#0d943d'}; margin-bottom: 15px;">LISTENING NOW...</p> 
+                        <p style="
+                            height: 15px; 
+                            color: ${theme === 'dark' ? '#fff' : '#000'}; 
+                            font-weight: bold; 
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            margin: 7px 0;
+                        ">${body.data.spotify.song.replace(/\&/g, "and")}</p>
+                        <p style="
+                            margin: 7px 0;
+                            height: 15px; 
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            color: ${theme === 'dark' ? '#ccc' : '#777'}; 
+                        ">By ${body.data.spotify.artist.replace(/\;/g, ",").replace(/\&/g, "and")}</p>
+                    </div>
+                </div>
+            ` : ``}
+            ${!activity && body.data.listening_to_spotify === false ?
             `<div style="
-                                display: flex;
-                                flex-direction: row;
-                                height: 150px;
-                                justify-content: center;
-                                align-items: center;
-                            ">
-                                <p style="
-                                    font-style: italic; 
-                                    font-size: 0.8rem;
-                                    color: ${theme === 'dark' ? '#aaa' : '#444'};
-                                    height: auto;
-                                ">
-                                    I'm not currently doing anything!
-                                </p>
-                            </div>`
+                    display: flex;
+                    flex-direction: row;
+                    height: 150px;
+                    justify-content: center;
+                    align-items: center;
+                ">
+                    <p style="
+                        font-style: italic; 
+                        font-size: 0.8rem;
+                        color: ${theme === 'dark' ? '#aaa' : '#444'};
+                        height: auto;
+                    ">
+                        I'm not currently doing anything!
+                    </p>
+                </div>`
             : ``}
 
                     </div>
