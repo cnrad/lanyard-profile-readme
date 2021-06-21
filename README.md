@@ -7,7 +7,7 @@ _Special thanks to [@Phineas](https://github.com/Phineas/) for creating Lanyard,
 
 ## Usage
 
-First, join the Lanyard [Discord](https://discord.gg/gYTp9JHrhg) (if you haven't already) for this to work.
+First, join the Lanyard [Discord](https://discord.com/invite/WScAm7vNGF) (if you haven't already) for this to work.
 
 In a `README.md` file, include the following, replacing `:id` with your Discord user ID:
 

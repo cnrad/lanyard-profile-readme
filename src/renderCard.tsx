@@ -162,7 +162,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         white-space: nowrap;
                                         text-overflow: ellipsis;
                                     ">
-                                        ${body.data.activities[0].emoji ?
+                                        ${body.data.activities[0].emoji && body.data.activities[0].emoji.id ?
                                             `<img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/emojis/${body.data.activities[0].emoji.id}.${statusExtension}`)}" style="
                                                 width: 15px; 
                                                 height: 15px; 
@@ -172,7 +172,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                                 margin: 0 2px 0 0;
                                             " />`
                                         : ``}
-                                        ${userStatus}
+
+                                        ${body.data.activities[0].emoji && !body.data.activities[0].emoji.id ? 
+                                            body.data.activities[0].emoji.name + ' ' + userStatus
+                                            :
+                                            userStatus
+                                        }
+
                                     </h1>`
                                 : ``}
                             </div>

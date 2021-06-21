@@ -22,7 +22,7 @@ export default function Home() {
 
                 <Container>
 
-                    <p style={{fontSize: "1rem", fontWeight: "bold", marginTop: "1rem"}}>Make sure you're in the <a style={{color: "#fff"}} rel="noreferrer" href="https://discord.gg/gYTp9JHrhg">Discord</a> for this to work.</p>
+                    <p style={{fontSize: "1rem", fontWeight: "bold", marginTop: "1rem"}}>Make sure you're in the <a style={{color: "#fff"}} rel="noreferrer" href="https://discord.com/invite/WScAm7vNGF">Discord</a> for this to work.</p>
 
                     <Input maxLength={18} type="text" placeholder="Paste your Discord user ID here" onChange={((e) => setUserId(e.target.value))}>
 
