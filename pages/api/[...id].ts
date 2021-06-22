@@ -9,6 +9,11 @@ type Data = {
 };
 
 type Parameters = {
+    theme?: string;
+    bg?: string;
+    hideStatus?: string;
+    hideDiscrim?: string;
+    borderRadius?: string;
 	animated?: string;
 };
 
