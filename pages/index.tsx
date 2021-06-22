@@ -4,8 +4,13 @@ import { useState } from "react";
 
 export default function Home() {
     const [userId, setUserId] = useState(":id");
+    const [copyState, setCopyState] = useState("Copy");
     const copy = () => {
-        return;
+        navigator.clipboard.writeText(`[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/${userId}
+                            )](https://discord.com/users/${userId})`);
+        setCopyState("Copied!");
+
+        setTimeout(() => setCopyState("Copy"), 1500);
     };
 
     return (
@@ -43,7 +48,7 @@ export default function Home() {
                             [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/{userId}
                             )](https://discord.com/users/{userId})
                         </Link>
-                        <StupidBtn onClick={copy}>Copy</StupidBtn>
+                        <StupidBtn onClick={copy}>{copyState}</StupidBtn>
                     </LinkContainer>
                     <span style={{ fontSize: "1rem", fontStyle: "italic", marginTop: "1rem" }}>
                         For further customization, check out the{" "}
@@ -139,7 +144,8 @@ const Link = styled.div`
     border-radius: 3px;
     padding: 5px;
     background-color: #222;
-
+    overflow: hidden;
+    overflow-wrap: break-word;
     scrollbar-width: thin;
 `;
 
@@ -157,6 +163,7 @@ const Example = styled.img`
 
 const LinkContainer = styled.div`
     position: relative;
+    margin-bottom: 18px;
 `;
 
 const StupidBtn = styled.button`
@@ -166,6 +173,11 @@ const StupidBtn = styled.button`
     padding: 5px 18px;
     border: none;
     cursor: pointer;
+    border: #fff solid 1px;
     border-radius: 4px;
     color: #fff;
+
+    &:active {
+        opacity: 0.5;
+    }
 `;
