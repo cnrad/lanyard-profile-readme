@@ -147,6 +147,7 @@ const Link = styled.div`
     overflow: hidden;
     overflow-wrap: break-word;
     scrollbar-width: thin;
+    margin: 0 auto 10px auto;
 `;
 
 const Example = styled.img`
@@ -168,7 +169,7 @@ const LinkContainer = styled.div`
 
 const StupidBtn = styled.button`
     position: absolute;
-    right: 2em;
+    right: 1em;
     background: #222;
     padding: 5px 18px;
     border: none;
