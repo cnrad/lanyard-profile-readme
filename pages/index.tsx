@@ -4,6 +4,9 @@ import { useState } from "react";
 
 export default function Home() {
     const [userId, setUserId] = useState(":id");
+    const copy = () => {
+        return;
+    };
 
     return (
         <>
@@ -20,10 +23,10 @@ export default function Home() {
                 <Header>🏷️ lanyard-profile-readme</Header>
                 <Container>
                     <p style={{ fontSize: "1rem", fontWeight: "bold", marginTop: "1rem" }}>
-                        Make sure you're in the
+                        Make sure you're in the{" "}
                         <a style={{ color: "#fff" }} rel="noreferrer" href="https://discord.com/invite/WScAm7vNGF">
                             Discord
-                        </a>
+                        </a>{" "}
                         for this to work.
                     </p>
                     <Input
@@ -35,12 +38,15 @@ export default function Home() {
                     <span style={{ fontSize: "1rem", marginTop: "1rem" }}>
                         Copy the following and paste it into your README.md
                     </span>
-                    <Link>
-                        [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/{userId}
-                        )](https://discord.com/users/{userId})
-                    </Link>
+                    <LinkContainer>
+                        <Link>
+                            [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/{userId}
+                            )](https://discord.com/users/{userId})
+                        </Link>
+                        <StupidBtn onClick={copy}>Copy</StupidBtn>
+                    </LinkContainer>
                     <span style={{ fontSize: "1rem", fontStyle: "italic", marginTop: "1rem" }}>
-                        For further customization, check out the
+                        For further customization, check out the{" "}
                         <a
                             rel="noreferrer"
                             target="_blank"
@@ -113,13 +119,13 @@ const Input = styled.input`
     border: solid 2px #ccc;
     font-size: 1.1rem;
     border-radius: 3px;
-    text-align: center;
+    text-align: left;
     padding: 10px;
     background: rgba(0, 0, 0, 0.5);
     color: #fff;
 
     &::placeholder {
-        text-align: center;
+        text-align: left;
     }
 `;
 
@@ -129,6 +135,7 @@ const Link = styled.div`
     height: auto;
     font-size: 1.1rem;
     border: solid 1px #ccc;
+    text-align: left;
     border-radius: 3px;
     padding: 5px;
     background-color: #222;
@@ -146,4 +153,19 @@ const Example = styled.img`
     @media (max-width: 1000px) {
         display: none;
     }
+`;
+
+const LinkContainer = styled.div`
+    position: relative;
+`;
+
+const StupidBtn = styled.button`
+    position: absolute;
+    right: 2em;
+    background: #222;
+    padding: 5px 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #fff;
 `;
