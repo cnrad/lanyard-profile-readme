@@ -66,8 +66,6 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     if (body.data.activities[0] && body.data.activities[0].state && body.data.activities[0].type === 4)
         userStatus = body.data.activities[0].state;
 
-    console.log(Object.keys(body.data.activities).length);
-
     return `
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="218px">
                 <foreignObject x="0" y="0" width="410" height="218">
