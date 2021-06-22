@@ -176,6 +176,7 @@ const StupidBtn = styled.button`
     border: #fff solid 1px;
     border-radius: 4px;
     color: #fff;
+    min-width: 90px;
 
     &:active {
         opacity: 0.5;
