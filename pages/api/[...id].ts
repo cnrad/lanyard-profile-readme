@@ -1,36 +1,46 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import axios from 'axios';
-import * as LanyardTypes from '../../src/LanyardTypes';
-import renderCard from '../../src/renderCard';
+import type { NextApiRequest, NextApiResponse } from "next";
+import axios from "axios";
+import renderCard from "../../src/renderCard";
+import { isSnowflake } from "../../src/snowflake";
 
 type Data = {
-  id?: string | string[]
-  error?: any;
-}
+	id?: string | string[];
+	error?: any;
+};
 
 type Parameters = {
-  animated?: string;
-}
+	animated?: string;
+};
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+	req: NextApiRequest,
+	res: NextApiResponse<Data>,
 ) {
+	const params: Parameters = req.query,
+		userid = req.query.id[0];
 
-  let params: Parameters = req.query,
-    userid = req.query.id[0],
-    lanyardData: any;
+	if (!isSnowflake(userid))
+		return res.send({
+			error: `Specify a valid Discord user ID! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.`,
+		});
 
-  res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
-  res.setHeader("content-security-policy", "default-src 'none'; img-src * data:; style-src 'unsafe-inline'");
+	let err: any;
+	const axiosRes = await axios
+		.get(`https://api.lanyard.rest/v1/users/${userid}`)
+		.catch((e) => (err = e));
 
-  try {
-    lanyardData = await axios.get(`https://api.lanyard.rest/v1/users/${userid}`);
-  } catch (e) {
-    console.log(e)
-    res.send({ error: `Something went wrong! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.` })
-  }
+	if (err) console.log(err);
+	if (err || axiosRes.status != 200)
+		return res.send({
+			error: `Something went wrong! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.`,
+		});
 
-  let svg = await renderCard(lanyardData.data, params);
-  res.status(200).send(svg as any);
+	res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+	res.setHeader(
+		"content-security-policy",
+		"default-src 'none'; img-src * data:; style-src 'unsafe-inline'",
+	);
+
+	let svg = await renderCard(axiosRes.data, params);
+	res.status(200).send(svg as any);
 }
