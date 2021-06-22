@@ -31,6 +31,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         axiosRes = await axios.get(`https://api.lanyard.rest/v1/users/${userid}`);
     } catch (err) {
         console.log(err);
+
+        if (err.response.status === 404) return res.send({ error: "Invalid user!" });
+
         return res.send({
             error: `Something went wrong! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.`,
         });
