@@ -11,10 +11,7 @@ const EPOCH = 1420070400000; // Discord's EPOCH
 
 export function isSnowflake(snowflake: string): boolean {
 	const { timestamp } = deconstruct(snowflake);
-	if (timestamp > EPOCH && timestamp <= 3619093655551) {
-		return true;
-	}
-	return false;
+	return (timestamp > EPOCH && timestamp <= 3619093655551);
 }
 
 function deconstruct(snowflake: string): DeconstructedSnowflake {
