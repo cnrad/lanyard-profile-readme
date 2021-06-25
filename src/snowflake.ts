@@ -9,9 +9,10 @@ interface DeconstructedSnowflake {
 
 const EPOCH = 1420070400000; // Discord's EPOCH
 
-export const isSnowflake = (snowflake: string): boolean => {
-    const { timestamp } = deconstruct(snowflake);
-    if (timestamp > EPOCH && timestamp <= 3619093655551) return true;
+export function isSnowflake(snowflake: string): boolean {
+	const { timestamp } = deconstruct(snowflake);
+	return (timestamp > EPOCH && timestamp <= 3619093655551);
+}
 
     return false;
 };
