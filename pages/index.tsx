@@ -62,7 +62,7 @@ const GlobalStyle = createGlobalStyle`
   ::-webkit-scrollbar {
     width: 10px;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: rgb(64 68 78);
     border-radius: 8px;
@@ -158,11 +158,14 @@ const Copy = styled.button`
     color: #aaabaf;
     backdrop-filter: blur(50px);
     box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
-    background: rgb(0, 0, 0, 0.1);
+    background: #191d28;
     transition: background ease-in-out 0.2s;
 
     &:hover {
-        background: rgb(0, 0, 0, 0.4);
+        background: #11151f;
+    }
+    &:active {
+        background: #0c0d13;
     }
 `;
 
