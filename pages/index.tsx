@@ -130,6 +130,8 @@ const Input = styled.input`
     text-align: left;
     border-radius: 8px;
     border: none;
+    width: 80%;
+    max-width: 250px;
     margin: 0 25px 15px;
     font-size: 1em;
     padding: 5px 10px;
