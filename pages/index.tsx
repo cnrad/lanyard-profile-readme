@@ -27,7 +27,7 @@ export default function Home() {
             <Main>
                 <Container>
                     <Icon>🏷️</Icon>
-                    <Title>Lanyard profile readme</Title>
+                    <Title>lanyard profile readme</Title>
                     <Paragraph>Utilize Lanyard to display your Discord Presence in your GitHub Profile</Paragraph>
                     <br />
                     <Input onChange={el => setUserId(el.target.value)} placeholder="Enter your Discord ID" />
