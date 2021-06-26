@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     if (!isSnowflake(userId))
         return res.send({
-            error: `Specify a valid Discord user ID! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.`,
+            error: `That is not a valid snowflake ID!`,
         });
 
     try {
