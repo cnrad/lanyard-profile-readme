@@ -1,5 +1,5 @@
 import Head from "next/head";
-import styled, { createGlobalStyle, GlobalStyleComponent } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { useState } from "react";
 
 export default function Home() {
