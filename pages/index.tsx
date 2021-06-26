@@ -1,9 +1,9 @@
 import Head from "next/head";
-import styled from "styled-components";
+import styled, { createGlobalStyle, GlobalStyleComponent } from "styled-components";
 import { useState } from "react";
 
 export default function Home() {
-    const [userId, setUserId] = useState(":id");
+    const [userId, setUserId] = useState<null | string>(null);
     const [copyState, setCopyState] = useState("Copy");
     const copy = () => {
         navigator.clipboard.writeText(`[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/${userId}
@@ -15,6 +15,7 @@ export default function Home() {
 
     return (
         <>
+            <GlobalStyle />
             <Head>
                 <link rel="preconnect" href="https://fonts.gstatic.com" />
                 <link
@@ -23,8 +24,111 @@ export default function Home() {
                 />
                 <title>Lanyard for GitHub Profile</title>
             </Head>
-
-
+            <Main>
+                <Container>
+                    <Icon>🏷️</Icon>
+                    <Title>Lanyard profile readme</Title>
+                    <Paragraph>Utilize Lanyard to display your Discord Presence in your GitHub Profile</Paragraph>
+                    <br />
+                    <Input onChange={el => setUserId(el.target.value)} placeholder="Enter your Discord ID" />
+                    {userId ? (
+                        <>
+                            <Output>
+                                [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/{userId}
+                                )](https://discord.com/users/{userId})
+                            </Output>
+                            <Example
+                                src={`https://lanyard-profile-readme.vercel.app/api/${userId}`}
+                                alt="[Please provide a valid user ID!]"
+                                style={{ color: "#ff8787" }}
+                            />
+                        </>
+                    ) : null}
+                </Container>
+            </Main>
         </>
     );
 }
+
+const GlobalStyle = createGlobalStyle`
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+  }
+`;
+
+const Main = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    background: url(./background.jpg) 100% no-repeat fixed;
+    background-size: cover;
+`;
+
+const Container = styled.div`
+    backdrop-filter: blur(50px);
+    background: rgb(0, 0, 0, 0.18);
+    border-radius: 10px;
+    padding: 10px;
+    width: 80%;
+    max-width: 500px;
+`;
+
+const Icon = styled.h1`
+    font-size: 2.5em;
+    position: absolute;
+    top: -27px;
+    left: -21px;
+`;
+
+const Title = styled.h1`
+    text-align: left;
+    font-size: 2.25em;
+    font-weight: 600;
+    margin: 5px 25px;
+    color: #232834;
+`;
+
+const Paragraph = styled.p`
+    padding: 0 25px;
+    color: #aaabaf;
+    font-size: 1.12em;
+`;
+
+const Input = styled.input`
+    text-align: left;
+    border-radius: 8px;
+    border: none;
+    margin: 0 25px 25px;
+    font-size: 1em;
+    padding: 5px 10px;
+    color: #aaabaf;
+    background: #232834;
+    transition: background ease-in-out 0.2s;
+
+    &:focus {
+        outline: 0;
+        background: #191d25;
+    }
+`;
+
+const Output = styled.div`
+    margin: 15px 25px;
+    color: #aaabaf;
+    border-radius: 8px;
+    padding: 8px;
+    backdrop-filter: blur(50px);
+    background: rgb(0, 0, 0, 0.1);
+`;
+
+const Example = styled.img`
+    display: block;
+    margin: 0 auto;
+`;
