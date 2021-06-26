@@ -58,6 +58,19 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: 'Poppins', sans-serif;
   }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgb(64 68 78);
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgb(24 28 39);
+  }
 `;
 
 const Main = styled.div`
