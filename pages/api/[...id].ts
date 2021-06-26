@@ -18,7 +18,7 @@ type Parameters = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-    let axiosRes;
+    let getUser;
     const params: Parameters = req.query,
         userId = req.query.id[0];
 
@@ -28,13 +28,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         });
 
     try {
-        axiosRes = await axios.get(`https://api.lanyard.rest/v1/users/${userId}`);
-    } catch (err) {
-        console.log(err);
+        getUser = await axios(`https://api.lanyard.rest/v1/users/${userId}`);
+    } catch (error) {
+        if (error.response.status === 404) return res.status(404).send({ error: "Invalid user!" });
 
-        if (err.response.status === 404) return res.send({ error: "Invalid user!" });
+        console.log(error); // Only console log the error if its not a 404
 
-        return res.send({
+        return res.status(400).send({
             error: `Something went wrong! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.`,
         });
     }
@@ -42,6 +42,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
     res.setHeader("content-security-policy", "default-src 'none'; img-src * data:; style-src 'unsafe-inline'");
 
-    let svg = await renderCard(axiosRes.data, params);
+    const svg = await renderCard(getUser.data, params);
     res.status(200).send(svg as any);
 }
