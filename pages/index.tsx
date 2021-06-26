@@ -37,6 +37,7 @@ export default function Home() {
                                 [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/{userId}
                                 )](https://discord.com/users/{userId})
                             </Output>
+                            <Copy onClick={copy}>{copyState}</Copy>
                             <Example
                                 src={`https://lanyard-profile-readme.vercel.app/api/${userId}`}
                                 alt="[Please provide a valid user ID!]"
@@ -132,10 +133,30 @@ const Output = styled.div`
     box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
 `;
 
+const Copy = styled.button`
+    position: absolute;
+    right: 35px;
+    font-size: 0.9em;
+    padding: 5px 25px;
+    width: 103px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    color: #aaabaf;
+    backdrop-filter: blur(50px);
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    background: rgb(0, 0, 0, 0.1);
+    transition: background ease-in-out 0.2s;
+
+    &:hover {
+        background: rgb(0, 0, 0, 0.4);
+    }
+`;
+
 const Example = styled.img`
     display: block;
-    margin: 0 auto;
-    padding: 15px 20px;
+    margin: 70px auto 0px;
+    padding: 0 20px 15px;
     width: 100%;
     filter: drop-shadow(0px 3px 15px rgba(0, 0, 0, 0.2));
 `;
