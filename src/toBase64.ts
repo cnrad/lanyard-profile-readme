@@ -6,8 +6,8 @@ export const encodeBase64 = async (url: string): Promise<string> => {
     try {
         response = await imageToBase64(url);
     } catch (e) {
-        console.log(e)
+        console.log(e);
     }
 
     return response;
-}
+};

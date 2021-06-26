@@ -1,0 +1,25 @@
+on: push
+name: lint
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout project
+              uses: actions/checkout@v2
+              with:
+                  clean: false
+
+            - name: Use Node.js 14
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 14.x
+
+            - name: Install deps
+              run: yarn
+
+            - name: Run ESLint
+              run: yarn lint
+              env:
+                  CI: true

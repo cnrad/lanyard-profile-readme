@@ -4,8 +4,8 @@ import renderCard from "../../src/renderCard";
 import { isSnowflake } from "../../src/snowflake";
 
 type Data = {
-	id?: string | string[];
-	error?: any;
+    id?: string | string[];
+    error?: any;
 };
 
 type Parameters = {
@@ -14,38 +14,34 @@ type Parameters = {
     hideStatus?: string;
     hideDiscrim?: string;
     borderRadius?: string;
-	animated?: string;
+    animated?: string;
 };
 
-export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse<Data>,
-) {
-	const params: Parameters = req.query,
-		userid = req.query.id[0];
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+    let axiosRes;
+    const params: Parameters = req.query,
+        userid = req.query.id[0];
 
-	if (!isSnowflake(userid))
-		return res.send({
-			error: `Specify a valid Discord user ID! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.`,
-		});
+    if (!isSnowflake(userid))
+        return res.send({
+            error: `Specify a valid Discord user ID! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.`,
+        });
 
-	let err: any;
-	const axiosRes = await axios
-		.get(`https://api.lanyard.rest/v1/users/${userid}`)
-		.catch((e) => (err = e));
+    try {
+        axiosRes = await axios.get(`https://api.lanyard.rest/v1/users/${userid}`);
+    } catch (err) {
+        console.log(err);
 
-	if (err) console.log(err);
-	if (err || axiosRes.status != 200)
-		return res.send({
-			error: `Something went wrong! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.`,
-		});
+        if (err.response.status === 404) return res.send({ error: "Invalid user!" });
 
-	res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
-	res.setHeader(
-		"content-security-policy",
-		"default-src 'none'; img-src * data:; style-src 'unsafe-inline'",
-	);
+        return res.send({
+            error: `Something went wrong! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.`,
+        });
+    }
 
-	let svg = await renderCard(axiosRes.data, params);
-	res.status(200).send(svg as any);
+    res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+    res.setHeader("content-security-policy", "default-src 'none'; img-src * data:; style-src 'unsafe-inline'");
+
+    let svg = await renderCard(axiosRes.data, params);
+    res.status(200).send(svg as any);
 }
