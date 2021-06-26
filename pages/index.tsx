@@ -112,6 +112,7 @@ const Input = styled.input`
     padding: 5px 10px;
     color: #aaabaf;
     background: #191d28;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
     transition: background ease-in-out 0.2s;
 
     &:focus {
@@ -128,6 +129,7 @@ const Output = styled.div`
     padding: 8px;
     backdrop-filter: blur(50px);
     background: rgb(0, 0, 0, 0.1);
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
 `;
 
 const Example = styled.img`
@@ -135,4 +137,5 @@ const Example = styled.img`
     margin: 0 auto;
     padding: 15px 20px;
     width: 100%;
+    filter: drop-shadow(0px 3px 15px rgba(0, 0, 0, 0.2));
 `;
