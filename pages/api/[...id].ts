@@ -20,15 +20,15 @@ type Parameters = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let axiosRes;
     const params: Parameters = req.query,
-        userid = req.query.id[0];
+        userId = req.query.id[0];
 
-    if (!isSnowflake(userid))
+    if (!isSnowflake(userId))
         return res.send({
             error: `Specify a valid Discord user ID! If everything looks correct and this still occurs, please contact @cnraddd on Twitter.`,
         });
 
     try {
-        axiosRes = await axios.get(`https://api.lanyard.rest/v1/users/${userid}`);
+        axiosRes = await axios.get(`https://api.lanyard.rest/v1/users/${userId}`);
     } catch (err) {
         console.log(err);
 
