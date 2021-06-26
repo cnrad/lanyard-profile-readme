@@ -23,6 +23,14 @@ export default function Home() {
                     rel="stylesheet"
                 />
                 <title>Lanyard for GitHub Profile</title>
+                <meta
+                    name="description"
+                    content="Utilize Lanyard to display your Discord Presence in your GitHub Profile"
+                />
+                <meta
+                    name="og:description"
+                    content="Utilize Lanyard to display your Discord Presence in your GitHub Profile"
+                />
             </Head>
             <Main>
                 <Container>
