@@ -66,9 +66,9 @@ const Main = styled.div`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    width: 100vw;
-    height: 100vh;
-    background: url(./background.jpg) 100% no-repeat fixed;
+    max-width: 100vw;
+    min-height: 100vh;
+    background: url(./background.jpg) 50% no-repeat fixed;
     background-size: cover;
 `;
 
@@ -76,6 +76,7 @@ const Container = styled.div`
     backdrop-filter: blur(50px);
     background: rgb(0, 0, 0, 0.18);
     border-radius: 10px;
+    margin: 50px;
     padding: 10px;
     width: 80%;
     max-width: 500px;
@@ -93,7 +94,7 @@ const Title = styled.h1`
     font-size: 2.25em;
     font-weight: 600;
     margin: 5px 25px;
-    color: #232834;
+    color: #191d28;
 `;
 
 const Paragraph = styled.p`
@@ -106,22 +107,23 @@ const Input = styled.input`
     text-align: left;
     border-radius: 8px;
     border: none;
-    margin: 0 25px 25px;
+    margin: 0 25px 15px;
     font-size: 1em;
     padding: 5px 10px;
     color: #aaabaf;
-    background: #232834;
+    background: #191d28;
     transition: background ease-in-out 0.2s;
 
     &:focus {
         outline: 0;
-        background: #191d25;
+        background: #11151f;
     }
 `;
 
 const Output = styled.div`
     margin: 15px 25px;
     color: #aaabaf;
+    word-break: break-word;
     border-radius: 8px;
     padding: 8px;
     backdrop-filter: blur(50px);
@@ -131,4 +133,6 @@ const Output = styled.div`
 const Example = styled.img`
     display: block;
     margin: 0 auto;
+    padding: 15px 20px;
+    width: 100%;
 `;
