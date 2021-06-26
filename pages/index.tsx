@@ -108,7 +108,7 @@ const Title = styled.h1`
     font-size: 2.25em;
     font-weight: 600;
     margin: 5px 25px;
-    color: #191d28;
+    color: #cecece;
 `;
 
 const Paragraph = styled.p`
