@@ -96,6 +96,7 @@ const Main = styled.div`
 `;
 
 const Container = styled.div`
+    position: relative;
     backdrop-filter: blur(50px);
     background: rgb(0, 0, 0, 0.18);
     border-radius: 10px;
