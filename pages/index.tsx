@@ -48,7 +48,7 @@ export default function Home() {
                             </Output>
                             <Copy onClick={copy}>{copyState}</Copy>
                             <Example
-                                src={`https://lanyard-profile-readme.vercel.app/api/${userId}`}
+                                src={`/api/${userId}`}
                                 alt="[Please provide a valid user ID!]"
                                 style={{ color: "#ff8787" }}
                             />
