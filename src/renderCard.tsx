@@ -28,33 +28,31 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         hideStatus = "false",
         borderRadius = "10px";
 
-    let avatar;
-    const lastDigit = Number(body.data.discord_user.discriminator.substr(-1))
-    switch (true) {
-        case body.data.discord_user.avatar !== null: {
-            avatar = await encodeBase64(`https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=256`);
-            break;
+    let avatar: String;
+    if (body.data.discord_user.avatar) {
+        avatar = await encodeBase64(`https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=256`);
+    } else {
+        let lastDigit = Number(body.data.discord_user.discriminator.substr(-1))
+        if (lastDigit >= 5) {
+            lastDigit -= 5
         }
         // the default avatar that discord uses depends on the last digit of the user's discriminator
-        case [0, 5].includes(lastDigit): {
-            avatar = blue;
-            break;
-        }
-        case [1, 6].includes(lastDigit): {
-            avatar = gray;
-            break;
-        }
-        case [2, 7].includes(lastDigit): {
-            avatar = green;
-            break;
-        }
-        case [3, 8].includes(lastDigit): {
-            avatar = gold;
-            break;
-        }
-        case [4, 9].includes(lastDigit): {
-            avatar = red;
-            break;
+        switch (lastDigit) {
+            case 1: 
+                avatar = gray;
+                break;
+            case 2: 
+                avatar = green;
+                break;
+            case 3: 
+                avatar = gold;
+                break;
+            case 4: 
+                avatar = red;
+                break;
+            default:
+                avatar = blue;
+                break
         }
     }
 
