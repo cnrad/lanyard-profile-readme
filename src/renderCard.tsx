@@ -52,7 +52,6 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                 break;
             default:
                 avatar = blue;
-                break
         }
     }
 
