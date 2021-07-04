@@ -28,6 +28,23 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         hideStatus = "false",
         borderRadius = "10px";
 
+    if (body.data.activities[0]?.emoji?.animated) statusExtension = "gif";
+    if (body.data.discord_user.avatar && body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
+    if (
+        body.data.activities.length > 0 &&
+        body.data.activities[Object.keys(body.data.activities).length - 1].type === 0
+    )
+        activity = body.data.activities[Object.keys(body.data.activities).length - 1];
+    if (params.animated === "false") avatarExtension = "webp";
+    if (params.hideStatus === "true") hideStatus = "true";
+    if (params.hideDiscrim === "true") discrim = "hide";
+    if (params.theme === "light") {
+        backgroundColor = "#eee";
+        theme = "light";
+    }
+    if (params.bg) backgroundColor = params.bg;
+    if (params.borderRadius) borderRadius = params.borderRadius;
+
     let avatar: String;
     if (body.data.discord_user.avatar) {
         avatar = await encodeBase64(`https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=256`);
@@ -54,24 +71,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                 avatar = blue;
         }
     }
-
-    if (body.data.activities[0]?.emoji?.animated) statusExtension = "gif";
-    if (body.data.discord_user.avatar && body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
-    if (
-        body.data.activities.length > 0 &&
-        body.data.activities[Object.keys(body.data.activities).length - 1].type === 0
-    )
-        activity = body.data.activities[Object.keys(body.data.activities).length - 1];
-    if (params.animated === "false") avatarExtension = "webp";
-    if (params.hideStatus === "true") hideStatus = "true";
-    if (params.hideDiscrim === "true") discrim = "hide";
-    if (params.theme === "light") {
-        backgroundColor = "#eee";
-        theme = "light";
-    }
-    if (params.bg) backgroundColor = params.bg;
-    if (params.borderRadius) borderRadius = params.borderRadius;
-
+    
     switch (body.data.discord_status) {
         case "online":
             avatarBorderColor = "#43B581";
