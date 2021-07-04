@@ -4,9 +4,8 @@ import { Badges } from "../public/assets/badges/BadgesEncoded";
 import { getFlags } from "./getFlags";
 import * as LanyardTypes from "./LanyardTypes";
 import { encodeBase64 } from "./toBase64";
-import { blue, green, gray, gold, red } from "./defaultAvatars"
-
-let escape = require('escape-html');
+import { blue, green, gray, gold, red } from "./defaultAvatars";
+import escape from "escape-html";
 
 type Parameters = {
     theme?: string;
@@ -18,7 +17,6 @@ type Parameters = {
 };
 
 const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<string> => {
-
     let avatarBorderColor: string = "#747F8D",
         userStatus: string = "",
         avatarExtension: string = "webp",
@@ -49,31 +47,33 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
 
     let avatar: String;
     if (body.data.discord_user.avatar) {
-        avatar = await encodeBase64(`https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=256`);
+        avatar = await encodeBase64(
+            `https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=256`
+        );
     } else {
-        let lastDigit = Number(body.data.discord_user.discriminator.substr(-1))
+        let lastDigit = Number(body.data.discord_user.discriminator.substr(-1));
         if (lastDigit >= 5) {
-            lastDigit -= 5
+            lastDigit -= 5;
         }
         // the default avatar that discord uses depends on the last digit of the user's discriminator
         switch (lastDigit) {
-            case 1: 
+            case 1:
                 avatar = gray;
                 break;
-            case 2: 
+            case 2:
                 avatar = green;
                 break;
-            case 3: 
+            case 3:
                 avatar = gold;
                 break;
-            case 4: 
+            case 4:
                 avatar = red;
                 break;
             default:
                 avatar = blue;
         }
     }
-    
+
     switch (body.data.discord_status) {
         case "online":
             avatarBorderColor = "#43B581";
@@ -118,8 +118,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                             display: flex;
                             flex-direction: row;
                             padding-bottom: 5px;
-                            border-bottom: solid 0.5px ${theme === "dark" ? "hsl(0, 0%, 100%, 10%)" : "hsl(0, 0%, 0%, 10%)"
-        };
+                            border-bottom: solid 0.5px ${
+                                theme === "dark" ? "hsl(0, 0%, 100%, 10%)" : "hsl(0, 0%, 0%, 10%)"
+                            };
                         ">
                             <div style="
                                 display: flex;
@@ -155,12 +156,18 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         font-size: 1.15rem;
                                         margin: 0 5px 0 0;
                                     ">
-                                    ${escape(body.data.discord_user.username)}${discrim !== "hide" ? 
-                                    `<span style="color: ${theme === "dark" ? "#ccc" : "#666"}; font-weight: lighter;">#${body.data.discord_user.discriminator}</span>`
-                                    : "" }
+                                    ${escape(body.data.discord_user.username)}${
+        discrim !== "hide"
+            ? `<span style="color: ${theme === "dark" ? "#ccc" : "#666"}; font-weight: lighter;">#${
+                  body.data.discord_user.discriminator
+              }</span>`
+            : ""
+    }
                                     </h1>
 
-                                    ${flags.map(v => `
+                                    ${flags
+                                        .map(
+                                            v => `
                                         <img src="data:image/png;base64,${Badges[v]}" style="
                                             width: 20px; 
                                             height: 20px; 
@@ -168,9 +175,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             top: 50%; 
                                             transform: translate(0%, -50%);
                                             margin: 0 0 0 4px;
-                                        " />`).join("")}
+                                        " />`
+                                        )
+                                        .join("")}
                                 </div>
-                                ${userStatus.length > 0 && hideStatus !== "true" ? `
+                                ${
+                                    userStatus.length > 0 && hideStatus !== "true"
+                                        ? `
                                     <h1 style="
                                         font-size: 0.9rem;
                                         margin-top: 16px;
@@ -180,8 +191,12 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         white-space: nowrap;
                                         text-overflow: ellipsis;
                                     ">
-                                    ${body.data.activities[0].emoji && body.data.activities[0].emoji.id ? `
-                                        <img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/emojis/${body.data.activities[0].emoji.id}.${statusExtension}`)}" 
+                                    ${
+                                        body.data.activities[0].emoji && body.data.activities[0].emoji.id
+                                            ? `
+                                        <img src="data:image/png;base64,${await encodeBase64(
+                                            `https://cdn.discordapp.com/emojis/${body.data.activities[0].emoji.id}.${statusExtension}`
+                                        )}" 
                                         style="
                                             width: 15px; 
                                             height: 15px; 
@@ -189,18 +204,23 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             top: 10px; 
                                             transform: translate(0%, -50%);
                                             margin: 0 2px 0 0;
-                                        " />` : ``
+                                        " />`
+                                            : ``
                                     }
-                                    ${body.data.activities[0].emoji && !body.data.activities[0].emoji.id
-                                        ? body.data.activities[0].emoji.name + " " + escape(userStatus)
-                                        : escape(userStatus)
+                                    ${
+                                        body.data.activities[0].emoji && !body.data.activities[0].emoji.id
+                                            ? body.data.activities[0].emoji.name + " " + escape(userStatus)
+                                            : escape(userStatus)
                                     }
-                                </h1>` : ``
+                                </h1>`
+                                        : ``
                                 }
                             </div>
                         </div>
 
-                        ${activity ? `
+                        ${
+                            activity
+                                ? `
                             <div style="
                                 display: flex;
                                 flex-direction: row;
@@ -214,31 +234,44 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     width: auto;
                                     height: auto;
                                 ">
-                                ${activity.assets && activity.assets.large_image ? `
-                                    <img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`)}" 
+                                ${
+                                    activity.assets && activity.assets.large_image
+                                        ? `
+                                    <img src="data:image/png;base64,${await encodeBase64(
+                                        `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`
+                                    )}" 
                                     style="
                                         width: 80px; 
                                         height: 80px; 
                                         border: solid 0.5px #222;
                                         border-radius: 10px; 
                                     "/>
-                                    ` : `
-                                    <img src="data:image/png;base64,${await encodeBase64(`https://lanyard-profile-readme.vercel.app/assets/unknown.png`)}" style="
+                                    `
+                                        : `
+                                    <img src="data:image/png;base64,${await encodeBase64(
+                                        `https://lanyard-profile-readme.vercel.app/assets/unknown.png`
+                                    )}" style="
                                         width: 70px; 
                                         height: 70px; 
                                         margin-top: 4px;
                                         filter: invert(100);
                                     "/>
-                                `}
-                                ${activity.assets && activity.assets.small_image ? `
-                                    <img src="data:image/png;base64,${await encodeBase64(`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`)}" 
+                                `
+                                }
+                                ${
+                                    activity.assets && activity.assets.small_image
+                                        ? `
+                                    <img src="data:image/png;base64,${await encodeBase64(
+                                        `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`
+                                    )}" 
                                     style="
                                         width: 30px;
                                         height: 30px;
                                         border-radius: 50%;
                                         margin-left: -26px;
                                         margin-bottom: -8px;
-                                    "/>` : ``
+                                    "/>`
+                                        : ``
                                 }
                                 </div>
                                 <div style="
@@ -247,7 +280,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     line-height: 1;
                                     width: 279px;
                                 ">
-                                    <p style="font-size: 0.75rem; font-weight: bold; color: ${theme === "dark" ? "#7289DA" : "#334da6"}; margin-bottom: 15px;">PLAYING A GAME...</p> 
+                                    <p style="font-size: 0.75rem; font-weight: bold; color: ${
+                                        theme === "dark" ? "#7289DA" : "#334da6"
+                                    }; margin-bottom: 15px;">PLAYING A GAME...</p> 
                                     <p style="
                                         color: ${theme === "dark" ? "#fff" : "#000"}; 
                                         font-size: 0.85rem;
@@ -258,7 +293,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         height: 15px;
                                         margin: 7px 0;
                                     ">${activity.name}</p>
-                                    ${activity.details ? `
+                                    ${
+                                        activity.details
+                                            ? `
                                         <p style="
                                             color: ${theme === "dark" ? "#ccc" : "#777"};
                                             overflow: hidden;
@@ -267,14 +304,19 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             text-overflow: ellipsis;
                                             height: 15px;
                                             margin: 7px 0;
-                                        ">${activity.details}</p>` : ``
+                                        ">${activity.details}</p>`
+                                            : ``
                                     }
                                 </div>
                             </div>
-                            ` : ``
+                            `
+                                : ``
                         }
 
-            ${body.data.listening_to_spotify === true && body.data.activities[Object.keys(body.data.activities).length - 1].type === 2 ? `
+            ${
+                body.data.listening_to_spotify === true &&
+                body.data.activities[Object.keys(body.data.activities).length - 1].type === 2
+                    ? `
                 <div style="
                     display: flex;
                     flex-direction: row;
@@ -297,7 +339,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         line-height: 1;
                         width: 279px;
                     ">
-                        <p style="font-size: 0.75rem; font-weight: bold; color: ${theme === "dark" ? "#1CB853" : "#0d943d"}; margin-bottom: 15px;">LISTENING TO SPOTIFY...</p> 
+                        <p style="font-size: 0.75rem; font-weight: bold; color: ${
+                            theme === "dark" ? "#1CB853" : "#0d943d"
+                        }; margin-bottom: 15px;">LISTENING TO SPOTIFY...</p> 
                         <p style="
                             height: 15px; 
                             color: ${theme === "dark" ? "#fff" : "#000"}; 
@@ -319,10 +363,12 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         ">By ${escape(body.data.spotify.artist)}</p>
                     </div>
                 </div>
-            ` : ``
-        }
-            ${!activity && body.data.listening_to_spotify === false
-            ? `<div style="
+            `
+                    : ``
+            }
+            ${
+                !activity && body.data.listening_to_spotify === false
+                    ? `<div style="
                     display: flex;
                     flex-direction: row;
                     height: 150px;
@@ -338,8 +384,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         I'm not currently doing anything!
                     </p>
                 </div>`
-            : ``
-        }
+                    : ``
+            }
 
                     </div>
                 </foreignObject>
