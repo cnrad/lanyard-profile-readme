@@ -48,7 +48,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let avatar: String;
     if (body.data.discord_user.avatar) {
         avatar = await encodeBase64(
-            `https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=256`
+            `https://cdn.discordapp.com/avatars/${body.data.discord_user.id}/${body.data.discord_user.avatar}.${avatarExtension}?size=${avatarExtension === "gif" ? "128" : "256"}`
         );
     } else {
         let lastDigit = Number(body.data.discord_user.discriminator.substr(-1));
