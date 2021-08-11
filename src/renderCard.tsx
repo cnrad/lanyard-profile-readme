@@ -348,14 +348,14 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             height: 15px;
                                             margin: 7px 0;
                                         ">${activity.state}${
-                                                  activity.party
-                                                      ? `(${activity.party.size[0]} of ${activity.party.size[1]})`
+                                                  activity.party && activity.party.size
+                                                      ? ` (${activity.party.size[0]} of ${activity.party.size[1]})`
                                                       : ""
                                               }</p>`
                                             : ``
                                     }
                                     ${
-                                        activity.timestamps && hideTimestamp !== "true"
+                                        activity.timestamps && activity.timestamps.start && hideTimestamp !== "true"
                                             ? `
                                         <p style="
                                             color: ${theme === "dark" ? "#ccc" : "#777"};
