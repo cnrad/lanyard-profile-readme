@@ -19,16 +19,25 @@ type Parameters = {
 
 const elapsedTime = (timestamp: any) => {
     let startTime = timestamp;
-    let endTime = Date.now();
-    let totalSeconds = (endTime - startTime) / 1000;
+    let endTime = Number(new Date());
+    let difference = (endTime - startTime) / 1000;
 
-    let hours = Math.floor(totalSeconds / 3600);
-    let minutes = Math.floor((totalSeconds % 3600) / 60);
-    let seconds = Math.floor((totalSeconds % 3600) % 60);
+    // we only calculate them, but we don't display them.
+    // this fixes a bug in the Discord API that does not send the correct timestamp to presence.
+    let daysDifference = Math.floor(difference / 60 / 60 / 24);
+    difference -= daysDifference * 60 * 60 * 24;
 
-    return `${hours >= 1 ? ("0" + hours).slice(-2) + ":" : ""}${("0" + minutes).slice(-2)}:${("0" + seconds).slice(
+    let hoursDifference = Math.floor(difference / 60 / 60);
+    difference -= hoursDifference * 60 * 60;
+
+    let minutesDifference = Math.floor(difference / 60);
+    difference -= minutesDifference * 60;
+
+    let secondsDifference = Math.floor(difference);
+
+    return `${hoursDifference >= 1 ? ("0" + hoursDifference).slice(-2) + ":" : ""}${("0" + minutesDifference).slice(
         -2
-    )}`;
+    )}:${("0" + secondsDifference).slice(-2)}`;
 };
 
 const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<string> => {
