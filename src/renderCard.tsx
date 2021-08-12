@@ -310,7 +310,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     color: #999;
                                     margin-top: ${
                                         activity.timestamps && activity.timestamps.start && hideTimestamp !== "true"
-                                            ? "-3px"
+                                            ? "-6px"
                                             : "5px"
                                     };
                                     line-height: 1;
