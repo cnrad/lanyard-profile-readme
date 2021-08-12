@@ -12,6 +12,7 @@ type Parameters = {
     theme?: string;
     bg?: string;
     hideStatus?: string;
+    hideTimestamp?: string;
     hideDiscrim?: string;
     borderRadius?: string;
     animated?: string;
