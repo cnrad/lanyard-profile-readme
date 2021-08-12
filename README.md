@@ -21,7 +21,7 @@ It should display something similar to the following (I am using my Discord user
 
 When others click it, they will be directed to your actual Discord profile. Neat!
 
-## Options (wip)
+## Options
 
 There are a few options to customize this display using query parameters:
 
@@ -48,6 +48,10 @@ If you don't want people seeing your discriminator (most likely for privacy reas
 ### ___Hide Status___
 
 If you don't want people seeing your status, append the query param `hideStatus=true` to the end of the URL. Your status is shown by default if you have one. 
+
+### ___Hide Elapsed Time___
+
+If you don't want people seeing the elapsed time on an activity, append the query param `hideTimestamp=true` to the end of the URL. Elapsed time is shown by default. 
 
 ## ___Example URL and result___
 
