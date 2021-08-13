@@ -41,6 +41,10 @@ Append the query param `borderRadius=:radius` to the end of the URL, replacing `
 
 If you have an animated avatar, append the query param `animated=:bool` to the end of the URL, replacing `:bool` with `true` or `false`. This is set to `true` by default.
 
+### ___Custom Idle Message___
+
+If you don't want the default "`I'm not currently doing anything!`" as your idle message, you can change it by appending `?idleMessage=:yourmessage` to the end of the URL. 
+
 ### ___Hide Discriminator___
 
 If you don't want people seeing your discriminator (most likely for privacy reasons), append the query param `hideDiscrim=true` to the end of the URL. Your discriminator is shown by default. 
@@ -59,7 +63,7 @@ If you don't want people seeing the elapsed time on an activity, append the quer
 [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true&borderRadius=30px)](https://discord.com/users/94490510688792576)
 ```
 
-[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true&borderRadius=30px)](https://discord.com/users/94490510688792576)
+[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true&borderRadius=30px&idleMessage=Probably doing something else...)](https://discord.com/users/94490510688792576)
 
 \
 Note: Current Nitro & Boosting badges do not work due to Discord API limitations.
