@@ -15,6 +15,7 @@ type Parameters = {
     hideStatus?: string;
     hideTimestamp?: string;
     borderRadius?: string;
+    idleMessage?: string;
 };
 
 const elapsedTime = (timestamp: any) => {
@@ -51,7 +52,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         discrim = "show",
         hideStatus = "false",
         hideTimestamp = "false",
-        borderRadius = "10px";
+        borderRadius = "10px",
+        idleMessage = "I'm not currently doing anything!";
 
     if (body.data.activities[0]?.emoji?.animated) statusExtension = "gif";
     if (body.data.discord_user.avatar && body.data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
@@ -64,6 +66,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         theme = "light";
     }
     if (params.bg) backgroundColor = params.bg;
+    if (params.idleMessage) idleMessage = params.idleMessage;
     if (params.borderRadius) borderRadius = params.borderRadius;
 
     let avatar: String;
@@ -445,8 +448,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         font-size: 0.8rem;
                         color: ${theme === "dark" ? "#aaa" : "#444"};
                         height: auto;
+                        text-align: center;
                     ">
-                        I'm not currently doing anything!
+                        ${escape(idleMessage)}
                     </p>
                 </div>`
                     : ``
