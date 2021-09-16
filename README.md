@@ -51,7 +51,11 @@ If you don't want people seeing your status, append the query param `hideStatus=
 
 ### ___Hide Elapsed Time___
 
-If you don't want people seeing the elapsed time on an activity, append the query param `hideTimestamp=true` to the end of the URL. Elapsed time is shown by default. 
+If you don't want people seeing the elapsed time on an activity, append the query param `hideTimestamp=true` to the end of the URL. Elapsed time is shown by default.
+
+### ___Hide Badges___
+
+If you don't want people seeing the badges you have on Discord, append the query param `hideBadges=true` to the end of the URL. Badges are shown by default.
 
 ## ___Example URL and result___
 
