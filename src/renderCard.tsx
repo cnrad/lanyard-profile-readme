@@ -14,6 +14,7 @@ type Parameters = {
     hideDiscrim?: string;
     hideStatus?: string;
     hideTimestamp?: string;
+    hideBadges?: string;
     borderRadius?: string;
     idleMessage?: string;
 };
@@ -52,6 +53,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         discrim = "show",
         hideStatus = "false",
         hideTimestamp = "false",
+        hideBadges = "false",
         borderRadius = "10px",
         idleMessage = "I'm not currently doing anything!";
 
@@ -60,6 +62,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     if (params.animated === "false") avatarExtension = "webp";
     if (params.hideStatus === "true") hideStatus = "true";
     if (params.hideTimestamp === "true") hideTimestamp = "true";
+    if (params.hideBadges === "true") hideBadges = "true";
     if (params.hideDiscrim === "true") discrim = "hide";
     if (params.theme === "light") {
         backgroundColor = "#eee";
@@ -200,7 +203,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     }
                                     </h1>
 
-                                    ${flags
+                                    ${hideBadges == "true" ? '' : flags
                                         .map(
                                             v => `
                                         <img src="data:image/png;base64,${Badges[v]}" style="
