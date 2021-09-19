@@ -396,10 +396,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                     font-size: 0.8rem;
                     padding-top: 18px;
                 ">
-                    <img src="data:image/png;base64,${await encodeBase64(body.data.spotify.album_art_url)}" style="
+                    <img src="${await (async () => {
+                        const album = await encodeBase64(body.data.spotify.album_art_url);
+                        if (album) return `data:image/png;base64,${album}" style="border: solid 0.5px #222;`;
+                        return 'https://lanyard-profile-readme.vercel.app/assets/unknown.png" style="filter: invert(100);';
+                    })()}
                         width: 80px;
                         height: 80px;
-                        border: solid 0.5px #222;
                         border-radius: 10px;
                         margin-right: 15px;
                     "/>
