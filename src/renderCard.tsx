@@ -42,6 +42,29 @@ const elapsedTime = (timestamp: any) => {
     )}:${("0" + secondsDifference).slice(-2)}`;
 };
 
+const timeLeft = (timestamp: any) => {
+    let startTime = Number(new Date());
+    let endTime = timestamp;
+    let difference = (endTime - startTime) / 1000;
+
+    // we only calculate them, but we don't display them.
+    // this fixes a bug in the Discord API that does not send the correct timestamp to presence.
+    let daysDifference = Math.floor(difference / 60 / 60 / 24);
+    difference -= daysDifference * 60 * 60 * 24;
+
+    let hoursDifference = Math.floor(difference / 60 / 60);
+    difference -= hoursDifference * 60 * 60;
+
+    let minutesDifference = Math.floor(difference / 60);
+    difference -= minutesDifference * 60;
+
+    let secondsDifference = Math.floor(difference);
+
+    return `${hoursDifference >= 1 ? ("0" + hoursDifference).slice(-2) + ":" : ""}${("0" + minutesDifference).slice(
+        -2
+    )}:${("0" + secondsDifference).slice(-2)}`;
+};
+
 const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<string> => {
     let avatarBorderColor: string = "#747F8D",
         userStatus: string = "",
@@ -376,6 +399,17 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             height: 15px;
                                             margin: 7px 0;
                                         ">${elapsedTime(new Date(activity.timestamps.start).getTime())} elapsed</p>`
+                                            : activity.timestamps.end 
+                                            ? `
+                                        <p style="
+                                            color: ${theme === "dark" ? "#ccc" : "#777"};
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                            font-size: 0.85rem;
+                                            text-overflow: ellipsis;
+                                            height: 15px;
+                                            margin: 7px 0;
+                                        ">${timeLeft(new Date(activity.timestamps.end).getTime())} left</p>`
                                             : ``
                                     }
                                 </div>
