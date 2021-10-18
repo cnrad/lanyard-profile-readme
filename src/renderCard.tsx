@@ -203,9 +203,12 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     }
                                     </h1>
 
-                                    ${hideBadges == "true" ? '' : flags
-                                        .map(
-                                            v => `
+                                    ${
+                                        hideBadges == "true"
+                                            ? ""
+                                            : flags
+                                                  .map(
+                                                      v => `
                                         <img src="data:image/png;base64,${Badges[v]}" style="
                                             width: 20px;
                                             height: 20px;
@@ -214,8 +217,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             transform: translate(0%, -50%);
                                             margin: 0 0 0 4px;
                                         " />`
-                                        )
-                                        .join("")}
+                                                  )
+                                                  .join("")
+                                    }
                                 </div>
                                 ${
                                     userStatus.length > 0 && hideStatus !== "true"
@@ -386,6 +390,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
 
             ${
                 body.data.listening_to_spotify === true &&
+                !activity &&
                 body.data.activities[Object.keys(body.data.activities).length - 1].type === 2
                     ? `
                 <div style="
