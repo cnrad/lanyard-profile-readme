@@ -335,7 +335,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         text-overflow: ellipsis;
                                         height: 15px;
                                         margin: 7px 0;
-                                    ">${activity.name}</p>
+                                    ">${escape(activity.name)}</p>
                                     ${
                                         activity.details
                                             ? `
@@ -347,7 +347,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             text-overflow: ellipsis;
                                             height: 15px;
                                             margin: 7px 0;
-                                        ">${activity.details}</p>`
+                                        ">${escape(activity.details)}</p>`
                                             : ``
                                     }
                                     ${
@@ -361,7 +361,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             text-overflow: ellipsis;
                                             height: 15px;
                                             margin: 7px 0;
-                                        ">${activity.state}${
+                                        ">${escape(activity.state)}${
                                                   activity.party && activity.party.size
                                                       ? ` (${activity.party.size[0]} of ${activity.party.size[1]})`
                                                       : ""
