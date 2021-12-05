@@ -6,7 +6,7 @@ export default function Home() {
     const [userId, setUserId] = useState<null | string>(null);
     const [copyState, setCopyState] = useState("Copy");
     const copy = () => {
-        navigator.clipboard.writeText(`[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/${userId}
+        navigator.clipboard.writeText(`[![Discord Presence](https://lanyard.cnrad.dev/api/${userId}
                             )](https://discord.com/users/${userId})`);
         setCopyState("Copied!");
 
@@ -43,7 +43,7 @@ export default function Home() {
                     {userId ? (
                         <>
                             <Output>
-                                [![Discord Presence](https://lanyard-profile-readme.vercel.app/api/{userId}
+                                [![Discord Presence](https://lanyard.cnrad.dev/api/{userId}
                                 )](https://discord.com/users/{userId})
                             </Output>
                             <Copy onClick={copy}>{copyState}</Copy>
