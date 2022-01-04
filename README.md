@@ -12,12 +12,12 @@ First, join the Lanyard [Discord](https://discord.com/invite/WScAm7vNGF) (if you
 In a `README.md` file, include the following, replacing `:id` with your Discord user ID:
 
 ```md
-[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/:id)](https://discord.com/users/:id)
+[![Discord Presence](https://lanyard.cnrad.dev/api/:id)](https://discord.com/users/:id)
 ```
 
 It should display something similar to the following (I am using my Discord user ID as an example):
 
-[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/705665813994012695)](https://discord.com/users/705665813994012695)
+[![Discord Presence](https://lanyard.cnrad.dev/api/705665813994012695)](https://discord.com/users/705665813994012695)
 
 When others click it, they will be directed to your actual Discord profile. Neat!
 
@@ -43,7 +43,7 @@ If you have an animated avatar, append the query param `animated=:bool` to the e
 
 ### ___Custom Idle Message___
 
-If you don't want the default "`I'm not currently doing anything!`" as your idle message, you can change it by appending `?idleMessage=:yourmessage` to the end of the URL. 
+If you don't want the default "`I'm not currently doing anything!`" as your idle message, you can change it by appending `idleMessage=:yourmessage` to the end of the URL. 
 
 ### ___Hide Discriminator___
 
