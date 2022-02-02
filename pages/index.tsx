@@ -47,6 +47,7 @@ export default function Home() {
                                 )](https://discord.com/users/{userId})
                             </Output>
                             <Copy onClick={copy}>{copyState}</Copy>
+                            <a href='https://github.com/cnrad/lanyard-profile-readme#options' target="_blank" rel="noreferrer"><Options>Options</Options></a>
                             <Example
                                 src={`/api/${userId}`}
                                 alt="[Please provide a valid user ID!]"
@@ -161,6 +162,29 @@ const Output = styled.div`
 const Copy = styled.button`
     position: absolute;
     right: 35px;
+    font-size: 0.9em;
+    padding: 5px 25px;
+    width: 103px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    color: #aaabaf;
+    backdrop-filter: blur(50px);
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    background: #191d28;
+    transition: background ease-in-out 0.2s;
+
+    &:hover {
+        background: #11151f;
+    }
+    &:active {
+        background: #0c0d13;
+    }
+`;
+
+const Options = styled.button`
+    position: absolute;
+    right: 150px;
     font-size: 0.9em;
     padding: 5px 25px;
     width: 103px;
