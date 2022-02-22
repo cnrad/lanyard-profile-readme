@@ -1,8 +1,10 @@
 import Head from "next/head";
 import styled, { createGlobalStyle } from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Home() {
+    const [userCount, setUserCount] = useState<null | number>(null);
     const [userId, setUserId] = useState<null | string>(null);
     const [copyState, setCopyState] = useState("Copy");
     const copy = () => {
@@ -12,6 +14,13 @@ export default function Home() {
 
         setTimeout(() => setCopyState("Copy"), 1500);
     };
+
+    useEffect(() => {
+        (async () => {
+            let userCount = await axios.get("/api/getUserCount").then(res => res.data);
+            setUserCount(userCount.count);
+        })();
+    }, []);
 
     return (
         <>
@@ -47,7 +56,13 @@ export default function Home() {
                                 )](https://discord.com/users/{userId})
                             </Output>
                             <Copy onClick={copy}>{copyState}</Copy>
-                            <a href='https://github.com/cnrad/lanyard-profile-readme#options' target="_blank" rel="noreferrer"><Options>Options</Options></a>
+                            <a
+                                href="https://github.com/cnrad/lanyard-profile-readme#options"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <Options>Options</Options>
+                            </a>
                             <Example
                                 src={`/api/${userId}`}
                                 alt="[Please provide a valid user ID!]"
@@ -57,6 +72,9 @@ export default function Home() {
                     ) : null}
                 </Container>
             </Main>
+            <FooterStat>
+                Lanyard Profile Readme has <b>{userCount}</b> recorded users!
+            </FooterStat>
         </>
     );
 }
@@ -85,6 +103,7 @@ const GlobalStyle = createGlobalStyle`
 
 const Main = styled.div`
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 0;
@@ -211,4 +230,16 @@ const Example = styled.img`
     padding: 0 20px 15px;
     width: 100%;
     filter: drop-shadow(0px 3px 15px rgba(0, 0, 0, 0.2));
+`;
+
+const FooterStat = styled.div`
+    position: absolute;
+    line-height: 1rem;
+    bottom: 1rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem 1.25rem;
+    color: #fff;
+    border-radius: 0.5rem;
 `;
