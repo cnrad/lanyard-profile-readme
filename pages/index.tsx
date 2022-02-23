@@ -242,4 +242,5 @@ const FooterStat = styled.div`
     padding: 1rem 1.25rem;
     color: #fff;
     border-radius: 0.5rem;
+    text-align: center;
 `;
