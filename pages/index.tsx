@@ -73,7 +73,7 @@ export default function Home() {
                 </Container>
             </Main>
             <FooterStat>
-                Lanyard Profile Readme has <b>{userCount}</b> recorded users!
+                Lanyard Profile Readme has <b>{userCount}</b> total users!
             </FooterStat>
         </>
     );

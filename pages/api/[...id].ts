@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         console.log(error); // Only console log the error if its not a 404
 
         return res.status(400).send({
-            error: `Something went wrong! If everything looks correct and this still occurs, please contact @atcnrad on Twitter.`,
+            error: `Something went wrong! If everything looks correct and this still occurs, please contact @notcnrad on Twitter.`,
         });
     }
 
