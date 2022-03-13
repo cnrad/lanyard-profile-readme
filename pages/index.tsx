@@ -6,6 +6,7 @@ import axios from "axios";
 export default function Home() {
     const [userCount, setUserCount] = useState<null | number>(null);
     const [userId, setUserId] = useState<null | string>(null);
+    const [userError, setUserError] = useState<string>();
     const [copyState, setCopyState] = useState("Copy");
     const copy = () => {
         navigator.clipboard.writeText(`[![Discord Presence](https://lanyard.cnrad.dev/api/${userId}
@@ -21,6 +22,19 @@ export default function Home() {
             setUserCount(userCount.count);
         })();
     }, []);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                await axios.get(`/api/${userId}`);
+                setUserError(undefined);
+            } catch (error: any) {
+                console.log(error.response);
+                if (error.response.status === 404 && error.response.data.code == "user_not_monitored")
+                    setUserError(`User not monitored by Lanyard, click to join the discord`);
+            }
+        })();
+    }, [userId]);
 
     return (
         <>
@@ -63,11 +77,18 @@ export default function Home() {
                             >
                                 <Options>Options</Options>
                             </a>
-                            <Example
-                                src={`/api/${userId}`}
-                                alt="[Please provide a valid user ID!]"
-                                style={{ color: "#ff8787" }}
-                            />
+                            <a
+                                style={{ textDecoration: "none" }}
+                                target="_blank"
+                                href={userError && "https://discord.gg/lanyard"}
+                                rel="noreferrer"
+                            >
+                                <Example
+                                    src={`/api/${userId}`}
+                                    alt={`[${userError || "Please provide a valid user ID!"}]`}
+                                    style={{ color: "#ff8787" }}
+                                />
+                            </a>
                         </>
                     ) : null}
                 </Container>
