@@ -7,6 +7,7 @@ import { isSnowflake } from "../../src/snowflake";
 type Data = {
     id?: string | string[];
     error?: any;
+    code?: string;
 };
 
 type Parameters = {
@@ -32,6 +33,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     try {
         getUser = await axios(`https://api.lanyard.rest/v1/users/${userId}`);
     } catch (error: any) {
+        if (error.response.data && error.response.data.error.message)
+            return res
+                .status(404)
+                .send({ error: error.response.data.error.message, code: error.response.data.error.code });
+
         if (error.response.status === 404) return res.status(404).send({ error: "Invalid user!" });
 
         console.log(error); // Only console log the error if its not a 404
