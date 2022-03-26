@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import renderCard from "../../src/renderCard";
 import { isSnowflake } from "../../src/snowflake";
-// import redis from "../../src/redis";
+import redis from "../../src/redis";
 
 type Data = {
     id?: string | string[];
@@ -47,14 +47,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         });
     }
 
-    // try {
-    //     let user = await redis.hget("users", userId);
-    //     if (!user) await redis.hset("users", userId, "true");
-
-    //     redis.disconnect();
-    // } catch {
-    //     null;
-    // }
+    try {
+        let user = await redis.hget("users", userId);
+        if (!user) await redis.hset("users", userId, "true");
+    } catch {
+        null;
+    }
 
     res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
     res.setHeader("content-security-policy", "default-src 'none'; img-src * data:; style-src 'unsafe-inline'");
