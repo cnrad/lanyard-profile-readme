@@ -121,7 +121,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     }
 
     let flags: string[] = getFlags(data.discord_user.public_flags);
-    if (data.discord_user.avatar.includes("a_")) flags.push("Nitro");
+    if (data.discord_user.avatar && data.discord_user.avatar.includes("a_")) flags.push("Nitro");
 
     if (data.activities[0] && data.activities[0].state && data.activities[0].type === 4)
         userStatus = data.activities[0].state;
