@@ -58,8 +58,7 @@ export default function Home() {
             </Head>
             <Main>
                 <Container>
-                    <Icon>🏷️</Icon>
-                    <Title>lanyard profile readme</Title>
+                    <Title>lanyard profile readme 🏷️</Title>
                     <Paragraph>Utilize Lanyard to display your Discord Presence in your GitHub Profile</Paragraph>
                     <br />
                     <Input onChange={el => setUserId(el.target.value)} placeholder="Enter your Discord ID" />
@@ -69,13 +68,13 @@ export default function Home() {
                                 [![Discord Presence](https://lanyard.cnrad.dev/api/{userId}
                                 )](https://discord.com/users/{userId})
                             </Output>
-                            <Copy onClick={copy}>{copyState}</Copy>
+                            <ActionButton onClick={copy}>{copyState}</ActionButton>
                             <a
                                 href="https://github.com/cnrad/lanyard-profile-readme#options"
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                <Options>Options</Options>
+                                <ActionButton>Options</ActionButton>
                             </a>
                             <a
                                 style={{ textDecoration: "none" }}
@@ -85,7 +84,7 @@ export default function Home() {
                             >
                                 <Example
                                     src={`/api/${userId}`}
-                                    alt={`[${userError || "Please provide a valid user ID!"}]`}
+                                    alt={`${userError || "Please provide a valid user ID!"}`}
                                     style={{ color: "#ff8787" }}
                                 />
                             </a>
@@ -126,131 +125,94 @@ const Main = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     max-width: 100vw;
     min-height: 100vh;
-    background: url(./background.jpg) 50% no-repeat fixed;
+    background: #010103;
     background-size: cover;
 `;
 
 const Container = styled.div`
-    position: relative;
-    backdrop-filter: blur(50px);
-    background: rgb(0, 0, 0, 0.18);
-    border-radius: 10px;
-    margin: 50px;
-    padding: 10px;
+    border-radius: 7px;
+    margin-top: 60px;
     width: 80%;
-    max-width: 500px;
-`;
-
-const Icon = styled.h1`
-    font-size: 2.5em;
-    position: absolute;
-    top: -27px;
-    left: -21px;
+    max-width: 450px;
 `;
 
 const Title = styled.h1`
     text-align: left;
-    font-size: 2.25em;
+    font-size: 2rem;
     font-weight: 600;
-    margin: 5px 25px;
+    margin: 5px 0;
     color: #cecece;
 `;
 
 const Paragraph = styled.p`
-    padding: 0 25px;
     color: #aaabaf;
-    font-size: 1.12em;
+    font-size: 1rem;
 `;
 
 const Input = styled.input`
     text-align: left;
     border-radius: 8px;
     border: none;
-    width: 80%;
-    max-width: 250px;
-    margin: 0 25px 15px;
-    font-size: 1em;
+    width: 100%;
+    font-size: 0.9rem;
     padding: 5px 10px;
     color: #aaabaf;
-    background: #191d28;
+    border: solid 1px #333;
+    background: #000;
     box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
-    transition: background ease-in-out 0.2s;
+    transition: all ease-in-out 0.2s;
 
     &:focus {
         outline: 0;
-        background: #11151f;
+        border-color: #ccc;
     }
 `;
 
 const Output = styled.div`
-    margin: 15px 25px;
+    margin: 15px 0;
     color: #aaabaf;
     word-break: break-word;
     border-radius: 8px;
+    border: solid 1px #333;
     padding: 8px;
-    backdrop-filter: blur(50px);
-    background: rgb(0, 0, 0, 0.1);
+    background: #000;
     box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    font-family: Monospace, sans-serif;
 `;
 
-const Copy = styled.button`
-    position: absolute;
-    right: 35px;
-    font-size: 0.9em;
+const ActionButton = styled.button`
+    font-size: 0.9rem;
     padding: 5px 25px;
-    width: 103px;
+    margin-right: 10px;
     border-radius: 6px;
     cursor: pointer;
-    border: none;
-    color: #aaabaf;
-    backdrop-filter: blur(50px);
-    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
-    background: #191d28;
-    transition: background ease-in-out 0.2s;
+    color: #888;
+    border: solid 1px #333;
+    background: transparent;
+    transition: all ease-in-out 0.1s;
 
     &:hover {
-        background: #11151f;
+        color: #e6e6e6;
+        border-color: #e6e6e6;
     }
     &:active {
-        background: #0c0d13;
-    }
-`;
-
-const Options = styled.button`
-    position: absolute;
-    right: 150px;
-    font-size: 0.9em;
-    padding: 5px 25px;
-    width: 103px;
-    border-radius: 6px;
-    cursor: pointer;
-    border: none;
-    color: #aaabaf;
-    backdrop-filter: blur(50px);
-    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
-    background: #191d28;
-    transition: background ease-in-out 0.2s;
-
-    &:hover {
-        background: #11151f;
-    }
-    &:active {
-        background: #0c0d13;
+        color: #fff;
+        border-color: #fff;
     }
 `;
 
 const Example = styled.img`
     display: block;
-    margin: 70px auto 0px;
-    padding: 0 20px 15px;
-    width: 100%;
-    filter: drop-shadow(0px 3px 15px rgba(0, 0, 0, 0.2));
+    margin: 30px auto 0px;
+    // border-radius: 0.7rem;
+    // border: solid 1px #333;
+    max-width: 100%;
 `;
 
 const FooterStat = styled.div`
@@ -259,9 +221,26 @@ const FooterStat = styled.div`
     bottom: 1rem;
     left: 50%;
     transform: translate(-50%, 0);
-    background: rgba(0, 0, 0, 0.5);
+    background: #000;
     padding: 1rem 1.25rem;
     color: #fff;
     border-radius: 0.5rem;
     text-align: center;
+    box-shadow: 0 2px 15px -10px #a21caf;
+    min-width: 275px;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0.35rem;
+        border: 2px solid transparent;
+        background: linear-gradient(45deg, #be123c, #6b21a8, #3730a3) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
 `;
