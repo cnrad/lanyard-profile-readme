@@ -9,8 +9,9 @@ export default function Home() {
     const [userError, setUserError] = useState<string>();
     const [copyState, setCopyState] = useState("Copy");
     const copy = () => {
-        navigator.clipboard.writeText(`[![Discord Presence](https://lanyard.cnrad.dev/api/${userId}
-                            )](https://discord.com/users/${userId})`);
+        navigator.clipboard.writeText(
+            `[![Discord Presence](https://lanyard.cnrad.dev/api/${userId})](https://discord.com/users/${userId})`
+        );
         setCopyState("Copied!");
 
         setTimeout(() => setCopyState("Copy"), 1500);
