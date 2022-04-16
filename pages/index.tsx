@@ -10,7 +10,7 @@ export default function Home({ userCount }: { userCount: number }) {
     const [copyState, setCopyState] = useState("Copy");
     const countRef = useRef<HTMLSpanElement | null>(null);
 
-    const counter = useSmoothCount(countRef, userCount, 3, { curve: [0, 1, 0, 1] });
+    const counter = useSmoothCount({ ref: countRef, target: userCount, duration: 3, curve: [0, 1, 0, 1] });
 
     const copy = () => {
         navigator.clipboard.writeText(
