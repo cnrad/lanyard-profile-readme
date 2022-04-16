@@ -1,13 +1,17 @@
 import Head from "next/head";
 import styled, { createGlobalStyle } from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useSmoothCount } from "use-smooth-count";
 
-export default function Home() {
-    const [userCount, setUserCount] = useState<null | number>(null);
+export default function Home({ userCount }: { userCount: number }) {
     const [userId, setUserId] = useState<null | string>(null);
     const [userError, setUserError] = useState<string>();
     const [copyState, setCopyState] = useState("Copy");
+    const countRef = useRef<HTMLSpanElement | null>(null);
+
+    const counter = useSmoothCount(countRef, userCount, 3, { curve: [0, 1, 0, 1] });
+
     const copy = () => {
         navigator.clipboard.writeText(
             `[![Discord Presence](https://lanyard.cnrad.dev/api/${userId})](https://discord.com/users/${userId})`
@@ -16,13 +20,6 @@ export default function Home() {
 
         setTimeout(() => setCopyState("Copy"), 1500);
     };
-
-    useEffect(() => {
-        (async () => {
-            let userCount = await axios.get("/api/getUserCount").then(res => res.data);
-            setUserCount(userCount.count);
-        })();
-    }, []);
 
     useEffect(() => {
         (async () => {
@@ -94,10 +91,18 @@ export default function Home() {
                 </Container>
             </Main>
             <FooterStat>
-                Lanyard Profile Readme has <b>{userCount}</b> total users!
+                Lanyard Profile Readme has <span style={{ fontWeight: "bold" }} ref={countRef} /> total users!
             </FooterStat>
         </>
     );
+}
+
+export async function getServerSideProps(ctx: any) {
+    let userCount = await axios.get("https://lanyard.cnrad.dev/api/getUserCount").then(res => res.data.count);
+
+    return {
+        props: { userCount },
+    };
 }
 
 const GlobalStyle = createGlobalStyle`
