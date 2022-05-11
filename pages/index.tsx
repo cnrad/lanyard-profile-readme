@@ -98,7 +98,10 @@ export default function Home({ userCount }: { userCount: number }) {
 }
 
 export async function getServerSideProps(ctx: any) {
-    let userCount = await axios.get("https://lanyard.cnrad.dev/api/getUserCount").then(res => res.data.count);
+    let userCount = await axios
+        .get("https://lanyard.cnrad.dev/api/getUserCount", { timeout: 1000 })
+        .then(res => res.data.count)
+        .catch(() => 0);
 
     return {
         props: { userCount },
