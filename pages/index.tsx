@@ -8,8 +8,8 @@ export default function Home({ userCount }: { userCount: number }) {
     const [userId, setUserId] = useState<null | string>(null);
     const [userError, setUserError] = useState<string>();
     const [copyState, setCopyState] = useState("Copy");
-    const countRef = useRef<HTMLSpanElement | null>(null);
 
+    const countRef = useRef<HTMLSpanElement | null>(null);
     const counter = useSmoothCount({ ref: countRef, target: userCount, duration: 3, curve: [0, 1, 0, 1] });
 
     const copy = () => {
@@ -101,7 +101,7 @@ export async function getServerSideProps(ctx: any) {
     let userCount = await axios
         .get("https://lanyard.cnrad.dev/api/getUserCount", { timeout: 1000 })
         .then(res => res.data.count)
-        .catch(() => 0);
+        .catch(() => 1000);
 
     return {
         props: { userCount },
@@ -219,8 +219,6 @@ const ActionButton = styled.button`
 const Example = styled.img`
     display: block;
     margin: 30px auto 0px;
-    // border-radius: 0.7rem;
-    // border: solid 1px #333;
     max-width: 100%;
 `;
 
