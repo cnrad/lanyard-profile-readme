@@ -8,7 +8,7 @@ export default function Home({ userCount }: { userCount: number }) {
     const [userId, setUserId] = useState<null | string>(null);
     const [userError, setUserError] = useState<string>();
     const [copyState, setCopyState] = useState("Copy");
-    const countRef = useRef<HTMLSpanElement | null>(null);
+    const countRef = useRef<HTMLDivElement | null>(null);
 
     const counter = useSmoothCount({ ref: countRef, target: userCount, duration: 3, curve: [0, 1, 0, 1] });
 
@@ -91,7 +91,8 @@ export default function Home({ userCount }: { userCount: number }) {
                 </Container>
             </Main>
             <FooterStat>
-                Lanyard Profile Readme has <span style={{ fontWeight: "bold" }} ref={countRef} /> total users!
+                Lanyard Profile Readme has <div style={{ fontWeight: "bold", width: "2.75rem" }} ref={countRef} /> total
+                users!
             </FooterStat>
         </>
     );
@@ -226,6 +227,10 @@ const Example = styled.img`
 
 const FooterStat = styled.div`
     position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     line-height: 1rem;
     bottom: 1rem;
     left: 50%;
@@ -236,7 +241,13 @@ const FooterStat = styled.div`
     border-radius: 0.5rem;
     text-align: center;
     box-shadow: 0 2px 15px -10px #a21caf;
-    min-width: 275px;
+    min-width: 400px;
+
+    @media (max-width: 400px) {
+        font-size: 14px;
+        min-width: 365px;
+        padding: 0.75rem 1rem;
+    }
 
     &:before {
         content: "";
