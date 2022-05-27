@@ -133,6 +133,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     activity = Array.isArray(activities) ? activities[0] : activities;
 
     return `
+            <style>@keyframes shine { to { background-position: 300% center; } }</style>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="210px">
                 <foreignObject x="0" y="0" width="410" height="210">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
@@ -194,7 +195,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         font-size: 1.15rem;
                                         margin: 0 5px 0 0;
                                     ">
-                                    ${`<span style="background-image: linear-gradient(60deg, #ccf9ff, #7ce8ff, #55d0ff, #00acdf, #0080bf, #00acdf, #55d0ff, #7ce8ff, #ccf9ff); background-size: 300%;">${escape(data.discord_user.username)}</span>`}${
+                                    ${`<span style="animation: shine 10s linear infinite; background-image: linear-gradient(60deg, #ccf9ff, #7ce8ff, #55d0ff, #00acdf, #0080bf, #00acdf, #55d0ff, #7ce8ff, #ccf9ff); background-size: 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${escape(data.discord_user.username)}</span>`}${
                                         discrim !== "hide"
                                             ? `<span style="color: ${theme === "dark" ? "#ccc" : "#666"}; font-weight: lighter;">#${
                                                 data.discord_user.discriminator
