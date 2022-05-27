@@ -184,11 +184,11 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                             ">
                                 <div style="
                                     display: flex;
-                                    flex-direction: row;
+                                    flex-direction: column;
                                     position: relative;
                                     top: ${userStatus.length > 0 && hideStatus !== "true" ? "35%" : "50%"};
                                     transform: translate(0, -50%);
-                                    height: 25px;
+                                    height: 35px;
                                 ">
                                     <h1 style="
                                         font-size: 1.15rem;
@@ -206,7 +206,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     ${
                                         hideBadges == "true" ? "" : flags.map(v => `
                                         <img src="data:image/png;base64,${Badges[v]}" style="
-                                            width: auto;
+                                            width: 20px;
                                             height: 20px;
                                             position: relative;
                                             top: 50%;

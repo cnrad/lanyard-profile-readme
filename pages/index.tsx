@@ -14,7 +14,7 @@ export default function Home({ userCount }: { userCount: number }) {
 
     const copy = () => {
         navigator.clipboard.writeText(
-            `[![Discord Presence](https://lanyard.cnrad.dev/api/${userId})](https://discord.com/users/${userId})`
+            `[![Discord Presence](https://lanyard-profile-readme-kyrie25.vercel.app/api/${userId})](https://discord.com/users/${userId})`
         );
         setCopyState("Copied!");
 
