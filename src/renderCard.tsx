@@ -188,7 +188,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     position: relative;
                                     top: ${userStatus.length > 0 && hideStatus !== "true" ? "35%" : "40%"};
                                     transform: translate(0, -50%);
-                                    height: 35px;
+                                    height: ${userStatus.length > 0 && hideStatus !== "true" ? "25px" : "35px"};
                                 ">
                                     <h1 style="
                                         font-size: 1.15rem;
