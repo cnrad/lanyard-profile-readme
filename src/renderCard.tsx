@@ -133,7 +133,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     activity = Array.isArray(activities) ? activities[0] : activities;
 
     return `
-            <style>@keyframes shine { to { background-position: 300% center; } }</style>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="210px">
                 <foreignObject x="0" y="0" width="410" height="210">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
                         position: absolute;
@@ -450,6 +450,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
 
                     </div>
                 </foreignObject>
+            </svg>
         `;
 };
 
