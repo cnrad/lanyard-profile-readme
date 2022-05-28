@@ -208,6 +208,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             top: 50%;
                                             transform: translate(0%, -50%);
                                             margin: 0 0 0 4px;
+                                            image-rendering: pixelated;
                                         " />`).join("")
                                     }
                                 </div>
