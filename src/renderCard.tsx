@@ -245,18 +245,17 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 }
                             </div>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
-                                <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#7289DA"/>
-                        </svg>
                         ${
                             activity ? `
+                            <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
+                                <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#7289DA"/>
+                            </svg>
                             <div style="
                                 display: flex;
                                 flex-direction: row;
                                 background-color: #7289da;
                                 border-radius: 0 0 30px 30px;
                                 height: 120px;
-                                margin-left: 15px;
                                 font-size: 0.75rem;
                                 padding: 0 0 0 15px;
                             ">
@@ -376,13 +375,17 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
             ${
                 data.listening_to_spotify === true && !activity && data.activities[Object.keys(data.activities).length - 1].type === 2
                     ? `
+                <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
+                    <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#1DB954"/>
+                </svg>
                 <div style="
                     display: flex;
                     flex-direction: row;
                     height: 120px;
-                    margin-left: 15px;
                     font-size: 0.8rem;
-                    padding-top: 18px;
+                    padding-left: 18px;
+                    background-color: #1DB954;
+                    border-radius: 0 0 30px 30px;
                 ">
                     <img src="${await (async () => {
                         const album = await encodeBase64(data.spotify.album_art_url);
@@ -402,7 +405,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         width: 279px;
                     ">
                         <p style="font-size: 0.75rem; font-weight: bold; color: ${
-                            theme === "dark" ? "#1CB853" : "#0d943d"
+                            theme === "dark" ? "#ddd8d8" : "#0d943d"
                         }; margin-bottom: 15px;">LISTENING TO SPOTIFY...</p>
                         <p style="
                             height: 15px;
