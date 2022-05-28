@@ -279,7 +279,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         "/>
                                     ` : `
                                     <img src="data:image/png;base64,${await encodeBase64(
-                                        `https://lanyard-profile-readme.vercel.app/assets/unknown.png`
+                                        `https://lanyard.kyrie25.me/assets/unknown.png`
                                     )}" style="
                                         width: 70px;
                                         height: 70px;
@@ -390,7 +390,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                     <img src="${await (async () => {
                         const album = await encodeBase64(data.spotify.album_art_url);
                         if (album) return `data:image/png;base64,${album}" style="border: solid 0.5px #222;`;
-                        return 'https://lanyard-profile-readme.vercel.app/assets/unknown.png" style="filter: invert(100);';
+                        return 'https://lanyard.kyrie25.me/assets/unknown.png" style="filter: invert(100);';
                     })()}
                         width: 80px;
                         height: 80px;
