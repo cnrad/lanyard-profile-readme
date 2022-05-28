@@ -134,7 +134,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
 
     return `
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="210px">
-                <foreignObject x="0" y="0" width="410" height="210">
+                <foreignObject x="0" y="0" width="400" height="200">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
                         position: absolute;
                         width: 400px;
@@ -146,7 +146,6 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         font-size: 16px;
                         display: flex;
                         flex-direction: column;
-                        padding: 5px;
                         border-radius: ${borderRadius};
                     ">
                         <div style="
@@ -156,9 +155,6 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                             display: flex;
                             flex-direction: row;
                             padding-bottom: 5px;
-                            border-bottom: solid 0.5px ${
-                                theme === "dark" ? "hsl(0, 0%, 100%, 10%)" : "hsl(0, 0%, 0%, 10%)"
-                            };
                         ">
                             <div style="
                                 display: flex;
@@ -249,16 +245,20 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 }
                             </div>
                         </div>
-
+                        <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
+                                <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#7289DA"/>
+                        </svg>
                         ${
                             activity ? `
                             <div style="
                                 display: flex;
                                 flex-direction: row;
+                                background-color: #7289da;
+                                border-radius: 0 0 30px 30px;
                                 height: 120px;
                                 margin-left: 15px;
                                 font-size: 0.75rem;
-                                padding-top: 18px;
+                                padding: 0 0 0 15px;
                             ">
                                 <div style="
                                     margin-right: 15px;
