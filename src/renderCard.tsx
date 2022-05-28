@@ -150,7 +150,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                     ">
                         <div style="
                             width: 400px;
-                            height: 100px;
+                            height: 80px;
                             inset: 0;
                             display: flex;
                             flex-direction: row;
@@ -259,7 +259,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 display: flex;
                                 flex-direction: row;
                                 background-color: #7289da;
+                                margin-top: 5px;
                                 border-radius: 0 0 ${borderRadius} ${borderRadius};
+                                z-index: 2;
                                 height: 120px;
                                 font-size: 0.75rem;
                                 padding: 0 0 0 15px;
@@ -392,6 +394,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                     display: flex;
                     flex-direction: row;
                     height: 120px;
+                    z-index: 2;
+                    margin-top: 5px;
                     font-size: 0.8rem;
                     padding-left: 18px;
                     background-color: #1DB954;
