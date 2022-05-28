@@ -133,7 +133,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     activity = Array.isArray(activities) ? activities[0] : activities;
 
     return `
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="210px">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="400px" height="200px">
                 <foreignObject x="0" y="0" width="400" height="200">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
                         position: absolute;
@@ -254,7 +254,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 display: flex;
                                 flex-direction: row;
                                 background-color: #7289da;
-                                border-radius: 0 0 30px 30px;
+                                border-radius: 0 0 ${borderRadius} ${borderRadius};
                                 height: 120px;
                                 font-size: 0.75rem;
                                 padding: 0 0 0 15px;
@@ -385,7 +385,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                     font-size: 0.8rem;
                     padding-left: 18px;
                     background-color: #1DB954;
-                    border-radius: 0 0 30px 30px;
+                    border-radius: 0 0 ${borderRadius} ${borderRadius};
                 ">
                     <img src="${await (async () => {
                         const album = await encodeBase64(data.spotify.album_art_url);
