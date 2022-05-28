@@ -150,10 +150,11 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                     ">
                         <div style="
                             width: 400px;
-                            height: 80px;
+                            height: 100px;
                             inset: 0;
                             display: flex;
                             flex-direction: row;
+                            padding-bottom: 5px;
                         ">
                             <div style="
                                 display: flex;
@@ -246,21 +247,14 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         </div>
                         ${
                             activity ? `
-                            <div xmlns="http://www.w3.org/1999/xhtml" style="width: 400px;display: flex;height: 21px;position: relative;align-content: center;justify-content: center;">
-                                <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;position: absolute;z-index: 2;" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
-                                    <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#7289DA"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;position: absolute;z-index: 1;-webkit-transform: scaleX(-1);&#13;&#10;  transform: scaleX(-1);" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
-                                    <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#23283d"/>
-                                </svg>
-                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
+                                <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#7289DA"/>
+                            </svg>
                             <div style="
                                 display: flex;
                                 flex-direction: row;
                                 background-color: #7289da;
-                                margin-top: 5px;
                                 border-radius: 0 0 ${borderRadius} ${borderRadius};
-                                z-index: 2;
                                 height: 120px;
                                 font-size: 0.75rem;
                                 padding: 0 0 0 15px;
@@ -381,20 +375,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
             ${
                 data.listening_to_spotify === true && !activity && data.activities[Object.keys(data.activities).length - 1].type === 2
                     ? `
-                <div xmlns="http://www.w3.org/1999/xhtml" style="width: 400px;display: flex;height: 21px;position: relative;align-content: center;justify-content: center;">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;position: absolute;z-index: 2;" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
-                        <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#1DB954"/>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;position: absolute;z-index: 1;-webkit-transform: scaleX(-1); transform: scaleX(-1);" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
-                        <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#23283d"/>
-                    </svg>
-                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
+                    <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#1DB954"/>
+                </svg>
                 <div style="
                     display: flex;
                     flex-direction: row;
                     height: 120px;
-                    z-index: 2;
-                    margin-top: 5px;
                     font-size: 0.8rem;
                     padding-left: 18px;
                     background-color: #1DB954;
