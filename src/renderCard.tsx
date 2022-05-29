@@ -205,7 +205,11 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     ${
                                         hideBadges == "true"
                                             ? ""
-                                            : `<div style="margin-top:5px;">
+                                            : `<div style="${
+                                                  userStatus.length > 0 && hideStatus !== "true"
+                                                      ? ""
+                                                      : "margin-top:5px;"
+                                              }">
                                                 ${flags
                                                     .map(
                                                         v => `
