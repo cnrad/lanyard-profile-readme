@@ -47,9 +47,11 @@ const timeLeft = (start: number, end: number) => {
     let unixEnd = end / 1000;
 
     let minutesLeft = Math.floor((unixEnd - unixStart) / 60);
+    let minutes = minutesLeft < 10 ? "0" + minutesLeft : minutesLeft;
     let secondsLeft = Math.floor((unixEnd - unixStart) % 60);
+    let seconds = secondsLeft < 10 ? "0" + secondsLeft : secondsLeft;
 
-    return `${minutesLeft}:${secondsLeft}`
+    return `${minutes}:${seconds}`
 }
 
 const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<string> => {
