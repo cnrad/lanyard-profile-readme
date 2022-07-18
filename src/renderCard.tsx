@@ -42,6 +42,16 @@ const elapsedTime = (timestamp: any) => {
     )}:${("0" + secondsDifference).slice(-2)}`;
 };
 
+const timeLeft = (start: number, end: number) => {
+    let unixStart = start / 1000;
+    let unixEnd = end / 1000;
+
+    let minutesLeft = Math.floor((unixEnd - unixStart) / 60);
+    let secondsLeft = Math.floor((unixEnd - unixStart) % 60);
+
+    return `${minutesLeft}:${secondsLeft}`
+}
+
 const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<string> => {
     let { data } = body;
 
@@ -403,7 +413,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                     ">
                         <p style="font-size: 0.75rem; font-weight: bold; color: ${
                             theme === "dark" ? "#1CB853" : "#0d943d"
-                        }; margin-bottom: 15px;">LISTENING TO SPOTIFY...</p>
+                        }; margin-bottom: -3px;">LISTENING TO SPOTIFY...</p>
                         <p style="
                             height: 15px;
                             color: ${theme === "dark" ? "#fff" : "#000"};
@@ -423,6 +433,15 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                             text-overflow: ellipsis;
                             color: ${theme === "dark" ? "#ccc" : "#777"};
                         ">By ${escape(data.spotify.artist)}</p>
+                        <p xmlns="http://www.w3.org/1999/xhtml" style="
+                            color: #ccc;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            font-size: 0.85rem;
+                            text-overflow: ellipsis;
+                            height: 15px;
+                            margin: 7px 0;
+                        ">${timeLeft(data.spotify.timestamps.start,data.spotify.timestamps.end)}</p>
                     </div>
                 </div>
             ` : ``
