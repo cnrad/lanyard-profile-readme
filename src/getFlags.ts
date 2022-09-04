@@ -11,6 +11,7 @@ export const getFlags = (flag: number): string[] => {
     if (flag & 512) flags.push("Early_Supporter");
     if (flag & 16384) flags.push("Bug_Hunter_Level_2");
     if (flag & 131072) flags.push("Early_Verified_Bot_Developer");
+    if (flag & 262144) flags.push("Discord_Certified_Moderator");
 
     return flags;
 };
