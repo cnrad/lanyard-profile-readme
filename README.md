@@ -4,6 +4,9 @@
 🏷️ Utilize Lanyard to display your Discord Presence in your GitHub Profile
 
 _Special thanks to [@Phineas](https://github.com/Phineas/) for creating Lanyard, and making this project possible_
+ 
+- Translations
+    - [Portuguese](./.github/ReadmeTranslations/portuguese/Portuguese.md)
 
 ## Usage
 
