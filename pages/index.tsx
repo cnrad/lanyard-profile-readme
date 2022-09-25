@@ -63,7 +63,7 @@ export default function Home({ userCount }: { userCount: number }) {
                     {userId ? (
                         <>
                             <Output>
-                                [![Discord Presence](https://lanyard.cnrad.dev/api/{userId}
+                                [![Discord Presence](https://lanyard.kyrie25.me/api/{userId}
                                 )](https://discord.com/users/{userId})
                             </Output>
                             <ActionButton onClick={copy}>{copyState}</ActionButton>
