@@ -192,7 +192,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 ">
                                     <h1 style="
                                         font-size: 1.15rem;
-                                        margin: 0 5px 0 0;
+                                        margin: 0 12px 0 0;
+                                        white-space: nowrap;
                                     ">
                                     ${escape(data.discord_user.username)}${
                                         discrim !== "hide"
@@ -211,7 +212,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             position: relative;
                                             top: 50%;
                                             transform: translate(0%, -50%);
-                                            margin: 0 0 0 4px;
+                                            margin-right: 7px;
                                         " />`).join("")
                                     }
                                 </div>
@@ -221,7 +222,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         font-size: 0.9rem;
                                         margin-top: 16px;
                                         color: ${theme === "dark" ? "#aaa" : "#333"};
-                                        font-weight: lighter;
+                                        font-weight: 400;
                                         overflow: hidden;
                                         white-space: nowrap;
                                         text-overflow: ellipsis;
