@@ -46,7 +46,6 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let { data } = body;
 
     let avatarBorderColor: string = "#747F8D",
-        userStatus: string = "",
         avatarExtension: string = "webp",
         statusExtension: string = "webp",
         activity: any = false,
@@ -123,13 +122,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let flags: string[] = getFlags(data.discord_user.public_flags);
     if (data.discord_user.avatar && data.discord_user.avatar.includes("a_")) flags.push("Nitro");
 
-    if (data.activities[0] && data.activities[0].state && data.activities[0].type === 4)
-        userStatus = data.activities[0].state;
+    let userStatus: Record<string, any> | null = null;
+    if (data.activities[0] && data.activities[0].type === 4) userStatus = data.activities[0];
 
-    // filter only type 0
+    // Filter only type 0
     const activities = data.activities.filter(activity => activity.type === 0);
 
-    // take the highest one
+    // Take the highest one
     activity = Array.isArray(activities) ? activities[0] : activities;
 
     return `
@@ -186,7 +185,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     display: flex;
                                     flex-direction: row;
                                     position: relative;
-                                    top: ${userStatus.length > 0 && hideStatus !== "true" ? "35%" : "50%"};
+                                    top: ${userStatus && hideStatus !== "true" ? "35%" : "50%"};
                                     transform: translate(0, -50%);
                                     height: 25px;
                                 ">
@@ -217,7 +216,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     }
                                 </div>
                                 ${
-                                    userStatus.length > 0 && hideStatus !== "true" ? `
+                                    userStatus && hideStatus !== "true" ? `
                                     <h1 style="
                                         font-size: 0.9rem;
                                         margin-top: 16px;
@@ -228,9 +227,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         text-overflow: ellipsis;
                                     ">
                                     ${
-                                        data.activities[0].emoji && data.activities[0].emoji.id ? `
+                                        userStatus.emoji?.id ? `
                                         <img src="data:image/png;base64,${await encodeBase64(
-                                            `https://cdn.discordapp.com/emojis/${data.activities[0].emoji.id}.${statusExtension}`
+                                            `https://cdn.discordapp.com/emojis/${userStatus.emoji.id}.${statusExtension}`
                                         )}"
                                         style="
                                             width: 15px;
@@ -239,12 +238,16 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             top: 10px;
                                             transform: translate(0%, -50%);
                                             margin: 0 2px 0 0;
-                                        " />` : ``
+                                        " />` : ''
                                     }
                                     ${
-                                        data.activities[0].emoji && !data.activities[0].emoji.id
-                                            ? data.activities[0].emoji.name + " " + escape(userStatus)
-                                            : escape(userStatus)
+                                        userStatus.state && userStatus.emoji?.name && !userStatus.emoji.id 
+                                            ? `${userStatus.emoji.name} ${escape(userStatus.state)}` 
+                                            : userStatus.state 
+                                                ? escape(userStatus.state) 
+                                                : !userStatus.state && userStatus.emoji?.name && !userStatus.emoji.id 
+                                                    ? escape(userStatus.emoji.name) 
+                                                    : ''
                                     }
                                 </h1>` : ``
                                 }
@@ -267,7 +270,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     height: auto;
                                 ">
                                     ${
-                                        activity.assets && activity.assets.large_image ? `
+                                        activity.assets?.large_image ? `
                                         <img src="data:image/png;base64,${await encodeBase64(
                                         activity.assets.large_image.startsWith("mp:external/")
                                             ? `https://media.discordapp.net/external/${activity.assets.large_image.replace("mp:external/", "")}` 
@@ -290,7 +293,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     "/>
                                 `}
                                 ${
-                                    activity.assets && activity.assets.small_image ? `
+                                    activity.assets?.small_image ? `
                                     <img src="data:image/png;base64,${await encodeBase64(
                                         activity.assets.small_image.startsWith("mp:external/")
                                             ? `https://media.discordapp.net/external/${activity.assets.small_image.replace("mp:external/", "")}`
@@ -308,7 +311,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 <div style="
                                     color: #999;
                                     margin-top: ${
-                                        activity.timestamps && activity.timestamps.start && hideTimestamp !== "true"
+                                        activity.timestamps?.start && hideTimestamp !== "true"
                                             ? "-6px"
                                             : "5px"
                                     };
@@ -351,13 +354,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                                 height: 15px;
                                                 margin: 7px 0;
                                             ">${escape(activity.state)}${
-                                                    activity.party && activity.party.size
+                                                    activity.party?.size
                                                         ? ` (${activity.party.size[0]} of ${activity.party.size[1]})`
                                                         : ""
                                                 }</p>` : ``
                                         }
                                         ${
-                                            activity.timestamps && activity.timestamps.start && hideTimestamp !== "true" ? `
+                                            activity.timestamps?.start && hideTimestamp !== "true" ? `
                                             <p style="
                                                 color: ${theme === "dark" ? "#ccc" : "#777"};
                                                 overflow: hidden;
