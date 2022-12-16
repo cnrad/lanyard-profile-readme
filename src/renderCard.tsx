@@ -15,6 +15,7 @@ type Parameters = {
     hideStatus?: string;
     hideTimestamp?: string;
     hideBadges?: string;
+    hideProfile?: string;
     borderRadius?: string;
     idleMessage?: string;
 };
@@ -55,6 +56,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         hideStatus = "false",
         hideTimestamp = "false",
         hideBadges = "false",
+        hideProfile = "false",
         borderRadius = "10px",
         idleMessage = "I'm not currently doing anything!";
 
@@ -65,6 +67,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     if (params.hideTimestamp === "true") hideTimestamp = "true";
     if (params.hideBadges === "true") hideBadges = "true";
     if (params.hideDiscrim === "true") discrim = "hide";
+    if (params.hideProfile === "true") hideProfile = "true";
     if (params.theme === "light") {
         backgroundColor = "#eee";
         theme = "light";
@@ -132,12 +135,12 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     activity = Array.isArray(activities) ? activities[0] : activities;
 
     return `
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="210px">
-                <foreignObject x="0" y="0" width="410" height="210">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="${hideProfile === "true" ? "130px" : "210px"}">
+                <foreignObject x="0" y="0" width="410" height="${hideProfile === "true" ? "130" : "210"}">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
                         position: absolute;
                         width: 400px;
-                        height: 200px;
+                        height: ${hideProfile === "true" ? "120px" : "200px"};
                         inset: 0;
                         background-color: #${backgroundColor};
                         color: ${theme === "dark" ? "#fff" : "#000"};
@@ -148,6 +151,9 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         padding: 5px;
                         border-radius: ${borderRadius};
                     ">
+                    
+                    ${
+                        hideProfile === "true" ? "" : `
                         <div style="
                             width: 400px;
                             height: 100px;
@@ -252,7 +258,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 </h1>` : ``
                                 }
                             </div>
-                        </div>
+                        </div>`
+                    }
 
                         ${
                             activity ? `

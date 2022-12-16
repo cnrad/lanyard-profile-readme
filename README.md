@@ -61,6 +61,10 @@ If you don't want people seeing the elapsed time on an activity, append the quer
 
 If you don't want people seeing the badges you have on Discord, append the query param `hideBadges=true` to the end of the URL. Badges are shown by default.
 
+### ___Hide Profile___
+
+If you don't want people seeing the profile you have on Discord, append the query param `hideProfile=true` to the end of the URL. Profile are shown by default.
+
 ## ___Example URL and result___
 
 ```
