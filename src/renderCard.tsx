@@ -15,6 +15,7 @@ type Parameters = {
     hideStatus?: string;
     hideTimestamp?: string;
     hideBadges?: string;
+    hideProfile?: string;
     borderRadius?: string;
     idleMessage?: string;
 };
@@ -46,7 +47,6 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let { data } = body;
 
     let avatarBorderColor: string = "#747F8D",
-        userStatus: string = "",
         avatarExtension: string = "webp",
         statusExtension: string = "webp",
         activity: any = false,
@@ -56,6 +56,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         hideStatus = "false",
         hideTimestamp = "false",
         hideBadges = "false",
+        hideProfile = "false",
         borderRadius = "10px",
         idleMessage = "I'm not currently doing anything!";
 
@@ -66,6 +67,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     if (params.hideTimestamp === "true") hideTimestamp = "true";
     if (params.hideBadges === "true") hideBadges = "true";
     if (params.hideDiscrim === "true") discrim = "hide";
+    if (params.hideProfile === "true") hideProfile = "true";
     if (params.theme === "light") {
         backgroundColor = "#eee";
         theme = "light";
@@ -123,22 +125,24 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let flags: string[] = getFlags(data.discord_user.public_flags);
     if (data.discord_user.avatar && data.discord_user.avatar.includes("a_")) flags.push("Nitro");
 
-    if (data.activities[0] && data.activities[0].state && data.activities[0].type === 4)
-        userStatus = data.activities[0].state;
+    let userStatus: Record<string, any> | null = null;
+    if (data.activities[0] && data.activities[0].type === 4) userStatus = data.activities[0];
 
-    // filter only type 0
+    // Filter only type 0
     const activities = data.activities.filter(activity => activity.type === 0);
 
-    // take the highest one
+    // Take the highest one
     activity = Array.isArray(activities) ? activities[0] : activities;
 
     return `
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="400px" height="200px">
-                <foreignObject x="0" y="0" width="400" height="200">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="400px" height="${
+                hideProfile === "true" ? "120px" : "200px"
+            }">
+                <foreignObject x="0" y="0" width="400" height="${hideProfile === "true" ? "120" : "200"}">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
                         position: absolute;
                         width: 400px;
-                        height: 200px;
+                        height: ${hideProfile === "true" ? "120px" : "200px"};
                         inset: 0;
                         background-color: #${backgroundColor};
                         color: ${theme === "dark" ? "#fff" : "#000"};
@@ -148,6 +152,11 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         flex-direction: column;
                         border-radius: ${borderRadius};
                     ">
+
+                    ${
+                        hideProfile === "true"
+                            ? ""
+                            : `
                         <div style="
                             width: 400px;
                             height: 100px;
@@ -180,35 +189,32 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                             ">
                                 <div style="
                                     display: flex;
-                                    flex-direction: ${
-                                        userStatus.length > 0 && hideStatus !== "true" ? "row" : "column"
-                                    };
+                                    flex-direction: ${userStatus && hideStatus !== "true" ? "row" : "column"};
                                     position: relative;
-                                    top: ${userStatus.length > 0 && hideStatus !== "true" ? "35%" : "40%"};
+                                    top: ${userStatus && hideStatus !== "true" ? "35%" : "40%"};
                                     transform: translate(0, -50%);
-                                    height: ${userStatus.length > 0 && hideStatus !== "true" ? "25px" : "35px"};
+                                    height: ${userStatus && hideStatus !== "true" ? "25px" : "35px"};
                                 ">
                                     <h1 style="
                                         font-size: 1.15rem;
-                                        margin: 0 5px 0 0;
+                                        margin: 0 12px 0 0;
+                                        white-space: nowrap;
                                     ">
                                     ${`<span style="background-image: linear-gradient(60deg, #ccf9ff, #7ce8ff, #55d0ff, #00acdf, #0080bf, #00acdf, #55d0ff, #7ce8ff, #ccf9ff); background-size: 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${escape(
                                         data.discord_user.username
                                     )}</span>`}${
-        discrim !== "hide"
-            ? `<span style="color: ${theme === "dark" ? "#ccc" : "#666"}; font-weight: lighter;">#${
-                  data.discord_user.discriminator
-              }</span>`
-            : ""
-    }
+                                  discrim !== "hide"
+                                      ? `<span style="color: ${
+                                            theme === "dark" ? "#ccc" : "#666"
+                                        }; font-weight: lighter;">#${data.discord_user.discriminator}</span>`
+                                      : ""
+                              }
                                     </h1>
                                     ${
                                         hideBadges == "true"
                                             ? ""
                                             : `<div style="${
-                                                  userStatus.length > 0 && hideStatus !== "true"
-                                                      ? ""
-                                                      : "margin-top:5px;"
+                                                  userStatus && hideStatus !== "true" ? "" : "margin-top:5px;"
                                               }">
                                                 ${flags
                                                     .map(
@@ -226,22 +232,22 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     }
                                 </div>
                                 ${
-                                    userStatus.length > 0 && hideStatus !== "true"
+                                    userStatus && hideStatus !== "true"
                                         ? `
                                     <h1 style="
                                         font-size: 0.9rem;
                                         margin-top: 16px;
                                         color: ${theme === "dark" ? "#aaa" : "#333"};
-                                        font-weight: lighter;
+                                        font-weight: 400;
                                         overflow: hidden;
                                         white-space: nowrap;
                                         text-overflow: ellipsis;
                                     ">
                                     ${
-                                        data.activities[0].emoji && data.activities[0].emoji.id
+                                        userStatus.emoji?.id
                                             ? `
                                         <img src="data:image/png;base64,${await encodeBase64(
-                                            `https://cdn.discordapp.com/emojis/${data.activities[0].emoji.id}.${statusExtension}`
+                                            `https://cdn.discordapp.com/emojis/${userStatus.emoji.id}.${statusExtension}`
                                         )}"
                                         style="
                                             width: 15px;
@@ -251,18 +257,24 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             transform: translate(0%, -50%);
                                             margin: 0 2px 0 0;
                                         " />`
-                                            : ``
+                                            : ""
                                     }
                                     ${
-                                        data.activities[0].emoji && !data.activities[0].emoji.id
-                                            ? data.activities[0].emoji.name + " " + escape(userStatus)
-                                            : escape(userStatus)
+                                        userStatus.state && userStatus.emoji?.name && !userStatus.emoji.id
+                                            ? `${userStatus.emoji.name} ${escape(userStatus.state)}`
+                                            : userStatus.state
+                                            ? escape(userStatus.state)
+                                            : userStatus.emoji?.name && !userStatus.emoji.id
+                                            ? escape(userStatus.emoji.name)
+                                            : ""
                                     }
                                 </h1>`
                                         : ``
                                 }
                             </div>
-                        </div>
+                        </div>`
+                    }
+
                         ${
                             activity
                                 ? `
@@ -284,7 +296,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     height: auto;
                                 ">
                                     ${
-                                        activity.assets && activity.assets.large_image
+                                        activity.assets?.large_image
                                             ? `
                                         <img src="data:image/png;base64,${await encodeBase64(
                                             activity.assets.large_image.startsWith("mp:external/")
@@ -313,7 +325,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 `
                                     }
                                 ${
-                                    activity.assets && activity.assets.small_image
+                                    activity.assets?.small_image
                                         ? `
                                     <img src="data:image/png;base64,${await encodeBase64(
                                         activity.assets.small_image.startsWith("mp:external/")
@@ -336,9 +348,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                 <div style="
                                     color: #999;
                                     margin-top: ${
-                                        activity.timestamps && activity.timestamps.start && hideTimestamp !== "true"
-                                            ? "-6px"
-                                            : "5px"
+                                        activity.timestamps?.start && hideTimestamp !== "true" ? "-6px" : "5px"
                                     };
                                     line-height: 1;
                                     width: 279px;
@@ -379,14 +389,14 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                                 height: 15px;
                                                 margin: 7px 0;
                                             ">${escape(activity.state)}${
-                                                      activity.party && activity.party.size
+                                                      activity.party?.size
                                                           ? ` (${activity.party.size[0]} of ${activity.party.size[1]})`
                                                           : ""
                                                   }</p>`
                                                 : ``
                                         }
                                         ${
-                                            activity.timestamps && activity.timestamps.start && hideTimestamp !== "true"
+                                            activity.timestamps?.start && hideTimestamp !== "true"
                                                 ? `
                                             <p style="
                                                 color: ${theme === "dark" ? "#ccc" : "#777"};
