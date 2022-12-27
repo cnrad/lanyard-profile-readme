@@ -122,11 +122,12 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
             break;
     }
 
-    let flags: string[] = getFlags(data.discord_user.public_flags);
-    if (data.discord_user.avatar && data.discord_user.avatar.includes("a_")) flags.push("Nitro");
-
     let userStatus: Record<string, any> | null = null;
     if (data.activities[0] && data.activities[0].type === 4) userStatus = data.activities[0];
+
+    let flags: string[] = getFlags(data.discord_user.public_flags);
+    if ((data.discord_user.avatar && data.discord_user.avatar.includes("a_")) || userStatus?.emoji?.id)
+        flags.push("Nitro");
 
     // Filter only type 0
     const activities = data.activities.filter(activity => activity.type === 0);
