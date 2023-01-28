@@ -139,6 +139,38 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="400px" height="${
                 hideProfile === "true" ? "120px" : "200px"
             }">
+                <style>
+                    .status::before {
+                        content: "";
+                        position: absolute;
+                        height: 21px;
+                        width: 100%;
+                        top: -21px;
+                        left: 0;
+                        background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzYwIiBoZWlnaHQ9IjIxIiB2aWV3Qm94PSIwIDAgMzYwIDIxIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMCAyMC43MzI3VjcuNTgxN0MwIDcuNTgxNyA0Ny41MzEyIC0xLjQ2OTMyIDEwNi43MzQgMS4yMzgyNEMxNjkuMzEyIDIuMzk4NjMgMTkxLjY3MiAxMy42NTA4IDI3MS45NjkgMTQuNTQ0QzMyNS44MjggMTQuNTQ0IDM2MCA3LjczNjQyIDM2MCA3LjczNjQyVjIwLjczMjdIMFoiIGZpbGw9IiMxRTIyMzMiLz4KPC9zdmc+Cg==")
+                        background-size: 100% 21px;
+                        -webkit-animation: animate2 4s linear infinite;
+                        animation: animate2 4s linear infinite;
+                        -webkit-animation-delay: 0s;
+                        animation-delay: 0s;
+                    }
+                    @-webkit-keyframes animate2 {
+                        0% {
+                        background-position-x: 360px;
+                        }
+                        100% {
+                        background-position-x: 0;
+                        }
+                    }
+                    @keyframes animate2 {
+                        0% {
+                        background-position-x: 360px;
+                        }
+                        100% {
+                        background-position-x: 0;
+                        }
+                    }
+                </style>
                 <foreignObject x="0" y="0" width="400" height="${hideProfile === "true" ? "120" : "200"}">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
                         position: absolute;
@@ -279,10 +311,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         ${
                             activity
                                 ? `
-                            <svg xmlns="http://www.w3.org/2000/svg" style="overflow: visible;" fill="none" viewBox="0 0 294 20" height="21" width="400" preserveAspectRatio="none">
-                                <path d="M0 21V7.19143C0 7.19143 38.8172 -2.31216 87.1664 0.530784C138.272 1.7492 156.532 13.564 222.108 14.5019C266.093 14.5019 294 7.35388 294 7.35388V21H0Z" fill="#7289DA"/>
-                            </svg>
-                            <div style="
+                            <div classname="status" style="
                                 display: flex;
                                 flex-direction: row;
                                 background-color: #7289da;
