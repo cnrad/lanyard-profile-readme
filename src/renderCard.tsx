@@ -26,7 +26,7 @@ const formatTime = (timestamps: any) => {
     let startTime = new Date(end || start).getTime();
     let endTime = Number(new Date());
     let difference = end ? (startTime - endTime) / 1000 : (endTime - startTime) / 1000;
-    if (difference < 0) return "00:00";
+    if (difference < 0) return `00:00 ${end ? "left" : "elapsed"}`;
 
     // we only calculate them, but we don't display them.
     // this fixes a bug in the Discord API that does not send the correct timestamp to presence.
