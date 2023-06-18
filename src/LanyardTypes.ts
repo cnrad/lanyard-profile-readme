@@ -35,6 +35,8 @@ export interface DiscordUser {
     id: string;
     discriminator: string;
     avatar: string;
+    global_name: string;
+    display_name: string;
 }
 
 export interface Activity {
