@@ -45,9 +45,9 @@ If you have an animated avatar, append the query param `animated=:bool` to the e
 
 If you don't want the default "`I'm not currently doing anything!`" as your idle message, you can change it by appending `idleMessage=:yourmessage` to the end of the URL. 
 
-### ___Hide Discriminator___
+### ___Show Display Name___
 
-If you don't want people seeing your discriminator (most likely for privacy reasons), append the query param `hideDiscrim=true` to the end of the URL. Your discriminator is shown by default. 
+If you'd like to show your global display name as well as your username, append the query param `showDisplayName=true` to the end of the URL. This is set to `false` by default. 
 
 ### ___Hide Status___
 
@@ -64,6 +64,10 @@ If you don't want people seeing the badges you have on Discord, append the query
 ### ___Hide Profile___
 
 If you don't want people seeing the profile you have on Discord, append the query param `hideProfile=true` to the end of the URL. Profile are shown by default.
+
+### ___Hide Discriminator___ (DEPRECATED soon)
+
+If you don't want people seeing your discriminator (most likely for privacy reasons), append the query param `hideDiscrim=true` to the end of the URL. Your discriminator is shown by default. 
 
 ## ___Example URL and result___
 
