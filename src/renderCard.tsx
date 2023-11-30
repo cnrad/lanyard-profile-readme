@@ -16,12 +16,18 @@ type Parameters = {
     hideBadges?: string;
     hideProfile?: string;
     hideActivity?: string;
+    ignoreAppId?: string;
     showDisplayName?: string;
     borderRadius?: string;
     idleMessage?: string;
 };
 
 const parseBool = (string: string | undefined): boolean => string === "true" ? true : false;
+
+const parseAppId = (string: string | undefined): Array<string> => {
+    if (string === undefined) return [];
+    return string.split(",");
+}
 
 const elapsedTime = (timestamp: any) => {
     let startTime = timestamp;
@@ -63,6 +69,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let hideBadges = parseBool(params.hideBadges);
     let hideProfile = parseBool(params.hideProfile);
     let hideActivity = params.hideActivity ?? "false";
+    let ignoreAppId = parseAppId(params.ignoreAppId);
     let hideDiscrim = parseBool(params.hideDiscrim);
     let showDisplayName = parseBool(params.showDisplayName);
 
@@ -115,8 +122,11 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let userStatus: Record<string, any> | null = null;
     if (data.activities[0] && data.activities[0].type === 4) userStatus = data.activities[0];
 
-    // Filter only type 0
-    const activities = data.activities.filter(activity => activity.type === 0);
+    const activities = data.activities
+        // Filter only type 0
+        .filter(activity => activity.type === 0)
+        // Filter ignored app ID
+        .filter(activity => !ignoreAppId.includes(activity.application_id ?? ""));
 
     // Take the highest one
     activity = Array.isArray(activities) ? activities[0] : activities;
