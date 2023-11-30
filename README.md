@@ -67,11 +67,11 @@ If you don't want people seeing the profile you have on Discord, append the quer
 
 ### ___Hide Activity___
 
-If you don't want people seeing the your activity, append the query param `hideActivity=true` or `hideActivity=whenNotUsed` to the end of the URL. Activity are shown by default.
+If you don't want people seeing the your activity, append the query param `hideActivity=true` to the end of the URL or you use `hideActivity=whenNotUsed` to hide activity section when there's no activity to display. Activity are shown by default.
 
 ### ___Hide App by ID___
 
-If you don't want display a specific app, append the query param `ignoreAppId=:app_id` to the end of the URL, IDs separate by `,`.
+If you don't want display a specific application, append the query param `ignoreAppId=:app_id` to the end of the URL, IDs separate by `,`.
 
 ### ___Hide Discriminator___ (DEPRECATED soon)
 
