@@ -65,6 +65,14 @@ If you don't want people seeing the badges you have on Discord, append the query
 
 If you don't want people seeing the profile you have on Discord, append the query param `hideProfile=true` to the end of the URL. Profile are shown by default.
 
+### ___Hide Activity___
+
+If you don't want people seeing the your activity, append the query param `hideActivity=true` or `hideActivity=whenNotUsed` to the end of the URL. Activity are shown by default.
+
+### ___Hide App by ID___
+
+If you don't want display a specific app, append the query param `ignoreAppId=:app_id` to the end of the URL, IDs separate by `,`.
+
 ### ___Hide Discriminator___ (DEPRECATED soon)
 
 If you don't want people seeing your discriminator (most likely for privacy reasons), append the query param `hideDiscrim=true` to the end of the URL. Your discriminator is shown by default. 
