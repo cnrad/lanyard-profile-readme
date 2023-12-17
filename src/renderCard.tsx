@@ -15,12 +15,19 @@ type Parameters = {
     hideTimestamp?: string;
     hideBadges?: string;
     hideProfile?: string;
+    hideActivity?: string;
+    ignoreAppId?: string;
     showDisplayName?: string;
     borderRadius?: string;
     idleMessage?: string;
 };
 
 const parseBool = (string: string | undefined): boolean => string === "true" ? true : false;
+
+const parseAppId = (string: string | undefined): Array<string> => {
+    if (string === undefined) return [];
+    return string.split(",");
+}
 
 const elapsedTime = (timestamp: any) => {
     let startTime = timestamp;
@@ -61,6 +68,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let hideTimestamp = parseBool(params.hideTimestamp);
     let hideBadges = parseBool(params.hideBadges);
     let hideProfile = parseBool(params.hideProfile);
+    let hideActivity = params.hideActivity ?? "false";
+    let ignoreAppId = parseAppId(params.ignoreAppId);
     let hideDiscrim = parseBool(params.hideDiscrim);
     let showDisplayName = parseBool(params.showDisplayName);
 
@@ -113,19 +122,38 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let userStatus: Record<string, any> | null = null;
     if (data.activities[0] && data.activities[0].type === 4) userStatus = data.activities[0];
 
-    // Filter only type 0
-    const activities = data.activities.filter(activity => activity.type === 0);
+    const activities = data.activities
+        // Filter only type 0
+        .filter(activity => activity.type === 0)
+        // Filter ignored app ID
+        .filter(activity => !ignoreAppId.includes(activity.application_id ?? ""));
 
     // Take the highest one
     activity = Array.isArray(activities) ? activities[0] : activities;
 
+    // Calculate height of parent SVG element
+    const svgHeight = (): string => {
+        if (hideProfile) return "130";
+        if (hideActivity === "true") return "91";
+        if (hideActivity === "whenNotUsed" && !activity && !data.listening_to_spotify) return "91";
+        return "210";
+    }
+
+    // Calculate height of main div element
+    const divHeight = (): string => {
+        if (hideProfile) return "120";
+        if (hideActivity === "true") return "81";
+        if (hideActivity === "whenNotUsed" && !activity && !data.listening_to_spotify) return "81";
+        return "200";
+    }
+
     return `
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="${hideProfile ? "130px" : "210px"}">
-                <foreignObject x="0" y="0" width="410" height="${hideProfile ? "130" : "210"}">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="${svgHeight()}px">
+                <foreignObject x="0" y="0" width="410" height="${svgHeight()}">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
                         position: absolute;
                         width: 400px;
-                        height: ${hideProfile ? "120px" : "200px"};
+                        height: ${divHeight()}px;
                         inset: 0;
                         background-color: #${backgroundColor};
                         color: ${theme === "dark" ? "#fff" : "#000"};
@@ -146,9 +174,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                             display: flex;
                             flex-direction: row;
                             padding-bottom: 5px;
-                            border-bottom: solid 0.5px ${
-                                theme === "dark" ? "hsl(0, 0%, 100%, 10%)" : "hsl(0, 0%, 0%, 10%)"
-                            };
+                            ${hideActivity !== "false" && !activity && !data.listening_to_spotify ?
+                                ""
+                                : `border-bottom: solid 0.5px ${theme === "dark" ?
+                                    "hsl(0, 0%, 100%, 10%)"
+                                    : "hsl(0, 0%, 0%, 10%)"
+                                }`
+                            }
                         ">
                             <div style="
                                 display: flex;
@@ -380,7 +412,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         }
 
             ${
-                data.listening_to_spotify === true && !activity && data.activities[Object.keys(data.activities).length - 1].type === 2
+                data.listening_to_spotify && !activity && data.activities[Object.keys(data.activities).length - 1].type === 2
                     ? `
                 <div style="
                     display: flex;
@@ -434,7 +466,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
             ` : ``
             }
             ${
-                !activity && data.listening_to_spotify === false
+                !activity && !data.listening_to_spotify && hideActivity === "false"
                     ? `<div style="
                     display: flex;
                     flex-direction: row;
