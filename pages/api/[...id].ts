@@ -22,6 +22,12 @@ type Parameters = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let getUser;
+
+    if (!req.query.id)
+        return res.send({
+            error: `No ID provided.`,
+        });
+
     const params: Parameters = req.query,
         userId = req.query.id[0];
 
