@@ -91,7 +91,7 @@ export default function Home({ userCount }: { userCount: number }) {
                 </Container>
             </Main>
             <FooterStat>
-                Lanyard Profile Readme has <div style={{ fontWeight: "bold", width: "2.75rem" }} ref={countRef} /> total
+                Lanyard Profile Readme has <div style={{ fontWeight: "bold", width: "3.2rem" }} ref={countRef} /> total
                 users!
             </FooterStat>
         </>
@@ -171,16 +171,16 @@ const Input = styled.input`
     border: none;
     width: 100%;
     font-size: 0.9rem;
-    padding: 5px 10px;
+    padding: 0.45rem 0.75rem;
     color: #aaabaf;
-    border: solid 1px #333;
+    border: solid 1px rgba(255, 255, 255, 0.2);
     background: #000;
     box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
-    transition: all ease-in-out 0.2s;
+    transition: all ease-in-out 0.1s;
 
     &:focus {
         outline: 0;
-        border-color: #ccc;
+        border-color: rgba(255, 255, 255, 0.5);
     }
 `;
 
@@ -236,7 +236,7 @@ const FooterStat = styled.div`
     background: #000;
     padding: 1rem 1.25rem;
     color: #fff;
-    border-radius: 0.5rem;
+    border-radius: 0.55rem;
     text-align: center;
     box-shadow: 0 2px 15px -10px #a21caf;
     min-width: 400px;
@@ -254,7 +254,7 @@ const FooterStat = styled.div`
         left: 0;
         right: 0;
         bottom: 0;
-        border-radius: 0.35rem;
+        border-radius: 0.55rem;
         border: 2px solid transparent;
         background: linear-gradient(45deg, #be123c, #6b21a8, #3730a3) border-box;
         -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
