@@ -470,7 +470,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
             ` : ``
             }
             ${
-                !activity && !data.listening_to_spotify && hideActivity === "false"
+                !activity && (!data.listening_to_spotify || hideSpotify) && hideActivity === "false"
                     ? `<div style="
                     display: flex;
                     flex-direction: row;
