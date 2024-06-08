@@ -138,7 +138,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         if (hideProfile) return "130";
         if (hideActivity === "true") return "91";
         if (hideActivity === "whenNotUsed" && !activity && !data.listening_to_spotify) return "91";
-        if (hideSpotify && data.listening_to_spotify) return "91";
+        if (hideSpotify && data.listening_to_spotify) return "210";
         return "210";
     }
 
@@ -147,7 +147,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         if (hideProfile) return "120";
         if (hideActivity === "true") return "81";
         if (hideActivity === "whenNotUsed" && !activity && !data.listening_to_spotify) return "81";
-        if (hideSpotify && data.listening_to_spotify) return "81";
+        if (hideSpotify && data.listening_to_spotify) return "200";
         return "200";
     }
 
