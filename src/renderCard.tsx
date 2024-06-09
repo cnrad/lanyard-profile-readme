@@ -16,6 +16,7 @@ type Parameters = {
     hideBadges?: string;
     hideProfile?: string;
     hideActivity?: string;
+    hideSpotify?: string;
     ignoreAppId?: string;
     showDisplayName?: string;
     borderRadius?: string;
@@ -69,6 +70,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let hideBadges = parseBool(params.hideBadges);
     let hideProfile = parseBool(params.hideProfile);
     let hideActivity = params.hideActivity ?? "false";
+    let hideSpotify = parseBool(params.hideSpotify);
     let ignoreAppId = parseAppId(params.ignoreAppId);
     let hideDiscrim = parseBool(params.hideDiscrim);
     let showDisplayName = parseBool(params.showDisplayName);
@@ -136,6 +138,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         if (hideProfile) return "130";
         if (hideActivity === "true") return "91";
         if (hideActivity === "whenNotUsed" && !activity && !data.listening_to_spotify) return "91";
+        if (hideSpotify && data.listening_to_spotify) return "210";
         return "210";
     }
 
@@ -144,6 +147,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         if (hideProfile) return "120";
         if (hideActivity === "true") return "81";
         if (hideActivity === "whenNotUsed" && !activity && !data.listening_to_spotify) return "81";
+        if (hideSpotify && data.listening_to_spotify) return "200";
         return "200";
     }
 
@@ -412,7 +416,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         }
 
             ${
-                data.listening_to_spotify && !activity && data.activities[Object.keys(data.activities).length - 1].type === 2
+                data.listening_to_spotify && !activity && !hideSpotify && data.activities[Object.keys(data.activities).length - 1].type === 2
                     ? `
                 <div style="
                     display: flex;
@@ -466,7 +470,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
             ` : ``
             }
             ${
-                !activity && !data.listening_to_spotify && hideActivity === "false"
+                !activity && (!data.listening_to_spotify || hideSpotify) && hideActivity === "false"
                     ? `<div style="
                     display: flex;
                     flex-direction: row;
