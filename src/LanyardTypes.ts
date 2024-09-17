@@ -37,6 +37,14 @@ export interface DiscordUser {
     avatar: string;
     global_name: string;
     display_name: string;
+    clan: ClanTag | null;
+}
+
+export interface ClanTag {
+    tag: string;
+    badge: string;
+    identity_enabled: boolean;
+    identity_guild_id: number;
 }
 
 export interface Activity {

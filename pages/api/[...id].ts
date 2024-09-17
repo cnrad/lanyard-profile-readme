@@ -3,6 +3,7 @@ import axios from "axios";
 import renderCard from "../../src/renderCard";
 import { isSnowflake } from "../../src/snowflake";
 import redis from "../../src/redis";
+import JSONbig from "json-bigint";
 
 type Data = {
     id?: string | string[];
@@ -20,8 +21,24 @@ type Parameters = {
     animated?: string;
 };
 
+const convertBigIntToString = (obj: { [key: string]: any }): { [key: string]: any } => {
+    const result: { [key: string]: any } = Array.isArray(obj) ? [] : {};
+
+    for (const key in obj) {
+        if (typeof obj[key] === "bigint") {
+            result[key] = obj[key].toString();
+        } else if (typeof obj[key] === "object" && obj[key] !== null) {
+            result[key] = convertBigIntToString(obj[key]);
+        } else {
+            result[key] = obj[key];
+        }
+    }
+
+    return result;
+};
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-    let getUser;
+    let getUser: any = {};
 
     if (!req.query.id)
         return res.send({
@@ -37,7 +54,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         });
 
     try {
-        getUser = await axios(`https://api.lanyard.rest/v1/users/${userId}`);
+        getUser.data = await fetch(`https://api.lanyard.rest/v1/users/${userId}`)
+            .then(res => res.text())
+            .then(res => convertBigIntToString(JSONbig.parse(res)));
     } catch (error: any) {
         if (error.response.data && error.response.data.error.message)
             return res
