@@ -1,9 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import axios from "axios";
 import renderCard from "../../src/renderCard";
 import { isSnowflake } from "../../src/snowflake";
 import redis from "../../src/redis";
-import JSONbig from "json-bigint";
 
 type Data = {
     id?: string | string[];
@@ -54,9 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         });
 
     try {
-        getUser.data = await fetch(`https://api.lanyard.rest/v1/users/${userId}`)
-            .then(res => res.text())
-            .then(res => convertBigIntToString(JSONbig.parse(res)));
+        getUser.data = await fetch(`https://api.lanyard.rest/v1/users/${userId}`).then(res => res.json());
     } catch (error: any) {
         if (error.response.data && error.response.data.error.message)
             return res
