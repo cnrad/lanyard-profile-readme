@@ -19,22 +19,6 @@ type Parameters = {
     animated?: string;
 };
 
-const convertBigIntToString = (obj: { [key: string]: any }): { [key: string]: any } => {
-    const result: { [key: string]: any } = Array.isArray(obj) ? [] : {};
-
-    for (const key in obj) {
-        if (typeof obj[key] === "bigint") {
-            result[key] = obj[key].toString();
-        } else if (typeof obj[key] === "object" && obj[key] !== null) {
-            result[key] = convertBigIntToString(obj[key]);
-        } else {
-            result[key] = obj[key];
-        }
-    }
-
-    return result;
-};
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let getUser: any = {};
 
