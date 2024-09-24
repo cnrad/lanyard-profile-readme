@@ -18,7 +18,7 @@ type Parameters = {
     hideProfile?: string;
     hideActivity?: string;
     hideSpotify?: string;
-    hideClanTag?: string;
+    hideClan?: string;
     ignoreAppId?: string;
     showDisplayName?: string;
     borderRadius?: string;
@@ -73,13 +73,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let hideProfile = parseBool(params.hideProfile);
     let hideActivity = params.hideActivity ?? "false";
     let hideSpotify = parseBool(params.hideSpotify);
-    let hideClanTag = parseBool(params.hideClanTag);
+    let hideClan = parseBool(params.hideClan);
     let ignoreAppId = parseAppId(params.ignoreAppId);
     let hideDiscrim = parseBool(params.hideDiscrim);
     let showDisplayName = parseBool(params.showDisplayName);
 
     if (parseBool(params.hideDiscrim) || body.data.discord_user.discriminator === "0") hideDiscrim = true;
-    if (!body.data.discord_user.clan) hideClanTag = true;
+    if (!body.data.discord_user.clan) hideClan = true;
     if (data.activities[0]?.emoji?.animated) statusExtension = "gif";
     if (data.discord_user.avatar && data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
     if (params.animated === "false") avatarExtension = "webp";
@@ -242,7 +242,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         }
                                     </h1>
 
-                                    ${hideClanTag ? "" : `
+                                    ${hideClan ? "" : `
                                         <span style="
                                             background-color: ${clanBackgroundColor};
                                             border-radius: 0.375rem;
