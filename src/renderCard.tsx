@@ -242,7 +242,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         }
                                     </h1>
 
-                                    ${hideClan || !data.discord_user.clan.tag && !data.discord_user.clan.badge ? "" : `
+                                    ${hideClan || !data.discord_user.clan?.tag && !data.discord_user.clan?.badge ? "" : `
                                         <span style="
                                             background-color: ${clanBackgroundColor};
                                             border-radius: 0.375rem;
