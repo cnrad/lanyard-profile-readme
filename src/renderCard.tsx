@@ -109,7 +109,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     }
 
     let clanBadge: string;
-    if (data.discord_user.clan) {
+    if (data.discord_user.clan.) {
         clanBadge = await encodeBase64(
             `https://cdn.discordapp.com/clan-badges/${data.discord_user.clan.identity_guild_id}/${data.discord_user.clan.badge}.png?size=16`
         );
@@ -242,7 +242,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                         }
                                     </h1>
 
-                                    ${hideClan ? "" : `
+                                    ${hideClan || !data.discord_user.clan.tag && !data.discord_user.clan.badge ? "" : `
                                         <span style="
                                             background-color: ${clanBackgroundColor};
                                             border-radius: 0.375rem;
