@@ -9,6 +9,7 @@ import escape from "escape-html";
 type Parameters = {
     theme?: string;
     bg?: string;
+    clanbg?: string;
     animated?: string;
     hideDiscrim?: string;
     hideStatus?: string;
@@ -17,6 +18,7 @@ type Parameters = {
     hideProfile?: string;
     hideActivity?: string;
     hideSpotify?: string;
+    hideClan?: string;
     ignoreAppId?: string;
     showDisplayName?: string;
     borderRadius?: string;
@@ -71,12 +73,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let hideProfile = parseBool(params.hideProfile);
     let hideActivity = params.hideActivity ?? "false";
     let hideSpotify = parseBool(params.hideSpotify);
+    let hideClan = parseBool(params.hideClan);
     let ignoreAppId = parseAppId(params.ignoreAppId);
     let hideDiscrim = parseBool(params.hideDiscrim);
     let showDisplayName = parseBool(params.showDisplayName);
 
-
     if (parseBool(params.hideDiscrim) || body.data.discord_user.discriminator === "0") hideDiscrim = true;
+    if (!body.data.discord_user.clan) hideClan = true;
     if (data.activities[0]?.emoji?.animated) statusExtension = "gif";
     if (data.discord_user.avatar && data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
     if (params.animated === "false") avatarExtension = "webp";
@@ -85,6 +88,8 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
         theme = "light";
     }
     if (params.bg) backgroundColor = params.bg;
+    let clanBackgroundColor: string = theme === "light" ? "#e0dede" : "#111214";
+    if (params.clanbg) clanBackgroundColor = params.clanbg;
     if (params.idleMessage) idleMessage = params.idleMessage;
     if (params.borderRadius) borderRadius = params.borderRadius;
     
@@ -100,6 +105,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
             `https://cdn.discordapp.com/embed/avatars/${data.discord_user.discriminator === "0" 
                 ? ((Number(BigInt(data.discord_user.id) >> BigInt(22))) % 6) 
                 : Number(data.discord_user.discriminator) % 5}.png`
+        );
+    }
+
+    let clanBadge: string;
+    if (data.discord_user.clan) {
+        clanBadge = await encodeBase64(
+            `https://cdn.discordapp.com/clan-badges/${data.discord_user.clan.identity_guild_id}/${data.discord_user.clan.badge}.png?size=16`
         );
     }
 
@@ -229,6 +241,26 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                                 : ""
                                         }
                                     </h1>
+
+                                    ${hideClan ? "" : `
+                                        <span style="
+                                            background-color: ${clanBackgroundColor};
+                                            border-radius: 0.375rem;
+                                            padding-left: 0.5rem; 
+                                            padding-right: 0.5rem;
+                                            margin-left: -6px;
+                                            margin-right: 12px;
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 0.25rem;
+                                            font-size: 16px;
+                                            font-weight: 500;
+                                            height: 100%;
+                                        ">
+                                            <img src="data:image/png;base64,${clanBadge!}" />
+                                            <p style="margin-bottom: 1.1rem">${escape(data.discord_user.clan!.tag)}</p>
+                                        </span>
+                                    `}
 
                                     ${hideBadges ? "" : flags.map(v => `
                                         <img src="data:image/png;base64,${Badges[v]}" style="

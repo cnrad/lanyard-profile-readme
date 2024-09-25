@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import axios from "axios";
 import renderCard from "../../src/renderCard";
 import { isSnowflake } from "../../src/snowflake";
 import redis from "../../src/redis";
@@ -21,7 +20,7 @@ type Parameters = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-    let getUser;
+    let getUser: any = {};
 
     if (!req.query.id)
         return res.send({
@@ -37,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         });
 
     try {
-        getUser = await axios(`https://api.lanyard.rest/v1/users/${userId}`);
+        getUser.data = await fetch(`https://api.lanyard.rest/v1/users/${userId}`).then(res => res.json());
     } catch (error: any) {
         if (error.response.data && error.response.data.error.message)
             return res

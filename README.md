@@ -57,6 +57,10 @@ If you don't want people seeing your status, append the query param `hideStatus=
 
 If you don't want people seeing the elapsed time on an activity, append the query param `hideTimestamp=true` to the end of the URL. Elapsed time is shown by default.
 
+### ___Hide Clan Tag___
+
+If you don't want people seeing your Clan Tag (formerly known as Guilds), append the query param `hideClan=true` to the end of the URL. Clan Tag is shown by default.
+
 ### ___Hide Badges___
 
 If you don't want people seeing the badges you have on Discord, append the query param `hideBadges=true` to the end of the URL. Badges are shown by default.
