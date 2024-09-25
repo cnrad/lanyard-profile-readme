@@ -109,7 +109,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     }
 
     let clanBadge: string;
-    if (data.discord_user.clan.) {
+    if (data.discord_user.clan) {
         clanBadge = await encodeBase64(
             `https://cdn.discordapp.com/clan-badges/${data.discord_user.clan.identity_guild_id}/${data.discord_user.clan.badge}.png?size=16`
         );
