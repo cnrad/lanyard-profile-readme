@@ -11,6 +11,7 @@ type Parameters = {
     bg?: string;
     clanbg?: string;
     animated?: string;
+    animatedDecoration?: string;
     hideDiscrim?: string;
     hideStatus?: string;
     hideTimestamp?: string;
@@ -121,7 +122,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let avatarDecoration: string;
     if (data.discord_user.avatar_decoration_data) {
         avatarDecoration = await encodeBase64(
-            `https://cdn.discordapp.com/avatar-decoration-presets/${data.discord_user.avatar_decoration_data.asset}.png?size=64&passthrough=true`
+            `https://cdn.discordapp.com/avatar-decoration-presets/${data.discord_user.avatar_decoration_data.asset}.png?size=64&passthrough=${params.animatedDecoration || "true"}`
         );
     }
 
