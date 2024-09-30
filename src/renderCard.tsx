@@ -81,7 +81,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let hideDiscrim = parseBool(params.hideDiscrim);
     let showDisplayName = parseBool(params.showDisplayName);
 
-    if (!data.discord_user.avatar_decoration_data || !params.hideDecoration) hideDecoration = true;
+    if (!data.discord_user.avatar_decoration_data) hideDecoration = true;
     if (parseBool(params.hideDiscrim) || body.data.discord_user.discriminator === "0") hideDiscrim = true;
     if (!body.data.discord_user.clan) hideClan = true;
     if (data.activities[0]?.emoji?.animated) statusExtension = "gif";
