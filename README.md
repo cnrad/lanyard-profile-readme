@@ -49,6 +49,14 @@ If you don't want the default "`I'm not currently doing anything!`" as your idle
 
 If you'd like to show your global display name as well as your username, append the query param `showDisplayName=true` to the end of the URL. This is set to `false` by default. 
 
+### ___Avatar Decoration___
+
+#### ___Hide Avatar Decoration___
+If you don't want people seeing your Avatar Decoration, append the query param `hideDecoration=true` to the end of the URL. Your Avatar Decoration is shown by default if you have one.
+
+#### ___Toogle Animated Avatar Decoration___
+If you have an Animated Avatar Decoration, append the query param `animatedDecoration=:bool` to the end of the URL, replacing `:bool` with `true` or `false`. This is set to `true` by default.
+
 ### ___Hide Status___
 
 If you don't want people seeing your status, append the query param `hideStatus=true` to the end of the URL. Your status is shown by default if you have one. 
