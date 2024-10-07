@@ -38,6 +38,7 @@ export interface DiscordUser {
     global_name: string;
     display_name: string;
     clan: ClanTag | null;
+    avatar_decoration_data: AvatarDecoration | null;
 }
 
 export interface ClanTag {
@@ -45,6 +46,12 @@ export interface ClanTag {
     badge: string;
     identity_enabled: boolean;
     identity_guild_id: number;
+}
+
+export interface AvatarDecoration {
+    sku_id: string;
+    asset: string;
+    expires_at: number;
 }
 
 export interface Activity {

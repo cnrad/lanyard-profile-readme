@@ -11,6 +11,7 @@ type Parameters = {
     bg?: string;
     clanbg?: string;
     animated?: string;
+    animatedDecoration?: string;
     hideDiscrim?: string;
     hideStatus?: string;
     hideTimestamp?: string;
@@ -19,6 +20,7 @@ type Parameters = {
     hideActivity?: string;
     hideSpotify?: string;
     hideClan?: string;
+    hideDecoration?: string;
     ignoreAppId?: string;
     showDisplayName?: string;
     borderRadius?: string;
@@ -74,10 +76,12 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     let hideActivity = params.hideActivity ?? "false";
     let hideSpotify = parseBool(params.hideSpotify);
     let hideClan = parseBool(params.hideClan);
+    let hideDecoration = parseBool(params.hideDecoration);
     let ignoreAppId = parseAppId(params.ignoreAppId);
     let hideDiscrim = parseBool(params.hideDiscrim);
     let showDisplayName = parseBool(params.showDisplayName);
 
+    if (!data.discord_user.avatar_decoration_data) hideDecoration = true;
     if (parseBool(params.hideDiscrim) || body.data.discord_user.discriminator === "0") hideDiscrim = true;
     if (!body.data.discord_user.clan) hideClan = true;
     if (data.activities[0]?.emoji?.animated) statusExtension = "gif";
@@ -112,6 +116,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
     if (data.discord_user.clan) {
         clanBadge = await encodeBase64(
             `https://cdn.discordapp.com/clan-badges/${data.discord_user.clan.identity_guild_id}/${data.discord_user.clan.badge}.png?size=16`
+        );
+    }
+
+    let avatarDecoration: string;
+    if (data.discord_user.avatar_decoration_data) {
+        avatarDecoration = await encodeBase64(
+            `https://cdn.discordapp.com/avatar-decoration-presets/${data.discord_user.avatar_decoration_data.asset}.png?size=64&passthrough=${params.animatedDecoration || "true"}`
         );
     }
 
@@ -165,6 +176,19 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
 
     return `
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="410px" height="${svgHeight()}px">
+                <defs>
+                    <style>
+                        .hover-opacity:hover {
+                            opacity: 0.25;
+                        }
+
+                        .transition {
+                            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+                            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                            transition-duration: 200ms;
+                        }
+                    </style>
+                </defs>
                 <foreignObject x="0" y="0" width="410" height="${svgHeight()}">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="
                         position: absolute;
@@ -200,13 +224,13 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         ">
                             <div style="
                                 display: flex;
+                                position: relative;
                                 flex-direction: row;
                                 height: 80px;
                                 width: 80px;
                             ">
                                 <img src="data:image/png;base64,${avatar}"
                                 style="
-                                    border: solid 3px ${avatarBorderColor};
                                     border-radius: 50%;
                                     width: 50px;
                                     height: 50px;
@@ -215,6 +239,29 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                     left: 50%;
                                     transform: translate(-50%, -50%);
                                 "/>
+                                ${hideDecoration || !data.discord_user.avatar_decoration_data ? "" : `
+                                <img src="data:image/png;base64,${avatarDecoration!}"
+                                class="hover-opacity transition"
+                                style="
+                                    display: block;
+                                    width: 64px;
+                                    height: 64px;
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                "/>
+                                `}
+                                <span style="
+                                    position: absolute;
+                                    bottom: 14px;
+                                    right: 14px;
+                                    height: 13px;
+                                    width: 13px;
+                                    background-color: ${avatarBorderColor};
+                                    border-radius: 50%;
+                                    border: 3px solid #${backgroundColor};
+                                " />
                             </div>
                             <div style="
                                 height: 80px;
