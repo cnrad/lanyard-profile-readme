@@ -16,6 +16,7 @@
         "next": "14.2.15",
         "react": "^18",
         "react-dom": "^18",
+        "sharp": "^0.33.5",
         "swr": "^2.2.5",
         "use-smooth-count": "^1.0.1"
     },

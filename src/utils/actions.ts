@@ -7,3 +7,11 @@ export async function getUserCount() {
 
     return count.length;
 }
+
+export async function isUserMonitored(userId: string) {
+    const user = await fetch(
+        `https://api.lanyard.rest/v1/users/${userId}`,
+    ).then((res) => res.json());
+
+    return user.success === true;
+}

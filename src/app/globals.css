@@ -33,7 +33,6 @@ body {
 }
 
 .output {
-    margin: 15px 0;
     color: #aaabaf;
     word-break: break-word;
     border-radius: 8px;
@@ -47,7 +46,6 @@ body {
 .action {
     font-size: 0.9rem;
     padding: 5px 25px;
-    margin-right: 10px;
     border-radius: 6px;
     cursor: pointer;
     color: #888;
@@ -63,6 +61,11 @@ body {
         color: #fff;
         border-color: #fff;
     }
+}
+
+.active {
+    color: #fff;
+    border-color: #fff;
 }
 
 .stat {
