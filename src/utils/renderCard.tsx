@@ -1,3 +1,4 @@
+"use server";
 // probably the messiest code i've ever written but it works so :)
 
 import { Badges } from "#/public/assets/badges/BadgesEncoded";

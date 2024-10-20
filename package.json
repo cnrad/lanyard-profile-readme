@@ -8,11 +8,10 @@
         "start": "next start",
         "lint": "next lint"
     },
+    "packageManager": "pnpm@9.11.0",
     "dependencies": {
         "@types/escape-html": "^1.0.4",
-        "@types/image-to-base64": "^2.1.2",
         "escape-html": "^1.0.3",
-        "image-to-base64": "^2.2.0",
         "ioredis": "^5.4.1",
         "next": "14.2.15",
         "react": "^18",
