@@ -12,6 +12,7 @@
     "dependencies": {
         "@types/escape-html": "^1.0.4",
         "escape-html": "^1.0.3",
+        "framer-motion": "^11.11.9",
         "ioredis": "^5.4.1",
         "next": "14.2.15",
         "react": "^18",
