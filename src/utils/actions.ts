@@ -9,9 +9,9 @@ export async function getUserCount() {
 }
 
 export async function isUserMonitored(userId: string) {
-    const user = await fetch(
-        `https://api.lanyard.rest/v1/users/${userId}`,
-    ).then((res) => res.json());
+    const user = await fetch(`https://api.lanyard.rest/v1/users/${userId}`, {
+        cache: "no-store",
+    }).then((res) => res.json());
 
     return user.success === true;
 }
