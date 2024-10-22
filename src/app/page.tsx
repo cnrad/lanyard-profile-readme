@@ -32,9 +32,9 @@ export default function Home() {
 
     const outputText = () => {
         if (outputType === "html") {
-            return `<a href="https://discord.com/users/${userData?.userId}"><img src="${window.location.origin}/api/${userData?.userId}" /></a>`;
+            return `<a href="https://discord.com/users/${userData?.userId}"><img src="${window?.location?.origin || "https://lanyard.cnrad.dev"}/api/${userData?.userId}" /></a>`;
         } else {
-            return `[![Discord Presence](${window.location.origin}/api/${userData?.userId})](https://discord.com/users/${userData?.userId})`;
+            return `[![Discord Presence](${window?.location?.origin || "https://lanyard.cnrad.dev"}/api/${userData?.userId})](https://discord.com/users/${userData?.userId})`;
         }
     };
     const copy = () => {
