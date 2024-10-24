@@ -7,9 +7,9 @@ export const dynamic = "force-dynamic";
 
 export async function GET(
     req: NextRequest,
-    options: { params: { id: string[] } },
+    options: { params: Promise<{ id: string[] }> },
 ) {
-    const userId = options.params.id.join("/");
+    const userId = (await options.params).id.join("/");
 
     if (!userId)
         return Response.json(

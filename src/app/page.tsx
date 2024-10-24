@@ -153,11 +153,9 @@ export default function Home() {
                                 className={`${onImageLoaded ? "" : "animate-pulse rounded-md bg-[#3d3d43]"}`}
                                 initial={{
                                     opacity: 0,
-                                    "aria-hidden": true,
                                 }}
                                 animate={{
                                     opacity: onImageLoaded ? 1 : 0,
-                                    "aria-hidden": onImageLoaded ? false : true,
                                 }}
                                 transition={{ duration: 0.5 }}
                                 src={`/api/${userData?.userId}`}
