@@ -70,7 +70,7 @@ If you don't want people seeing the elapsed time on an activity, append the quer
 
 ### **_Hide Clan Tag_**
 
-If you don't want people seeing your Clan Tag (formerly known as Guilds), append the query param `hideClan=true` to the end of the URL. Clan Tag is shown by default.
+If you don't want people seeing your Guild Tag (formerly known as Clans), append the query param `hideClan=true` to the end of the URL. Clan Tag is shown by default.
 
 ### **_Hide Badges_**
 

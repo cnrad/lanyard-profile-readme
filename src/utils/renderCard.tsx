@@ -198,7 +198,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                         inset: 0;
                         background-color: #${backgroundColor};
                         color: ${theme === "dark" ? "#fff" : "#000"};
-                        font-family: 'Century Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                        font-family:'Century Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
                         font-size: 16px;
                         display: flex;
                         flex-direction: column;
@@ -303,6 +303,7 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             gap: 0.25rem;
                                             font-size: 16px;
                                             font-weight: 500;
+                                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
                                             height: 100%;
                                         ">
                                             <img src="data:image/png;base64,${clanBadge!}" />

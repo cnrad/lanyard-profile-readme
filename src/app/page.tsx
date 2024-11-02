@@ -1,5 +1,13 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo, JSX } from "react";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 
 import { motion } from "framer-motion";
 
@@ -14,8 +22,9 @@ export default function Home() {
     const [userId, setUserId] = useState<null | string>(null);
     const [userError, setUserError] = useState<string | JSX.Element>();
     const [userData, setUserData] = useState<{ userId: string } | null>(null);
+    const originUrl = useMemo(() => window.location.origin, []);
     const [copyState, setCopyState] = useState("Copy");
-    const [outputType, setOutputType] = useState<"markdown" | "html">(
+    const [outputType, setOutputType] = useState<"markdown" | "html" | "url">(
         "markdown",
     );
     const [isLoading, setIsLoading] = useState(true);
@@ -32,9 +41,11 @@ export default function Home() {
 
     const outputText = () => {
         if (outputType === "html") {
-            return `<a href="https://discord.com/users/${userData?.userId}"><img src="${window?.location?.origin || "https://lanyard.cnrad.dev"}/api/${userData?.userId}" /></a>`;
+            return `<a href="https://discord.com/users/${userData?.userId}"><img src="${originUrl || "https://lanyard.cnrad.dev"}/api/${userData?.userId}" /></a>`;
+        } else if (outputType === "url") {
+            return `${originUrl || "https://lanyard.cnrad.dev"}/api/${userData?.userId}`;
         } else {
-            return `[![Discord Presence](${window?.location?.origin || "https://lanyard.cnrad.dev"}/api/${userData?.userId})](https://discord.com/users/${userData?.userId})`;
+            return `[![Discord Presence](${originUrl || "https://lanyard.cnrad.dev"}/api/${userData?.userId})](https://discord.com/users/${userData?.userId})`;
         }
     };
     const copy = () => {
@@ -140,13 +151,36 @@ export default function Home() {
                             >
                                 HTML
                             </button>
+                            <button
+                                className={`action ${outputType === "url" ? "active" : ""}`}
+                                onClick={() => setOutputType("url")}
+                            >
+                                URL
+                            </button>
                         </div>
                         <div className="output bg-black">{outputText()}</div>
                         <div className="mt-4 flex gap-2">
                             <button className="action" onClick={copy}>
                                 {copyState}
                             </button>
-                            <button className="action">Option</button>
+                            <Dialog>
+                                <DialogTrigger className="action">
+                                    Option
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>
+                                            Are you absolutely sure?
+                                        </DialogTitle>
+                                        <DialogDescription>
+                                            This action cannot be undone. This
+                                            will permanently delete your account
+                                            and remove your data from our
+                                            servers.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                </DialogContent>
+                            </Dialog>
                         </div>
                         <div className="mt-2">
                             <motion.img
@@ -161,7 +195,7 @@ export default function Home() {
                                 src={`/api/${userData?.userId}`}
                                 height={280}
                                 width={500}
-                                alt="Your Lanyard banners"
+                                alt="Your Lanyard Banner"
                                 onLoad={() => setOnImageLoaded(true)}
                             />
                         </div>
