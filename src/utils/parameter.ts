@@ -19,7 +19,7 @@ export type Parameters = {
     idleMessage?: string;
 };
 
-export const ParameterInfo: Array<
+export const parameterInfo: Array<
     | {
           parameter: string;
           type: "boolean";
@@ -35,8 +35,8 @@ export const ParameterInfo: Array<
           title: string;
           description?: string;
           options?: {
-              prefix?: string;
-              suffix?: string;
+              placeholder?: string;
+              omit?: string[];
           };
       }
     | {
@@ -76,18 +76,20 @@ export const ParameterInfo: Array<
         type: "string",
         title: "Background Color",
         description:
-            "This will change the background color. Must be in hex format.",
+            "This will change the background color. Must be in hex format. Omit the # symbol.",
         options: {
-            prefix: "#",
+            placeholder: "1A1C1F",
+            omit: ["#"],
         },
     },
     {
         parameter: "borderRadius",
         type: "string",
         title: "Border Radius",
-        description: "This will change the border radius of the card.",
+        description:
+            "This will change the border radius of the card. Must have a size unit (px, rem, em, and more).",
         options: {
-            suffix: "px",
+            placeholder: "10px",
         },
     },
     {
@@ -106,20 +108,16 @@ export const ParameterInfo: Array<
         title: "Idle Message",
         description:
             "If you don't want the default \"I'm not currently doing anything!\" as your idle message, this is the right option.",
+        options: {
+            placeholder: "I'm not currently doing anything!",
+        },
     },
     {
         parameter: "showDisplayName",
         type: "boolean",
         title: "Show Display Name",
         description:
-            "If you don't want to show your display name, this is the right option.",
-    },
-    {
-        parameter: "hideDecoration",
-        type: "boolean",
-        title: "Hide Avatar Decoration",
-        description:
-            "If you don't want people seeing your Avatar Decoration, this is the right option.",
+            "If you'd like to show your global display name as well as your username, this is the right option.",
     },
     {
         parameter: "animatedDecoration",
@@ -130,6 +128,13 @@ export const ParameterInfo: Array<
         options: {
             defaultBool: true,
         },
+    },
+    {
+        parameter: "hideDecoration",
+        type: "boolean",
+        title: "Hide Avatar Decoration",
+        description:
+            "If you don't want people seeing your Avatar Decoration, this is the right option.",
     },
     {
         parameter: "hideStatus",
@@ -185,7 +190,10 @@ export const ParameterInfo: Array<
         type: "string",
         title: "Hide App by ID",
         description:
-            "If you don't want display a specific application, this is the right option. IDs separate by `,`.",
+            "If you don't want display a specific application, this is the right option. IDs separate by ','",
+        options: {
+            placeholder: "1302143410907648071, 1302132259368861759",
+        },
     },
     {
         parameter: "hideDiscrim",
