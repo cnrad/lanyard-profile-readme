@@ -43,23 +43,23 @@ If you have an animated avatar, append the query param `animated=:bool` to the e
 
 ### ___Custom Idle Message___
 
-If you don't want the default "`I'm not currently doing anything!`" as your idle message, you can change it by appending `idleMessage=:yourmessage` to the end of the URL. 
+If you don't want the default "`I'm not currently doing anything!`" as your idle message, you can change it by appending `idleMessage=:yourmessage` to the end of the URL.
 
 ### ___Show Display Name___
 
-If you'd like to show your global display name as well as your username, append the query param `showDisplayName=true` to the end of the URL. This is set to `false` by default. 
+If you'd like to show your global display name as well as your username, append the query param `showDisplayName=true` to the end of the URL. This is set to `false` by default.
 
 ### ___Avatar Decoration___
 
 #### ___Hide Avatar Decoration___
 If you don't want people seeing your Avatar Decoration, append the query param `hideDecoration=true` to the end of the URL. Your Avatar Decoration is shown by default if you have one.
 
-#### ___Toogle Animated Avatar Decoration___
+#### ___Toggle Animated Avatar Decoration___
 If you have an Animated Avatar Decoration, append the query param `animatedDecoration=:bool` to the end of the URL, replacing `:bool` with `true` or `false`. This is set to `true` by default.
 
 ### ___Hide Status___
 
-If you don't want people seeing your status, append the query param `hideStatus=true` to the end of the URL. Your status is shown by default if you have one. 
+If you don't want people seeing your status, append the query param `hideStatus=true` to the end of the URL. Your status is shown by default if you have one.
 
 ### ___Hide Elapsed Time___
 
@@ -81,17 +81,17 @@ If you don't want people seeing the profile you have on Discord, append the quer
 
 If you don't want people seeing the your activity, append the query param `hideActivity=true` to the end of the URL or use `hideActivity=whenNotUsed` to hide activity section when there's no activity to display. Activity are shown by default.
 
-### ___Hide Spotify___ 
+### ___Hide Spotify___
 
 If you don't want people seeing your Spotify activity, append the query param `hideSpotify=true` to the end of the URL. Spotify activity is shown by default.
 
 ### ___Hide App by ID___
 
-If you don't want display a specific application, append the query param `ignoreAppId=:app_id` to the end of the URL, IDs separate by `,`.
+If you don't want to display a specific application, append the query param `ignoreAppId=:app_id` to the end of the URL, IDs separate by `,`.
 
 ### ___Hide Discriminator___ (DEPRECATED soon)
 
-If you don't want people seeing your discriminator (most likely for privacy reasons), append the query param `hideDiscrim=true` to the end of the URL. Your discriminator is shown by default. 
+If you don't want people seeing your discriminator (most likely for privacy reasons), append the query param `hideDiscrim=true` to the end of the URL. Your discriminator is shown by default.
 
 ## ___Example URL and result___
 
