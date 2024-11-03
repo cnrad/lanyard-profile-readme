@@ -132,13 +132,17 @@ export default function Home() {
               },
     ) {
         if (data.type === "string") {
-            const filteredValue = filterLetters(
-                data.data,
-                (
-                    parameterInfo.find(
-                        (p) => p.type === "string" && p.parameter === data.name,
-                    ) as any
-                ).options.omit,
+            const filteredValue = encodeURIComponent(
+                filterLetters(
+                    data.data,
+                    (
+                        parameterInfo.find(
+                            (p) =>
+                                p.type === "string" &&
+                                p.parameter === data.name,
+                        ) as any
+                    ).options.omit,
+                ),
             );
 
             setOption((prev) => {
@@ -365,13 +369,13 @@ export default function Home() {
                                                                     event: e,
                                                                 })
                                                             }
-                                                            value={
+                                                            value={decodeURIComponent(
                                                                 option?.find(
                                                                     (o) =>
                                                                         o.name ===
                                                                         item.parameter,
-                                                                )?.value || ""
-                                                            }
+                                                                )?.value || "",
+                                                            )}
                                                         />
                                                     )}
                                                     {item.type ===
