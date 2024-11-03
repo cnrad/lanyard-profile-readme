@@ -43,7 +43,6 @@ export default function Home() {
     const [userId, setUserId] = useState<null | string>(null);
     const [userError, setUserError] = useState<string | JSX.Element>();
     const [userData, setUserData] = useState<{ userId: string } | null>(null);
-    const originUrl = useMemo(() => window.location?.origin, []);
     const [copyState, setCopyState] = useState("Copy");
     const [outputType, setOutputType] = useState<"markdown" | "html" | "url">(
         "markdown",
@@ -64,7 +63,7 @@ export default function Home() {
         curve: [0, 1, 0, 1],
     });
 
-    const url = `${originUrl || "https://lanyard.cnrad.dev"}/api/${userData?.userId}${option.length > 0 ? `?${option.map((o) => `${o.name}=${o.value}`).join("&")}` : ""}`;
+    const url = `${typeof window !== "undefined" ? window.location?.origin : "https://lanyard.cnrad.dev"}/api/${userData?.userId}${option.length > 0 ? `?${option.map((o) => `${o.name}=${o.value}`).join("&")}` : ""}`;
 
     function outputText() {
         if (outputType === "html") {
