@@ -503,14 +503,26 @@ export default function Home() {
                     </motion.div>
                 </div>
             </main>
-            <footer className="stat">
+            <motion.footer
+                variants={{
+                    open: {
+                        opacity: 1,
+                    },
+                    closed: {
+                        opacity: 0,
+                    },
+                }}
+                animate={isLoading ? "open" : "closed"}
+                transition={{ duration: 0.5 }}
+                className="stat"
+            >
                 Lanyard Profile Readme has{" "}
                 <div
                     style={{ fontWeight: "bold", width: "3.2rem" }}
                     ref={countRef}
                 />{" "}
                 total users!
-            </footer>
+            </motion.footer>
         </>
     );
 }
