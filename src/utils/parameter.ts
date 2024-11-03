@@ -190,7 +190,7 @@ export const parameterInfo: Array<
         type: "string",
         title: "Hide App by ID",
         description:
-            "If you don't want display a specific application, this is the right option. IDs separate by ','",
+            "If you don't want to display a specific application, this is the right option. IDs separate by ','",
         options: {
             placeholder: "1302143410907648071, 1302132259368861759",
         },
