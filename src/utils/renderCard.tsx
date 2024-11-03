@@ -97,7 +97,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
     if (data.discord_user.avatar && data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
     if (params.animated === "false") avatarExtension = "webp";
     if (params.theme === "light") {
-        backgroundColor = "#eee";
+        backgroundColor = "eee";
         theme = "light";
     }
     if (params.bg) backgroundColor = params.bg;

@@ -40,6 +40,13 @@ import { filterLetters } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
+    const originUrl = useMemo(
+        () =>
+            typeof window !== "undefined"
+                ? window.location.origin
+                : "https://lanyard.cnrad.dev",
+        [],
+    );
     const [userId, setUserId] = useState<null | string>(null);
     const [userError, setUserError] = useState<string | JSX.Element>();
     const [userData, setUserData] = useState<{ userId: string } | null>(null);
@@ -63,7 +70,7 @@ export default function Home() {
         curve: [0, 1, 0, 1],
     });
 
-    const url = `${typeof window !== "undefined" ? window.location?.origin : "https://lanyard.cnrad.dev"}/api/${userData?.userId}${option.length > 0 ? `?${option.map((o) => `${o.name}=${o.value}`).join("&")}` : ""}`;
+    const url = `${originUrl}/api/${userData?.userId}${option.length > 0 ? `?${option.map((o) => `${o.name}=${o.value}`).join("&")}` : ""}`;
 
     function outputText() {
         if (outputType === "html") {
@@ -297,7 +304,12 @@ export default function Home() {
                                 URL
                             </button>
                         </div>
-                        <div className="output bg-black">{outputText()}</div>
+                        <div
+                            className="output bg-black"
+                            suppressHydrationWarning
+                        >
+                            {outputText()}
+                        </div>
                         <div className="mt-4 flex gap-2">
                             <button className="action" onClick={copy}>
                                 {copyState}
@@ -485,6 +497,7 @@ export default function Home() {
                                 width={500}
                                 alt="Your Lanyard Banner"
                                 onLoad={() => setOnImageLoaded(true)}
+                                suppressHydrationWarning
                             />
                         </div>
                     </motion.div>
