@@ -200,20 +200,23 @@ export default function Home() {
                 if (prev?.find((o) => o.name === data.name)) {
                     return prev
                         .map((opt) => {
-                            const options = parameterInfo.find(
-                                (p) =>
-                                    p.type === "boolean" &&
-                                    p.parameter === data.name,
-                            )?.options as { defaultBool?: boolean };
+                            if (opt.name === data.name) {
+                                const options = parameterInfo.find(
+                                    (p) => p.parameter === data.name,
+                                )?.options as { defaultBool?: boolean };
 
-                            if (
-                                data.data === (options?.defaultBool! || false)
-                            ) {
-                                return null;
-                            } else {
-                                if (opt.name === data.name) {
-                                    opt.value = data.data.toString();
+                                if (
+                                    data.data ===
+                                    (options?.defaultBool! || false)
+                                ) {
+                                    return null;
+                                } else {
+                                    if (opt.name === data.name) {
+                                        opt.value = data.data.toString();
+                                    }
+                                    return opt;
                                 }
+                            } else {
                                 return opt;
                             }
                         })
