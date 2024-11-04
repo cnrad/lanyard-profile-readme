@@ -1,35 +1,51 @@
 {
-  "name": "next-app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@types/escape-html": "^1.0.1",
-    "@types/ioredis": "^4.28.8",
-    "@types/styled-components": "^5.1.10",
-    "axios": "^0.21.1",
-    "escape-html": "^1.0.3",
-    "framer-motion": "^4.1.17",
-    "image-to-base64": "^2.2.0",
-    "ioredis": "^4.28.5",
-    "next": "12.2.5",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "styled-components": "^5.3.0",
-    "use-smooth-count": "^0.3.0"
-  },
-  "devDependencies": {
-    "@types/escape-html": "^1.0.1",
-    "@types/image-to-base64": "^2.1.0",
-    "@types/react": "^18.2.45",
-    "eslint": "7.28.0",
-    "eslint-config-next": "11.0.0",
-    "prettier": "^2.3.1",
-    "typescript": "4.3.3"
-  }
+    "name": "app-router",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev --turbopack",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "packageManager": "pnpm@9.11.0",
+    "dependencies": {
+        "@emotion/css": "^11.13.4",
+        "@emotion/server": "^11.11.0",
+        "@radix-ui/react-checkbox": "^1.1.2",
+        "@radix-ui/react-dialog": "^1.1.2",
+        "@radix-ui/react-icons": "^1.3.0",
+        "@radix-ui/react-popover": "^1.1.2",
+        "@radix-ui/react-select": "^2.1.2",
+        "@radix-ui/react-slot": "^1.1.0",
+        "@radix-ui/react-tooltip": "^1.1.3",
+        "@types/escape-html": "^1.0.4",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.1.1",
+        "cmdk": "1.0.0",
+        "escape-html": "^1.0.3",
+        "framer-motion": "12.0.0-alpha.1",
+        "ioredis": "^5.4.1",
+        "lucide-react": "^0.453.0",
+        "next": "15.0.2",
+        "react": "18.3.1",
+        "react-dom": "18.3.1",
+        "sharp": "^0.33.5",
+        "swr": "^2.2.5",
+        "tailwind-merge": "^2.5.4",
+        "tailwindcss-animate": "^1.0.7",
+        "use-smooth-count": "^1.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^20",
+        "@types/react": "18.3.12",
+        "@types/react-dom": "18.3.1",
+        "eslint": "^8",
+        "eslint-config-next": "15.0.1",
+        "postcss": "^8",
+        "prettier": "^3.3.3",
+        "prettier-plugin-tailwindcss": "^0.6.8",
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5"
+    }
 }
