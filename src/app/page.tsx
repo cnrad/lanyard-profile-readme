@@ -30,11 +30,10 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { filterLetters } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -338,33 +337,25 @@ export default function Home() {
                                                     className="flex flex-col gap-1"
                                                 >
                                                     <div className="flex items-center gap-1">
-                                                        <p>{item.title}</p>
-                                                        <TooltipProvider
-                                                            delayDuration={100}
-                                                        >
-                                                            <Tooltip>
-                                                                <TooltipTrigger
-                                                                    onFocus={(
-                                                                        e,
-                                                                    ) => {
-                                                                        e.preventDefault();
-                                                                    }}
-                                                                >
-                                                                    <Icon.HelpCircleIcon
-                                                                        size={
-                                                                            18
-                                                                        }
-                                                                    />
-                                                                </TooltipTrigger>
-                                                                <TooltipContent>
-                                                                    <p>
-                                                                        {
-                                                                            item.description
-                                                                        }
-                                                                    </p>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        </TooltipProvider>
+                                                        <p className="text-sm sm:text-base">
+                                                            {item.title}
+                                                        </p>
+                                                        <Popover>
+                                                            <PopoverTrigger>
+                                                                <Icon.InfoIcon
+                                                                    size={24}
+                                                                    className="rounded-md p-1 text-gray-400 transition hover:bg-stone-950"
+                                                                />
+                                                            </PopoverTrigger>
+                                                            <PopoverContent
+                                                                side="top"
+                                                                className="text-sm"
+                                                            >
+                                                                {
+                                                                    item.description
+                                                                }
+                                                            </PopoverContent>
+                                                        </Popover>
                                                     </div>
                                                     {item.type === "string" && (
                                                         <Input
@@ -390,6 +381,7 @@ export default function Home() {
                                                                         item.parameter,
                                                                 )?.value || "",
                                                             )}
+                                                            className="text-sm sm:text-base"
                                                         />
                                                     )}
                                                     {item.type ===
@@ -451,7 +443,7 @@ export default function Home() {
                                                             <SelectTrigger className="w-[180px]">
                                                                 <SelectValue placeholder="Theme" />
                                                             </SelectTrigger>
-                                                            <SelectContent>
+                                                            <SelectContent className="text-sm sm:text-base">
                                                                 {item.options.list.map(
                                                                     (
                                                                         option,
