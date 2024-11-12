@@ -1,523 +1,352 @@
 "use client";
-import React, { useState, useRef, useMemo, JSX } from "react";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
 
+import React, { useState, useMemo, JSX, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-
-import { useSmoothCount } from "use-smooth-count";
 import useSWR from "swr";
-
-import { getUserCount, isUserMonitored } from "@/utils/actions";
+import { getUserCount } from "@/utils/actions";
 import { isSnowflake } from "@/utils/snowflake";
 import Link from "next/link";
-import { parameterInfo } from "@/utils/parameter";
-
+import { PARAMETERS } from "@/utils/parameters";
 import * as Icon from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import { Input } from "@/components/ui/input";
-import { filterLetters } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn, filterLetters } from "@/lib/utils";
 
 export default function Home() {
-    const originUrl = useMemo(
-        () =>
-            typeof window !== "undefined"
-                ? window.location.origin
-                : "https://lanyard.cnrad.dev",
-        [],
-    );
-    const [userId, setUserId] = useState<null | string>(null);
-    const [userError, setUserError] = useState<string | JSX.Element>();
-    const [userData, setUserData] = useState<{ userId: string } | null>(null);
-    const [copyState, setCopyState] = useState("Copy");
-    const [outputType, setOutputType] = useState<"markdown" | "html" | "url">(
-        "markdown",
-    );
-    const [isLoading, setIsLoading] = useState(true);
-    const [onImageLoaded, setOnImageLoaded] = useState(false);
+  const originUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "https://lanyard.cnrad.dev";
 
-    const [option, setOption] = useState<
-        Array<{ name: string; value: string }>
-    >([]);
+  const [userId, setUserId] = useState("");
+  const [userError, setUserError] = useState<string | JSX.Element>();
+  const [copyState, setCopyState] = useState("Copy");
+  const [outputType, setOutputType] = useState<"markdown" | "html" | "url">("markdown");
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [options, setOptions] = useState<Record<string, string | boolean>>({});
 
-    const userCount = useSWR("getUserCount", getUserCount);
-    const countRef = useRef<HTMLDivElement | null>(null);
-    useSmoothCount({
-        ref: countRef,
-        target: userCount.data || 0,
-        duration: 3,
-        curve: [0, 1, 0, 1],
-    });
+  const userCount = useSWR("getUserCount", getUserCount);
 
-    const url = `${originUrl}/api/${userData?.userId}${option.length > 0 ? `?${option.map((o) => `${o.name}=${o.value}`).join("&")}` : ""}`;
+  async function onLoadDiscordId(userId: string) {
+    setUserId(userId);
+    setIsLoaded(false);
+    setUserError(undefined);
 
-    function outputText() {
-        if (outputType === "html") {
-            return `<a href="https://discord.com/users/${userData?.userId}"><img src="${url}" /></a>`;
-        } else if (outputType === "url") {
-            return `${url}`;
-        } else {
-            return `[![Discord Presence](${url})](https://discord.com/users/${userData?.userId})`;
-        }
+    if (userId.length < 1) return;
+    if (userId.length > 0 && !isSnowflake(userId)) return setUserError("Invalid Discord ID");
+  }
+
+  const url = `${originUrl}/api/${userId}${
+    Object.keys(options).length > 0
+      ? `?${Object.keys(options)
+          .map(option => `${option}=${options[option]}`)
+          .join("&")}`
+      : ""
+  }`;
+
+  const copyContent = {
+    markdown: `[![Discord Presence](${url})](https://discord.com/users/${userId})`,
+    html: `<a href="https://discord.com/users/${userId}"><img src="${url}" /></a>`,
+    url: `${url}`,
+  };
+
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+  const optionsTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const optionsContentRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function handleOptionsClickOutside(event: MouseEvent) {
+      if (
+        isOptionsOpen &&
+        optionsContentRef.current &&
+        !optionsContentRef.current.contains(event.target as Node) &&
+        !optionsTriggerRef.current?.contains(event.target as Node)
+      ) {
+        setIsOptionsOpen(false);
+      }
     }
 
-    function copy() {
-        navigator.clipboard.writeText(outputText());
-        setCopyState("Copied!");
+    document.addEventListener("mousedown", handleOptionsClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleOptionsClickOutside);
+    };
+  }, [isOptionsOpen]);
 
-        setTimeout(() => setCopyState("Copy"), 1500);
-    }
+  return (
+    <>
+      <main className="flex min-h-screen max-w-[100vw] flex-col items-center">
+        <div className="relative mt-16 flex w-[80%] max-w-[28rem] flex-col gap-2 rounded-md">
+          <p className="text-left text-3xl font-semibold text-[#cecece]">🏷️ lanyard-profile-readme </p>
+          <p className="mb-2 text-sm text-[#aaabaf]">Uses Lanyard to display your Discord Presence anywhere.</p>
 
-    async function submitDiscordId() {
-        setIsLoading(true);
-        setOnImageLoaded(false);
-        setUserData(null);
-        setUserError(undefined);
+          <div className="flex h-[2.25rem] w-full flex-row gap-2">
+            <input
+              className="w-full rounded-lg border border-white/10 bg-transparent px-2.5 py-1.5 font-mono text-sm text-gray-200 transition-colors duration-150 ease-out focus:border-white/50 focus:outline-none"
+              onChange={e => onLoadDiscordId(e.target.value)}
+              value={userId || ""}
+              placeholder="Enter your Discord ID"
+            />
 
-        if (!userId) return setUserError("Please enter a Discord ID");
-
-        if (!isSnowflake(userId)) return setUserError("Invalid Discord ID");
-
-        if ((await isUserMonitored(userId)) === false)
-            return setUserError(
-                <>
-                    User is not being monitored by Lanyard, please join{" "}
-                    <Link
-                        href="https://discord.gg/lanyard"
-                        target="_blank"
-                        className="underline"
-                    >
-                        this server
-                    </Link>{" "}
-                    and try again.
-                </>,
-            );
-
-        setUserData({ userId });
-        setIsLoading(false);
-    }
-
-    function modifyOption(
-        data:
-            | {
-                  type: "string";
-                  name: string;
-                  data: string;
-                  event: React.ChangeEvent<HTMLInputElement>;
-              }
-            | {
-                  type: "list";
-                  name: string;
-                  data: string;
-              }
-            | {
-                  type: "boolean";
-                  name: string;
-                  data: string | boolean;
-              },
-    ) {
-        if (data.type === "string") {
-            const filteredValue = encodeURIComponent(
-                filterLetters(
-                    data.data,
-                    (
-                        parameterInfo.find(
-                            (p) =>
-                                p.type === "string" &&
-                                p.parameter === data.name,
-                        ) as any
-                    ).options.omit,
-                ),
-            );
-
-            setOption((prev) => {
-                if (data.data === "") {
-                    return prev?.filter((o) => o.name !== data.name) || [];
-                } else {
-                    if (prev?.find((o) => o.name === data.name)) {
-                        return prev.map((o) => {
-                            if (o.name === data.name) {
-                                o.value = filteredValue;
-                            }
-                            return o;
-                        });
-                    } else {
-                        return prev
-                            ? [
-                                  ...prev,
-                                  {
-                                      name: data.name,
-                                      value: filteredValue,
-                                  },
-                              ]
-                            : [
-                                  {
-                                      name: data.name,
-                                      value: filteredValue,
-                                  },
-                              ];
-                    }
-                }
-            });
-        } else if (data.type === "list") {
-            setOption((prev) => {
-                if (prev?.find((o) => o.name === data.name)) {
-                    return prev.map((o) => {
-                        if (o.name === data.name) {
-                            o.value = data.data;
-                        }
-                        return o;
-                    });
-                } else {
-                    return prev
-                        ? [...prev, { name: data.name, value: data.data }]
-                        : [{ name: data.name, value: data.data }];
-                }
-            });
-        } else if (data.type === "boolean") {
-            setOption((prev) => {
-                if (prev?.find((o) => o.name === data.name)) {
-                    return prev
-                        .map((opt) => {
-                            if (opt.name === data.name) {
-                                const options = parameterInfo.find(
-                                    (p) => p.parameter === data.name,
-                                )?.options as { defaultBool?: boolean };
-
-                                if (
-                                    data.data ===
-                                    (options?.defaultBool! || false)
-                                ) {
-                                    return null;
-                                } else {
-                                    if (opt.name === data.name) {
-                                        opt.value = data.data.toString();
-                                    }
-                                    return opt;
-                                }
-                            } else {
-                                return opt;
-                            }
-                        })
-                        .filter((opt) => opt !== null);
-                } else {
-                    return prev
-                        ? [
-                              ...prev,
-                              { name: data.name, value: data.data.toString() },
-                          ]
-                        : [{ name: data.name, value: data.data.toString() }];
-                }
-            });
-        }
-    }
-
-    return (
-        <>
-            <main className="flex min-h-screen max-w-[100vw] flex-col items-center">
-                <div className="mt-16 w-[80%] max-w-[28rem] rounded-md">
-                    <p className="my-2 text-left text-3xl font-semibold text-[#cecece]">
-                        lanyard profile readme 🏷️
-                    </p>
-                    <p className="text-base text-[#aaabaf]">
-                        Utilize Lanyard to display your Discord Presence in your
-                        GitHub Profile
-                    </p>
-                    <br />
-                    <form
-                        className="flex w-full gap-2"
-                        onSubmit={(e) => {
-                            e.preventDefault();
-
-                            submitDiscordId();
-                        }}
-                    >
-                        <input
-                            className="input"
-                            onChange={(e) => setUserId(e.target.value)}
-                            value={userId || ""}
-                            placeholder="Enter your Discord ID"
-                        />
-                        <button className="action" type="submit">
-                            {">>"}
-                        </button>
-                    </form>
-                    <motion.p
-                        variants={{
-                            open: { opacity: 1 },
-                            closed: { opacity: 0 },
-                        }}
-                        initial="closed"
-                        animate={userError ? "open" : "closed"}
-                        className="mt-1 text-sm text-red-500"
-                    >
-                        * {userError}
-                    </motion.p>
-                    <motion.div
-                        variants={{
-                            open: {
-                                opacity: 1,
-                            },
-                            closed: {
-                                opacity: 0,
-                            },
-                        }}
-                        initial="closed"
-                        animate={!isLoading ? "open" : "closed"}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <div className="mb-1 mt-4 flex gap-1">
-                            <button
-                                className={`action ${outputType === "markdown" ? "active" : ""}`}
-                                onClick={() => setOutputType("markdown")}
-                            >
-                                Markdown
-                            </button>
-                            <button
-                                className={`action ${outputType === "html" ? "active" : ""}`}
-                                onClick={() => setOutputType("html")}
-                            >
-                                HTML
-                            </button>
-                            <button
-                                className={`action ${outputType === "url" ? "active" : ""}`}
-                                onClick={() => setOutputType("url")}
-                            >
-                                URL
-                            </button>
-                        </div>
-                        <div
-                            className="output bg-black"
-                            suppressHydrationWarning
-                        >
-                            {outputText()}
-                        </div>
-                        <div className="mt-4 flex gap-2">
-                            <button className="action" onClick={copy}>
-                                {copyState}
-                            </button>
-                            <Dialog>
-                                <DialogTrigger className="action">
-                                    Option
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <DialogHeader>
-                                        <DialogTitle>Option</DialogTitle>
-                                        <DialogDescription>
-                                            Select an option to enable/disable
-                                            features to your Lanyard Profile
-                                        </DialogDescription>
-                                    </DialogHeader>
-
-                                    <div className="flex max-h-[75dvh] flex-col gap-4 overflow-x-hidden overflow-y-scroll rounded-xl bg-black/50 p-4 px-6 text-[#cecece]">
-                                        {parameterInfo.map((item, idx) => {
-                                            return (
-                                                <div
-                                                    key={item.parameter}
-                                                    className="flex flex-col gap-1"
-                                                >
-                                                    <div className="flex items-center gap-1">
-                                                        <p className="text-sm sm:text-base">
-                                                            {item.title}
-                                                        </p>
-                                                        <Popover>
-                                                            <PopoverTrigger>
-                                                                <Icon.InfoIcon
-                                                                    size={24}
-                                                                    className="rounded-md p-1 text-gray-400 transition hover:bg-stone-950"
-                                                                />
-                                                            </PopoverTrigger>
-                                                            <PopoverContent
-                                                                side="top"
-                                                                className="text-sm"
-                                                            >
-                                                                {
-                                                                    item.description
-                                                                }
-                                                            </PopoverContent>
-                                                        </Popover>
-                                                    </div>
-                                                    {item.type === "string" && (
-                                                        <Input
-                                                            placeholder={
-                                                                item.options
-                                                                    ?.placeholder ||
-                                                                "..."
-                                                            }
-                                                            onChange={(e) =>
-                                                                modifyOption({
-                                                                    type: "string",
-                                                                    name: item.parameter,
-                                                                    data: e
-                                                                        .target
-                                                                        .value,
-                                                                    event: e,
-                                                                })
-                                                            }
-                                                            value={decodeURIComponent(
-                                                                option?.find(
-                                                                    (o) =>
-                                                                        o.name ===
-                                                                        item.parameter,
-                                                                )?.value || "",
-                                                            )}
-                                                            className="text-sm sm:text-base"
-                                                        />
-                                                    )}
-                                                    {item.type ===
-                                                        "boolean" && (
-                                                        <Checkbox
-                                                            onCheckedChange={(
-                                                                bool,
-                                                            ) =>
-                                                                modifyOption({
-                                                                    type: "boolean",
-                                                                    name: item.parameter,
-                                                                    data: bool,
-                                                                })
-                                                            }
-                                                            checked={
-                                                                option?.find(
-                                                                    (o) =>
-                                                                        o.name ===
-                                                                        item.parameter,
-                                                                )?.value ===
-                                                                "true"
-                                                                    ? true
-                                                                    : option?.find(
-                                                                            (
-                                                                                o,
-                                                                            ) =>
-                                                                                o.name ===
-                                                                                item.parameter,
-                                                                        )
-                                                                            ?.value ===
-                                                                        "false"
-                                                                      ? false
-                                                                      : item
-                                                                            .options
-                                                                            ?.defaultBool ||
-                                                                        false
-                                                            }
-                                                        />
-                                                    )}
-                                                    {item.type === "list" && (
-                                                        <Select
-                                                            onValueChange={(
-                                                                val,
-                                                            ) =>
-                                                                modifyOption({
-                                                                    type: "list",
-                                                                    name: item.parameter,
-                                                                    data: val,
-                                                                })
-                                                            }
-                                                            value={
-                                                                option?.find(
-                                                                    (o) =>
-                                                                        o.name ===
-                                                                        item.parameter,
-                                                                )?.value || ""
-                                                            }
-                                                        >
-                                                            <SelectTrigger className="w-[180px]">
-                                                                <SelectValue placeholder="Theme" />
-                                                            </SelectTrigger>
-                                                            <SelectContent className="text-sm sm:text-base">
-                                                                {item.options.list.map(
-                                                                    (
-                                                                        option,
-                                                                    ) => (
-                                                                        <SelectItem
-                                                                            value={
-                                                                                option.value
-                                                                            }
-                                                                            key={
-                                                                                option.value
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                option.name
-                                                                            }
-                                                                        </SelectItem>
-                                                                    ),
-                                                                )}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    )}
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                    <DialogFooter>
-                                        <Button onClick={() => setOption([])}>
-                                            Reset
-                                        </Button>
-                                    </DialogFooter>
-                                </DialogContent>
-                            </Dialog>
-                        </div>
-                        <div className="mt-2">
-                            <motion.img
-                                className={`${onImageLoaded ? "" : "animate-pulse rounded-md bg-[#3d3d43]"}`}
-                                initial={{
-                                    opacity: 0,
-                                }}
-                                animate={{
-                                    opacity: onImageLoaded ? 1 : 0,
-                                }}
-                                transition={{ duration: 0.5 }}
-                                src={url}
-                                height={280}
-                                width={500}
-                                alt="Your Lanyard Banner"
-                                onLoad={() => setOnImageLoaded(true)}
-                                suppressHydrationWarning
-                            />
-                        </div>
-                    </motion.div>
-                </div>
-            </main>
-            <motion.footer
-                variants={{
-                    open: {
-                        opacity: 1,
-                    },
-                    closed: {
-                        opacity: 0,
-                    },
-                }}
-                animate={isLoading ? "open" : "closed"}
-                transition={{ duration: 0.5 }}
-                className="stat"
+            <button
+              ref={optionsTriggerRef}
+              onClick={() => setIsOptionsOpen(p => !p)}
+              className="group flex min-h-[2.25rem] min-w-[2.25rem] items-center justify-center rounded-lg border border-white/10 bg-stone-900/50 transition-colors duration-150 ease-out hover:border-white/40"
             >
-                Lanyard Profile Readme has{" "}
-                <div
-                    style={{ fontWeight: "bold", width: "3.2rem" }}
-                    ref={countRef}
-                />{" "}
-                total users!
-            </motion.footer>
-        </>
-    );
+              <Icon.Settings size={18} className="text-white/40 group-hover:text-white/60" />
+            </button>
+          </div>
+
+          <motion.div
+            initial={{
+              scale: 0.98,
+              opacity: isOptionsOpen ? 1 : 0,
+              display: isOptionsOpen ? "block" : "none",
+            }}
+            animate={{
+              scale: isOptionsOpen ? 1 : 0.98,
+              opacity: isOptionsOpen ? 1 : 0,
+              display: isOptionsOpen ? "block" : "none",
+            }}
+            ref={optionsContentRef}
+            transition={{ duration: 0.2, ease: [0, 0.6, 0.4, 1] }}
+            className={cn(
+              "absolute top-32 z-[2] flex h-auto flex-col overflow-hidden rounded-lg border border-white/5 bg-black/75 p-4 text-white shadow-[0_6px_50px_-25px_rgba(180,177,255,0.2)] backdrop-blur-xl max-sm:h-[30rem] max-sm:w-full max-sm:overflow-y-scroll sm:-left-[1rem] sm:w-[30rem] sm:max-w-[30rem]",
+            )}
+          >
+            <div className="grid-rows-auto mb-4 flex w-full flex-col gap-2.5 sm:grid sm:grid-cols-2">
+              {PARAMETERS.filter(item => item.type !== "boolean").map(item => {
+                return (
+                  <div key={item.parameter} className="flex flex-col gap-1.5">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm text-gray-300">{item.title}</p>
+                      <Popover>
+                        <PopoverTrigger>
+                          <Icon.InfoIcon
+                            size={16}
+                            className="rounded-md text-zinc-700 transition hover:text-gray-400"
+                          />
+                        </PopoverTrigger>
+                        <PopoverContent side="top" className="text-sm">
+                          {item.description}
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+
+                    {item.type === "string" && (
+                      <input
+                        className="relative h-8 w-full appearance-none rounded-md border border-white/10 bg-transparent px-2 py-0.5 text-sm outline-none transition-all duration-150 ease-out placeholder:text-white/30 focus:border-white/50 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder={item.options?.placeholder || "..."}
+                        onChange={e => {
+                          const filteredValue = encodeURIComponent(
+                            filterLetters(
+                              e.target.value,
+                              (PARAMETERS.find(p => p.parameter === item.parameter) as any).options.omit,
+                            ),
+                          );
+
+                          setOptions(prev => ({
+                            ...prev,
+                            [item.parameter]: filteredValue,
+                          }));
+                        }}
+                        value={decodeURIComponent((options[item.parameter] as string) || "")}
+                      />
+                    )}
+
+                    {item.type === "list" && (
+                      <div className="relative">
+                        <select
+                          value={(options[item.parameter] as string) || ""}
+                          onChange={e =>
+                            setOptions(prev => ({
+                              ...prev,
+                              [item.parameter]: e.target.value,
+                            }))
+                          }
+                          className={cn(
+                            "relative h-8 w-full appearance-none rounded-md border border-white/10 bg-transparent px-2 py-0.5 text-sm outline-none transition-all duration-150 ease-out placeholder:text-white/30 focus:border-white/50 disabled:cursor-not-allowed disabled:opacity-50",
+                            {
+                              "text-white/30": !options[item.parameter] || options[item.parameter] === "",
+                            },
+                          )}
+                        >
+                          <option value="">None</option>
+                          {item.options.list.map(option => (
+                            <option value={option.value} key={option.value}>
+                              {option.name}
+                            </option>
+                          ))}
+                        </select>
+                        <Icon.ChevronDown
+                          size={14}
+                          className="absolute right-2 top-0 my-auto flex h-full text-white/50"
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Separated for easier styling/readability */}
+            <div className="sm:grid-rows-auto flex flex-col gap-2 sm:grid sm:grid-cols-2">
+              {PARAMETERS.filter(item => item.type === "boolean").map(item => {
+                return (
+                  <div key={item.parameter} className="flex flex-row items-start gap-2.5 text-sm">
+                    <input
+                      type="checkbox"
+                      className={cn(
+                        "mt-0.5 max-h-4 min-h-4 min-w-4 max-w-4 cursor-pointer appearance-none before:overflow-clip before:rounded-[0.25rem] after:absolute after:h-4 after:w-4 after:rounded-[0.25rem] after:border after:border-white/10 after:transition-all after:duration-150 after:ease-out",
+                        {
+                          "after:border-gray-200/50 after:bg-gray-500/40": options[item.parameter] === "true",
+                          "after:bg-zinc-700/10 after:hover:bg-zinc-700/25": options[item.parameter] !== "true",
+                        },
+                      )}
+                      checked={options[item.parameter] === "true"}
+                      onChange={e =>
+                        setOptions(prev => ({
+                          ...prev,
+                          [item.parameter]: e.target.checked.toString(),
+                        }))
+                      }
+                    />
+
+                    <p
+                      className="text-gray-300"
+                      style={{
+                        textDecoration: PARAMETERS.find(p => p.parameter === item.parameter)?.deprecated
+                          ? "line-through"
+                          : "none",
+                      }}
+                    >
+                      {item.title}
+                    </p>
+
+                    <Popover>
+                      <PopoverTrigger>
+                        <Icon.InfoIcon
+                          size={16}
+                          className="mt-0.5 rounded-md text-zinc-700 transition hover:text-gray-400"
+                        />
+                      </PopoverTrigger>
+                      <PopoverContent side="top" className="text-sm">
+                        {item.description}
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {!isLoaded ? (
+            <motion.p
+              variants={{
+                open: { opacity: 1, display: "block" },
+                closed: { opacity: 0, display: "none" },
+              }}
+              initial="closed"
+              animate={userError ? "open" : "closed"}
+              className="mt-1 text-sm text-red-500"
+              transition={{ duration: 0.15 }}
+            >
+              {userError}
+            </motion.p>
+          ) : null}
+
+          <motion.div
+            variants={{
+              loaded: {
+                opacity: 1,
+              },
+              waiting: {
+                opacity: 0,
+              },
+            }}
+            initial="waiting"
+            animate={isLoaded ? "loaded" : "waiting"}
+            transition={{ duration: 0.15 }}
+            className="mt-2 flex flex-col gap-2"
+          >
+            <img
+              src={url}
+              height={280}
+              width={500}
+              alt="Your Lanyard Banner"
+              onLoad={() => setIsLoaded(true)}
+              onError={() =>
+                userId.length > 0 && isSnowflake(userId)
+                  ? setUserError(
+                      <>
+                        User is not monitored by Lanyard, please join{" "}
+                        <Link href="https://discord.gg/lanyard" target="_blank" className="inline underline">
+                          the server
+                        </Link>{" "}
+                        and try again.
+                      </>,
+                    )
+                  : null
+              }
+            />
+
+            <div className="mt-4 grid grid-cols-3 gap-1">
+              {(["markdown", "html", "url"] as const).map(type => (
+                <button
+                  key={type}
+                  className={cn(
+                    "rounded-md border border-white/10 px-1.5 py-1 font-mono text-sm font-medium uppercase tracking-wide text-white/50 transition-colors duration-100 ease-out",
+                    {
+                      "border-white/20 bg-white/10 font-semibold text-white/75": outputType === type,
+                      "hover:border-white/15 hover:bg-white/5": outputType !== type,
+                    },
+                  )}
+                  onClick={() => setOutputType(type)}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+
+            <div className="break-all rounded-lg border border-white/10 bg-zinc-950 px-3 py-2 font-mono text-sm text-blue-400">
+              {copyContent[outputType]}
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                className="rounded-md border border-white/10 px-3 py-1 font-mono text-sm font-medium text-white/50 transition-colors duration-75 ease-out hover:border-white/20 hover:text-white/75"
+                onClick={() => {
+                  navigator.clipboard.writeText(copyContent[outputType]);
+                  setCopyState("Copied!");
+                  setTimeout(() => setCopyState("Copy"), 1500);
+                }}
+              >
+                {copyState}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </main>
+
+      {userCount.data && (
+        <motion.div
+          initial={{
+            scale: 0.99,
+            opacity: 0,
+            transform: "translateY(10px) translateX(-50%)",
+          }}
+          animate={{
+            scale: 1,
+            opacity: 1,
+            transform: "translateY(0) translateX(-50%)",
+          }}
+          transition={{ duration: 1.25, ease: [0, 0.4, 0.2, 1] }}
+          className={cn(
+            "fixed bottom-0 left-1/2 mb-8 flex h-min w-min min-w-[10rem] flex-row items-center justify-center whitespace-nowrap rounded-full border border-white/5 bg-[#2A2A2A]/15 px-4 py-2.5 text-center text-sm leading-[1rem] text-white/50 shadow-[0_4px_45px_-20px_#b390ff] max-sm:hidden",
+          )}
+        >
+          Currently at&nbsp;
+          <span className="bg-gradient-to-tr from-red-500 to-purple-700 bg-clip-text font-semibold text-transparent drop-shadow-[0_0_8px_#a931ff]">
+            {userCount.data?.toLocaleString()}
+          </span>
+          &nbsp;total users!
+        </motion.div>
+      )}
+    </>
+  );
 }
