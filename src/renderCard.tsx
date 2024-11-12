@@ -305,7 +305,10 @@ const renderCard = async (body: LanyardTypes.Root, params: Parameters): Promise<
                                             height: 100%;
                                         ">
                                             <img src="data:image/png;base64,${clanBadge!}" />
-                                            <p style="margin-bottom: 1.1rem">${escape(data.discord_user.clan!.tag)}</p>
+                                            <p style="
+                                                margin-bottom: 1.1rem;
+                                                white-space: nowrap;
+                                            ">${escape(data.discord_user.clan!.tag)}</p>
                                         </span>
                                     `}
 
