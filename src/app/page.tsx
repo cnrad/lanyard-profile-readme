@@ -166,9 +166,11 @@ export default function Home() {
                             },
                           )}
                         >
-                          <option value="">None</option>
+                          <option value="" className="bg-background">
+                            None
+                          </option>
                           {item.options.list.map(option => (
-                            <option value={option.value} key={option.value}>
+                            <option value={option.value} key={option.value} className="bg-background">
                               {option.name}
                             </option>
                           ))}
