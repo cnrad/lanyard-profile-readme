@@ -19,7 +19,7 @@ export type Parameters = {
   idleMessage?: string;
 };
 
-export const PARAMETERS: Array<
+export type IParameter = Array<
   { deprecated?: boolean } & (
     | {
         parameter: string;
@@ -53,7 +53,9 @@ export const PARAMETERS: Array<
         };
       }
   )
-> = [
+>;
+
+export const PARAMETERS: IParameter = [
   {
     parameter: "theme",
     type: "list",
@@ -188,4 +190,4 @@ export const PARAMETERS: Array<
     description: "Hides your discriminator. (DEPRECATED, RIP)",
     deprecated: true,
   },
-].sort((a, b) => b.type.localeCompare(a.type));
+].sort((a, b) => b.type.localeCompare(a.type)) as IParameter;
