@@ -24,8 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.className} antialiased`}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      {/* Supress Hydration Warning that caused by some extensions such as Colorzilla, do not remove this. */}
+      <body className={`${poppins.className} antialiased`} suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }
