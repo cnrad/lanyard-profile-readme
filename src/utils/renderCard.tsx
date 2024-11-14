@@ -336,7 +336,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                       }}
                     >
                       <img src={`data:image/png;base64,${clanBadge!}`} alt="Clan Badge" />
-                      <p style={{ marginBottom: "1.1rem" }}>{data.discord_user.clan!.tag}</p>
+                      <p style={{ marginBottom: "1.1rem", whiteSpace: "nowrap" }}>{data.discord_user.clan!.tag}</p>
                     </span>
                   )}
 
