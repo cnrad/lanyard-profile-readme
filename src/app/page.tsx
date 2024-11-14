@@ -12,10 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/popover";
 import { cn, filterLetters } from "@/lib/utils";
 
 export default function Home() {
-  const ORIGIN_URL =
-    process.env.NODE_ENV === "development"
-      ? "https://ae78-128-119-202-198.ngrok-free.app"
-      : "https://lanyard.cnrad.dev";
+  const ORIGIN_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://lanyard.cnrad.dev";
 
   const [userId, setUserId] = useState("");
   const [userError, setUserError] = useState<string | JSX.Element>();
