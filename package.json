@@ -1,5 +1,5 @@
 {
-  "name": "app-router",
+  "name": "lanyard-profile-readme",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,8 +10,6 @@
   },
   "packageManager": "pnpm@9.11.0",
   "dependencies": {
-    "@emotion/css": "^11.13.4",
-    "@emotion/server": "^11.11.0",
     "@radix-ui/react-popover": "^1.1.2",
     "@types/escape-html": "^1.0.4",
     "class-variance-authority": "^0.7.0",
@@ -24,11 +22,9 @@
     "next": "15.0.3",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "sharp": "^0.33.5",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7",
-    "use-smooth-count": "^1.0.1"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",

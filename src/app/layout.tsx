@@ -11,10 +11,10 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Lanyard for GitHub Profile",
-  description: "Utilize Lanyard to display your Discord Presence in your GitHub Profile",
+  description: "Display your Discord Presence anywhere, using Lanyard",
   openGraph: {
     title: "Lanyard for GitHub Profile",
-    description: "Utilize Lanyard to display your Discord Presence in your GitHub Profile",
+    description: "Display your Discord Presence anywhere, using Lanyard",
   },
 };
 

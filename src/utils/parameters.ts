@@ -19,7 +19,7 @@ export type Parameters = {
   idleMessage?: string;
 };
 
-export type IParameter = Array<
+export type IParameterInfo = Array<
   { deprecated?: boolean } & (
     | {
         parameter: string;
@@ -55,7 +55,7 @@ export type IParameter = Array<
   )
 >;
 
-export const PARAMETERS: IParameter = [
+export const PARAMETER_INFO: IParameterInfo = [
   {
     parameter: "theme",
     type: "list",
@@ -190,4 +190,4 @@ export const PARAMETERS: IParameter = [
     description: "Hides your discriminator. (DEPRECATED, RIP)",
     deprecated: true,
   },
-].sort((a, b) => b.type.localeCompare(a.type)) as IParameter;
+].sort((a, b) => b.type.localeCompare(a.type)) as IParameterInfo;

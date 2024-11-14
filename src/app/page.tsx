@@ -1,18 +1,21 @@
 "use client";
 
-import React, { useState, useMemo, JSX, useRef, useEffect } from "react";
+import React, { useState, JSX, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import useSWR from "swr";
 import { getUserCount } from "@/utils/actions";
 import { isSnowflake } from "@/utils/snowflake";
 import Link from "next/link";
-import { PARAMETERS } from "@/utils/parameters";
+import { PARAMETER_INFO } from "@/utils/parameters";
 import * as Icon from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/popover";
 import { cn, filterLetters } from "@/lib/utils";
 
 export default function Home() {
-  const originUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "https://lanyard.cnrad.dev";
+  const ORIGIN_URL =
+    process.env.NODE_ENV === "development"
+      ? "https://ae78-128-119-202-198.ngrok-free.app"
+      : "https://lanyard.cnrad.dev";
 
   const [userId, setUserId] = useState("");
   const [userError, setUserError] = useState<string | JSX.Element>();
@@ -32,7 +35,7 @@ export default function Home() {
     if (userId.length > 0 && !isSnowflake(userId)) return setUserError("Invalid Discord ID");
   }
 
-  const url = `${originUrl}/api/${userId}${
+  const url = `${ORIGIN_URL}/api/${userId}${
     Object.keys(options).length > 0
       ? `?${Object.keys(options)
           .map(option => `${option}=${options[option]}`)
@@ -73,7 +76,18 @@ export default function Home() {
       <main className="flex min-h-screen max-w-[100vw] flex-col items-center">
         <div className="relative mt-16 flex w-[80%] max-w-[28rem] flex-col gap-2 rounded-md">
           <p className="text-left text-3xl font-semibold text-[#cecece]">🏷️ lanyard-profile-readme </p>
-          <p className="mb-2 text-sm text-[#aaabaf]">Uses Lanyard to display your Discord Presence anywhere.</p>
+          <p className="mb-2 text-sm text-[#aaabaf]">
+            Uses{" "}
+            <a
+              href="https://github.com/Phineas/lanyard"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="text-white underline decoration-transparent underline-offset-2 transition-colors duration-150 ease-out hover:decoration-white"
+            >
+              Lanyard
+            </a>{" "}
+            to display your Discord Presence anywhere.
+          </p>
 
           <div className="flex h-[2.25rem] w-full flex-row gap-2">
             <input
@@ -110,7 +124,7 @@ export default function Home() {
             )}
           >
             <div className="grid-rows-auto mb-4 flex w-full flex-col gap-2.5 sm:grid sm:grid-cols-2">
-              {PARAMETERS.filter(item => item.type !== "boolean").map(item => {
+              {PARAMETER_INFO.filter(item => item.type !== "boolean").map(item => {
                 return (
                   <div key={item.parameter} className="flex flex-col gap-1.5">
                     <div className="flex items-center gap-2">
@@ -136,7 +150,7 @@ export default function Home() {
                           const filteredValue = encodeURIComponent(
                             filterLetters(
                               e.target.value,
-                              (PARAMETERS.find(p => p.parameter === item.parameter) as any).options.omit,
+                              (PARAMETER_INFO.find(p => p.parameter === item.parameter) as any).options.omit,
                             ),
                           );
 
@@ -188,7 +202,7 @@ export default function Home() {
 
             {/* Separated for easier styling/readability */}
             <div className="sm:grid-rows-auto flex flex-col gap-2 sm:grid sm:grid-cols-2">
-              {PARAMETERS.filter(item => item.type === "boolean").map(item => {
+              {PARAMETER_INFO.filter(item => item.type === "boolean").map(item => {
                 return (
                   <div key={item.parameter} className="flex flex-row items-start gap-2.5 text-sm">
                     <input
@@ -212,7 +226,7 @@ export default function Home() {
                     <p
                       className="text-gray-300"
                       style={{
-                        textDecoration: PARAMETERS.find(p => p.parameter === item.parameter)?.deprecated
+                        textDecoration: PARAMETER_INFO.find(p => p.parameter === item.parameter)?.deprecated
                           ? "line-through"
                           : "none",
                       }}
