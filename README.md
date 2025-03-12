@@ -1,3 +1,7 @@
+> ❗ IMPORTANT ❗
+> 
+> If you are using `lanyard-profile-readme.vercel.app`, change it to `lanyard.cnrad.dev` at your earliest convenience! Someone used 100gb of outbound traffic in a single day (twice), and now all my projects on Vercel (including this one) are paused because the free usage was exceeded.
+
 <!-- markdownlint-disable -->
 # lanyard-profile-readme
 
