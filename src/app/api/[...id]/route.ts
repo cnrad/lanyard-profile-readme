@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest, options: { params: Promise<{ id: string[] }> }) {
   const userId = (await options.params).id.join("/");
+  const OPTIMIZE_FOR_VERCEL = req.url.includes("lanyard-profile-readme");
 
   if (!userId)
     return Response.json(
@@ -60,7 +61,10 @@ export async function GET(req: NextRequest, options: { params: Promise<{ id: str
     );
   }
 
-  const params: Parameters = Object.fromEntries(req.nextUrl.searchParams.entries());
+  const params: Parameters = {
+    ...Object.fromEntries(req.nextUrl.searchParams.entries()),
+    optimized: OPTIMIZE_FOR_VERCEL,
+  };
 
   try {
     let user = await redis.hget("users", userId);

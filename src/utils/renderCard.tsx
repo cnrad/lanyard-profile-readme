@@ -25,6 +25,7 @@ export type Parameters = {
   showDisplayName?: string;
   borderRadius?: string;
   idleMessage?: string;
+  optimized: boolean;
 };
 
 const parseBool = (string: string | undefined): boolean => (string === "true" ? true : false);
@@ -84,8 +85,9 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
   if (!data.discord_user.avatar_decoration_data) hideDecoration = true;
   if (parseBool(params.hideDiscrim) || body.data.discord_user.discriminator === "0") hideDiscrim = true;
   if (!body.data.discord_user.clan) hideClan = true;
-  if (data.activities[0]?.emoji?.animated) statusExtension = "gif";
-  if (data.discord_user.avatar && data.discord_user.avatar.startsWith("a_")) avatarExtension = "gif";
+  if (data.activities[0]?.emoji?.animated && !params.optimized) statusExtension = "gif";
+  if (data.discord_user.avatar && data.discord_user.avatar.startsWith("a_") && !params.optimized)
+    avatarExtension = "gif";
   if (params.animated === "false") avatarExtension = "webp";
   if (params.theme === "light") {
     backgroundColor = "eee";
@@ -103,6 +105,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
       `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${
         data.discord_user.avatar
       }.${avatarExtension}?size=${avatarExtension === "gif" ? "64" : "256"}`,
+      avatarExtension === "gif" ? 64 : 128,
     );
   } else {
     avatar = await encodeBase64(
@@ -111,6 +114,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
           ? Number(BigInt(data.discord_user.id) >> BigInt(22)) % 6
           : Number(data.discord_user.discriminator) % 5
       }.png`,
+      100,
     );
   }
 
@@ -118,6 +122,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
   if (data.discord_user.clan) {
     clanBadge = await encodeBase64(
       `https://cdn.discordapp.com/clan-badges/${data.discord_user.clan.identity_guild_id}/${data.discord_user.clan.badge}.png?size=16`,
+      16,
     );
   }
 
@@ -125,6 +130,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
   if (data.discord_user.avatar_decoration_data) {
     avatarDecoration = await encodeBase64(
       `https://cdn.discordapp.com/avatar-decoration-presets/${data.discord_user.avatar_decoration_data.asset}.png?size=64&passthrough=${params.animatedDecoration || "true"}`,
+      100,
     );
   }
 
@@ -254,7 +260,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                 {hideDecoration || !data.discord_user.avatar_decoration_data ? null : (
                   <>
                     <img
-                      src={`data:image/png;base64,${avatarDecoration!}`}
+                      src={`data:image/webp;base64,${avatarDecoration!}`}
                       alt="Avatar Decoration"
                       style={{
                         display: "block",
@@ -387,6 +393,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                       <img
                         src={`data:image/png;base64,${await encodeBase64(
                           `https://cdn.discordapp.com/emojis/${userStatus.emoji.id}.${statusExtension}`,
+                          16,
                         )}`}
                         alt="User Status Emoji"
                         style={{
@@ -437,6 +444,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                       activity.assets.large_image.startsWith("mp:external/")
                         ? `https://media.discordapp.net/external/${activity.assets.large_image.replace("mp:external/", "")}`
                         : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`,
+                      196,
                     )}`}
                     alt="Activity Large Image"
                     style={{
@@ -450,6 +458,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                   <img
                     src={`data:image/png;base64,${await encodeBase64(
                       `https://lanyard-profile-readme.vercel.app/assets/unknown.png`,
+                      64,
                     )}`}
                     alt="Unknown Icon"
                     style={{
@@ -467,6 +476,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                       activity.assets.small_image.startsWith("mp:external/")
                         ? `https://media.discordapp.net/external/${activity.assets.small_image.replace("mp:external/", "")}`
                         : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`,
+                      64,
                     )}`}
                     alt="Activity Small Image"
                     style={{
@@ -566,7 +576,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
             >
               <img
                 src={await (async () => {
-                  const album = await encodeBase64(data.spotify.album_art_url);
+                  const album = await encodeBase64(data.spotify.album_art_url, 196);
                   if (album) return `data:image/png;base64,${album}`;
                   return "https://lanyard-profile-readme.vercel.app/assets/unknown.png";
                 })()}
