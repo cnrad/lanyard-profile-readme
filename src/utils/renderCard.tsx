@@ -118,19 +118,20 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
     );
   }
 
-  let clanBadge: string;
-  if (data.discord_user.clan) {
+  let clanBadge: string | null = null;
+  if (data.discord_user.clan && data.discord_user.clan.identity_guild_id && data.discord_user.clan.badge) {
     clanBadge = await encodeBase64(
       `https://cdn.discordapp.com/clan-badges/${data.discord_user.clan.identity_guild_id}/${data.discord_user.clan.badge}.png?size=16`,
       16,
     );
   }
 
-  let avatarDecoration: string;
-  if (data.discord_user.avatar_decoration_data) {
+  let avatarDecoration: string | null = null;
+  if (data.discord_user.avatar_decoration_data?.asset) {
     avatarDecoration = await encodeBase64(
-      `https://cdn.discordapp.com/avatar-decoration-presets/${data.discord_user.avatar_decoration_data.asset}.png?size=64&passthrough=${params.animatedDecoration || "true"}`,
+      `https://cdn.discordapp.com/avatar-decoration-presets/${data.discord_user.avatar_decoration_data.asset}.png?size=64&passthrough=${params.animatedDecoration || "false"}`,
       100,
+      false,
     );
   }
 
@@ -393,7 +394,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                       <img
                         src={`data:image/png;base64,${await encodeBase64(
                           `https://cdn.discordapp.com/emojis/${userStatus.emoji.id}.${statusExtension}`,
-                          16,
+                          32,
                         )}`}
                         alt="User Status Emoji"
                         style={{

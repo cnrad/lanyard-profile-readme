@@ -1,6 +1,6 @@
 > ❗ IMPORTANT ❗
 > 
-> If you are using `lanyard-profile-readme.vercel.app`, change it to `lanyard.cnrad.dev` at your earliest convenience! Someone used 100gb of outbound traffic in a single day (twice), and now all my projects on Vercel (including this one) are paused because the free usage was exceeded.
+> If you are using `lanyard-profile-readme.vercel.app`, change it to `lanyard.cnrad.dev` at your earliest convenience!
 
 <!-- markdownlint-disable -->
 # lanyard-profile-readme
@@ -58,8 +58,8 @@ If you'd like to show your global display name as well as your username, append 
 #### ___Hide Avatar Decoration___
 If you don't want people seeing your Avatar Decoration, append the query param `hideDecoration=true` to the end of the URL. Your Avatar Decoration is shown by default if you have one.
 
-#### ___Toggle Animated Avatar Decoration___
-If you have an Animated Avatar Decoration, append the query param `animatedDecoration=:bool` to the end of the URL, replacing `:bool` with `true` or `false`. This is set to `true` by default.
+#### ___Enable Animated Avatar Decoration___
+If you have an Animated Avatar Decoration, append the query param `animatedDecoration=true` to the URL. This is set to `false` by default to minimize response size.
 
 ### ___Hide Status___
 

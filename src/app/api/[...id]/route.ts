@@ -73,11 +73,32 @@ export async function GET(req: NextRequest, options: { params: Promise<{ id: str
     null;
   }
 
-  return new Response(await renderCard(getUser.data, params), {
+  const body = await renderCard(getUser.data, params);
+  const resLength = Buffer.byteLength(body.toString());
+
+  // If it's bigger than 3mb, return an error. Too big skill issue
+  if (Buffer.byteLength(body.toString()) > 3000000) {
+    return Response.json(
+      {
+        success: false,
+        response_length: resLength,
+        message:
+          "Bandwidth isn't free, this service will not embed large images. If you have an animated avatar, please compress it or set the `animated` parameter to false. If you have an avatar decoration, set the `animatedDecoration` parameter to false.",
+        docs: "https://github.com/cnrad/lanyard-profile-readme",
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+
+  const res = new Response(body, {
     headers: {
       "Content-Type": "image/svg+xml; charset=utf-8",
       "content-security-policy": "default-src 'none'; img-src * data:; style-src 'unsafe-inline'",
     },
     status: 200,
   });
+
+  return res;
 }
