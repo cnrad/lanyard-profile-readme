@@ -94,6 +94,7 @@ export async function GET(req: NextRequest, options: { params: Promise<{ id: str
 
   const res = new Response(body, {
     headers: {
+      "Cache-Control": "max-age=60",
       "Content-Type": "image/svg+xml; charset=utf-8",
       "content-security-policy": "default-src 'none'; img-src * data:; style-src 'unsafe-inline'",
     },
