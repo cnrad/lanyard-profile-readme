@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack -p 3001",
-    "build": "next build",
+    "build": "next build && opennextjs-cloudflare build",
     "start": "next start -p 3001",
     "lint": "next lint",
     "preview": "opennextjs-cloudflare && wrangler dev",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "deploy": "opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "packageManager": "pnpm@9.11.0",
