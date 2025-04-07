@@ -1,7 +1,29 @@
-export type Parameters = {
+export type ProfileSettings = {
   theme?: string;
   bg?: string;
-  clanbg?: string;
+  clanBackgroundColor?: string;
+  animated?: boolean;
+  animatedDecoration?: boolean;
+  hideDiscrim?: boolean;
+  hideStatus?: boolean;
+  hideTimestamp?: boolean;
+  hideBadges?: boolean;
+  hideProfile?: boolean;
+  hideActivity?: boolean | "whenNotUsed";
+  hideSpotify?: boolean;
+  hideClan?: boolean;
+  hideDecoration?: boolean;
+  ignoreAppId?: string[];
+  showDisplayName?: boolean;
+  borderRadius?: string;
+  idleMessage?: string;
+  optimized?: boolean;
+};
+
+export type SearchParams = {
+  theme?: string;
+  bg?: string;
+  clanBackgroundColor?: string;
   animated?: string;
   animatedDecoration?: string;
   hideDiscrim?: string;
@@ -60,7 +82,8 @@ export const PARAMETER_INFO: IParameterInfo = [
     parameter: "theme",
     type: "list",
     title: "Theme",
-    description: "Changes the background and text colors. Can be overridden with the `bg` parameter.",
+    description:
+      "Changes the background and text colors. Can be overridden with the `bg` parameter.",
     options: {
       list: [
         {
@@ -88,7 +111,8 @@ export const PARAMETER_INFO: IParameterInfo = [
     parameter: "borderRadius",
     type: "string",
     title: "Border Radius",
-    description: "Changes the border radius of the card. Follows the CSS <length> spec (px, rem, etc.).",
+    description:
+      "Changes the border radius of the card. Follows the CSS <length> spec (px, rem, etc.).",
     options: {
       placeholder: "10px",
     },
@@ -106,7 +130,8 @@ export const PARAMETER_INFO: IParameterInfo = [
     parameter: "idleMessage",
     type: "string",
     title: "Idle Message",
-    description: 'Changes the idle message. Defaults to "I\'m not currently doing anything!".',
+    description:
+      'Changes the idle message. Defaults to "I\'m not currently doing anything!".',
     options: {
       placeholder: "I'm not currently doing anything!",
     },

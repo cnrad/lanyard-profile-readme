@@ -53,12 +53,10 @@ If you don't want the default "`I'm not currently doing anything!`" as your idle
 
 If you'd like to show your global display name as well as your username, append the query param `showDisplayName=true` to the end of the URL. This is set to `false` by default.
 
-### ___Avatar Decoration___
-
-#### ___Hide Avatar Decoration___
+### ___Hide Avatar Decoration___
 If you don't want people seeing your Avatar Decoration, append the query param `hideDecoration=true` to the end of the URL. Your Avatar Decoration is shown by default if you have one.
 
-#### ___Enable Animated Avatar Decoration___
+### ___Enable Animated Avatar Decoration___
 If you have an Animated Avatar Decoration, append the query param `animatedDecoration=true` to the URL. This is set to `false` by default to minimize response size.
 
 ### ___Hide Status___
@@ -92,10 +90,6 @@ If you don't want people seeing your Spotify activity, append the query param `h
 ### ___Hide App by ID___
 
 If you don't want to display a specific application, append the query param `ignoreAppId=:app_id` to the end of the URL, IDs separate by `,`.
-
-### ___Hide Discriminator___ (DEPRECATED soon)
-
-If you don't want people seeing your discriminator (most likely for privacy reasons), append the query param `hideDiscrim=true` to the end of the URL. Your discriminator is shown by default.
 
 ## ___Example URL and result___
 

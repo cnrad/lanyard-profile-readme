@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/helpers";
+import * as Icon from "lucide-react";
 
 const Popover = PopoverPrimitive.Root;
 const PopoverTrigger = PopoverPrimitive.Trigger;
-const PopoverAnchor = PopoverPrimitive.Anchor;
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
@@ -18,7 +18,7 @@ const PopoverContent = React.forwardRef<
       sideOffset={sideOffset}
       className={cn(
         "z-50 w-72 rounded-md border border-white/10 bg-black/50 p-4 text-stone-50 shadow-md outline-none backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        className,
+        className
       )}
       {...props}
     />
@@ -26,4 +26,36 @@ const PopoverContent = React.forwardRef<
 ));
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
-export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor };
+export const InfoTooltip = ({ content }: { content: string }) => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleMouseEnter = () => {
+    setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Icon.InfoIcon
+          size={16}
+          className="rounded-md text-zinc-700 transition hover:text-gray-400"
+        />
+      </PopoverTrigger>
+      <PopoverContent
+        side="top"
+        className="text-sm"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {content}
+      </PopoverContent>
+    </Popover>
+  );
+};
