@@ -37,8 +37,8 @@ export default function RootLayout({
     <html lang="en">
       <Head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <CSideScript />
       </Head>
-      <CSideScript />
       <body
         className={`${openSans.variable} ${robotoMono.variable} antialiased`}
       >

@@ -94,7 +94,7 @@ export default function Home() {
 
             <div
               className={cn(
-                "flex flex-col text-white mt-4 p-3 border border-zinc-800 bg-zinc-900/50 rounded-lg"
+                "flex flex-col text-white mt-4 p-3 border border-zinc-800 bg-zinc-900/50 rounded-lg mb-4"
               )}
             >
               <div className="grid-rows-auto mb-4 flex w-full flex-col gap-2.5 sm:grid sm:grid-cols-2">
@@ -243,6 +243,16 @@ export default function Home() {
                   }
                 )}
               </div>
+
+              <a
+                href="https://github.com/cnrad/lanyard-profile-readme?tab=readme-ov-file#options"
+                rel="noreferrer noopener"
+                target="_blank"
+                className="flex flex-row items-center justify-center gap-2 mt-4 text-sm text-white/75 hover:text-white w-full bg-white/5 hover:bg-white/10 border border-white/10 rounded-full py-1.5 transition-colors duration-150 ease-out"
+              >
+                More info
+                <Icon.ExternalLink size={14} />
+              </a>
             </div>
           </div>
         </div>
