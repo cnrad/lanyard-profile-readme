@@ -101,7 +101,7 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
 
   if (data.spotify?.album_art_url)
     albumCover = `data:image/png;base64,${
-      encodeBase64(data.spotify.album_art_url) ?? UnknownIcon
+      (await encodeBase64(data.spotify.album_art_url)) ?? UnknownIcon
     }`;
 
   return {
