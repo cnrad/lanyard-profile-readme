@@ -1,5 +1,4 @@
 import { Activity, Data } from "./LanyardTypes";
-import { UnknownIcon } from "./badges";
 import { ProfileSettings } from "./parameters";
 import { encodeBase64 } from "./toBase64";
 
@@ -100,9 +99,7 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
     );
 
   if (data.spotify?.album_art_url)
-    albumCover = `data:image/png;base64,${
-      (await encodeBase64(data.spotify.album_art_url)) ?? UnknownIcon
-    }`;
+    albumCover = await encodeBase64(data.spotify.album_art_url);
 
   return {
     avatar,
