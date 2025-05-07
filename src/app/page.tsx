@@ -30,6 +30,8 @@ export default function Home() {
       return setUserError("Invalid Discord ID");
   }
 
+  console.log(options);
+
   const url = `${ORIGIN_URL}/api/${userId}${
     Object.keys(options).length > 0
       ? `?${Object.keys(options)
@@ -120,7 +122,7 @@ export default function Home() {
                               if (e.target.value.length < 1) {
                                 const prevOptions = { ...options };
                                 delete prevOptions[item.parameter];
-                                setOptions(prevOptions);
+                                return setOptions(prevOptions);
                               }
 
                               const filteredValue = encodeURIComponent(
