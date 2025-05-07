@@ -67,9 +67,9 @@ If you don't want people seeing your status, append the query param `hideStatus=
 
 If you don't want people seeing the elapsed time on an activity, append the query param `hideTimestamp=true` to the end of the URL. Elapsed time is shown by default.
 
-### ___Hide Clan Tag___
+### ___Hide Server Tag___
 
-If you don't want people seeing your Clan Tag (formerly known as Guilds), append the query param `hideClan=true` to the end of the URL. Clan Tag is shown by default.
+If you don't want people seeing your Server Tag (formerly known as Clan or Guild), append the query param `hideTag=true` to the end of the URL. Server Tag is shown by default.
 
 ### ___Hide Badges___
 

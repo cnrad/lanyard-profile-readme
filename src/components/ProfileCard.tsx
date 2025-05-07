@@ -30,7 +30,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     hideProfile,
     hideActivity,
     hideSpotify,
-    hideClan,
+    hideTag,
     hideDecoration,
     ignoreAppId,
     hideDiscrim,
@@ -262,7 +262,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     ) : null}
                   </h1>
 
-                  {hideClan ||
+                  {hideTag ||
                   (!data.discord_user.clan?.tag &&
                     !data.discord_user.clan?.badge) ? null : (
                     <span
