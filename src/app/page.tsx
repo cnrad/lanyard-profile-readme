@@ -30,8 +30,6 @@ export default function Home() {
       return setUserError("Invalid Discord ID");
   }
 
-  console.log(options);
-
   const url = `${ORIGIN_URL}/api/${userId}${
     Object.keys(options).length > 0
       ? `?${Object.keys(options)
@@ -151,12 +149,18 @@ export default function Home() {
                           <div className="relative">
                             <select
                               value={(options[item.parameter] as string) || ""}
-                              onChange={(e) =>
+                              onChange={(e) => {
+                                if (e.target.value.length < 1) {
+                                  const prevOptions = { ...options };
+                                  delete prevOptions[item.parameter];
+                                  return setOptions(prevOptions);
+                                }
+
                                 setOptions((prev) => ({
                                   ...prev,
                                   [item.parameter]: e.target.value,
-                                }))
-                              }
+                                }));
+                              }}
                               className={cn(
                                 "relative h-8 w-full appearance-none rounded-md border border-white/10 bg-transparent px-2 py-0.5 text-sm outline-none transition-all duration-150 ease-out placeholder:text-white/30 focus:border-white/50 disabled:cursor-not-allowed disabled:opacity-50",
                                 {
