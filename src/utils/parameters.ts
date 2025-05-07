@@ -49,7 +49,7 @@ export type IParameterInfo = Array<
         title: string;
         description?: string;
         options?: {
-          defaultBool?: boolean;
+          value?: "true" | "false";
         };
       }
     | {
@@ -123,7 +123,7 @@ export const PARAMETER_INFO: IParameterInfo = [
     title: "Disable Animated Avatar",
     description: "Disables an animated avatar.",
     options: {
-      defaultBool: true,
+      value: "false",
     },
   },
   {
@@ -148,7 +148,7 @@ export const PARAMETER_INFO: IParameterInfo = [
     title: "Disable Animated Avatar Decoration",
     description: "Disables animated avatar decorations.",
     options: {
-      defaultBool: true,
+      value: "false",
     },
   },
   {

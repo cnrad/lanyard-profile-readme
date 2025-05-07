@@ -5,13 +5,13 @@ import { motion } from "motion/react";
 import { isSnowflake } from "@/utils/snowflake";
 import { PARAMETER_INFO } from "@/utils/parameters";
 import * as Icon from "lucide-react";
-import { InfoTooltip } from "@/components/Popover";
+import { InfoTooltip } from "@/components/popover";
 import { cn, filterLetters } from "@/utils/helpers";
 
 export default function Home() {
   const ORIGIN_URL =
     process.env.NODE_ENV === "development"
-      ? "http://localhost:3001"
+      ? "http://localhost:3000"
       : "https://lanyard.cnrad.dev";
 
   const [userId, setUserId] = useState("");
@@ -209,12 +209,11 @@ export default function Home() {
                                 options[item.parameter] !== "true",
                             }
                           )}
-                          checked={options[item.parameter] === "true"}
                           onChange={(e) => {
                             if (e.target.checked) {
                               setOptions((prev) => ({
                                 ...prev,
-                                [item.parameter]: e.target.checked.toString(),
+                                [item.parameter]: item.options?.value ?? "true",
                               }));
                             } else {
                               const prevOptions = { ...options };
