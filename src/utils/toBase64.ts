@@ -8,7 +8,7 @@ export const encodeBase64 = async (
 
   try {
     response = await fetch(url, {
-      cache: "no-store",
+      cache: "force-cache",
     })
       .then((res) => {
         if (!res.ok) {
