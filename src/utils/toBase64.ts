@@ -1,7 +1,9 @@
+import sharp from "sharp";
 import { UnknownIconDark, UnknownIconLight } from "./badges";
 
 export const encodeBase64 = async (
   url: string,
+  size: number = 128,
   theme: string = "dark"
 ): Promise<string> => {
   let response = "";
@@ -19,7 +21,17 @@ export const encodeBase64 = async (
         return res.blob();
       })
       .then(async (blob) => {
-        const buffer = Buffer.from(await blob.arrayBuffer());
+        let buffer = Buffer.from(await blob.arrayBuffer()) as Buffer;
+
+        if (size) {
+          buffer = await sharp(buffer, { animated: true })
+            .webp({
+              quality: 75,
+            })
+            .resize(size)
+            .toBuffer();
+        }
+
         return buffer.toString("base64");
       });
   } catch (e) {
