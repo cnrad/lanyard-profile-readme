@@ -207,21 +207,21 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                         transform: "translate(-50%, -50%)",
                       }}
                     />
-
-                    <span
-                      style={{
-                        position: "absolute",
-                        bottom: "14px",
-                        right: "14px",
-                        height: "13px",
-                        width: "13px",
-                        backgroundColor: avatarBorderColor,
-                        borderRadius: "50%",
-                        border: `3px solid #${backgroundColor}`,
-                      }}
-                    />
                   </>
                 )}
+
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: "14px",
+                    right: "14px",
+                    height: "13px",
+                    width: "13px",
+                    backgroundColor: avatarBorderColor,
+                    borderRadius: "50%",
+                    border: `3px solid #${backgroundColor}`,
+                  }}
+                />
               </div>
               <div
                 style={{
