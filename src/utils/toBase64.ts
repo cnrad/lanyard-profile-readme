@@ -1,11 +1,9 @@
 import { UnknownIconDark, UnknownIconLight } from "./badges";
-import { isDark } from "./helpers";
 
 export const encodeBase64 = async (
   url: string,
-  bg: "light" | "dark" | string = "dark"
+  theme: string = "dark"
 ): Promise<string> => {
-  const dark = isDark(bg);
   let response = "";
 
   try {
@@ -14,7 +12,7 @@ export const encodeBase64 = async (
     })
       .then((res) => {
         if (!res.ok) {
-          response = dark ? UnknownIconLight : UnknownIconDark;
+          response = theme === "dark" ? UnknownIconLight : UnknownIconDark;
           throw new Error(`not ok: ${res}`, { cause: res });
         }
 

@@ -1,6 +1,6 @@
 import { Activity, Data } from "@/utils/LanyardTypes";
 import { Badges, UnknownIconDark, UnknownIconLight } from "@/utils/badges";
-import { elapsedTime, getFlags, isDark } from "@/utils/helpers";
+import { elapsedTime, getFlags } from "@/utils/helpers";
 import { ProfileSettings } from "@/utils/parameters";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
@@ -55,7 +55,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   let avatarBorderColor: string = "#747F8D";
   const backgroundColor: string =
     bg ?? (theme === "light" ? "ededed" : "1a1c1f");
-  const isBackgroundDark = isDark(backgroundColor);
 
   switch (data.discord_status) {
     case "online":
@@ -402,7 +401,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 ) : (
                   <img
                     src={`data:image/png;base64,${
-                      isBackgroundDark ? UnknownIconLight : UnknownIconDark
+                      theme === "dark" ? UnknownIconLight : UnknownIconDark
                     }`}
                     alt="Unknown Icon"
                     style={{
@@ -523,7 +522,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
               <img
                 src={`data:image/png;base64,${
                   albumCover ??
-                  (isBackgroundDark ? UnknownIconLight : UnknownIconDark)
+                  (theme === "dark" ? UnknownIconLight : UnknownIconDark)
                 }`}
                 alt="Album Cover"
                 style={{
