@@ -22,7 +22,7 @@ export type ProfileSettings = {
 
 export type SearchParams = {
   theme?: string;
-  bg?: string;
+  bg?: "dark" | "light" | string;
   clanBackgroundColor?: string;
   animated?: string;
   animatedDecoration?: string;

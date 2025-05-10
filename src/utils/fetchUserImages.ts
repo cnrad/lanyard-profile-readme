@@ -78,7 +78,8 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
             "mp:",
             ""
           )}`
-        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`
+        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`,
+      settings.bg
     );
 
   if (activity?.assets?.small_image)
@@ -88,7 +89,8 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
             "mp:",
             ""
           )}`
-        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`
+        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`,
+      settings.bg
     );
 
   if (userStatus?.emoji?.id)
