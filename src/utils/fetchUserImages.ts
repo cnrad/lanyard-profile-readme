@@ -57,12 +57,12 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
   }
 
   if (
-    data.discord_user.clan &&
-    data.discord_user.clan.identity_guild_id &&
-    data.discord_user.clan.badge
+    data.discord_user.primary_guild &&
+    data.discord_user.primary_guild.identity_guild_id &&
+    data.discord_user.primary_guild.badge
   ) {
     clanBadge = await encodeBase64(
-      `https://cdn.discordapp.com/clan-badges/${data.discord_user.clan.identity_guild_id}/${data.discord_user.clan.badge}.png?size=16`,
+      `https://cdn.discordapp.com/clan-badges/${data.discord_user.primary_guild.identity_guild_id}/${data.discord_user.primary_guild.badge}.png?size=16`,
       ImageSize.SERVER_TAG
     );
   }

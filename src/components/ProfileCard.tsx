@@ -263,8 +263,8 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   </h1>
 
                   {hideTag ||
-                  (!data.discord_user.clan?.tag &&
-                    !data.discord_user.clan?.badge) ? null : (
+                  (!data.discord_user.primary_guild?.tag &&
+                    !data.discord_user.primary_guild?.badge) ? null : (
                     <span
                       style={{
                         backgroundColor: clanBackgroundColor,
@@ -289,7 +289,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                       <p
                         style={{ marginBottom: "1.1rem", whiteSpace: "nowrap" }}
                       >
-                        {data.discord_user.clan!.tag}
+                        {data.discord_user.primary_guild!.tag}
                       </p>
                     </span>
                   )}

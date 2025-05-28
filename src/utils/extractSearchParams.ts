@@ -28,7 +28,7 @@ export function extractSearchParams(
   const hideSpotify = parseBool(params.hideSpotify);
 
   let hideTag = parseBool(params.hideTag);
-  if (!data.discord_user.clan) hideTag = true;
+  if (!data.discord_user.primary_guild) hideTag = true;
 
   let hideDecoration = parseBool(params.hideDecoration);
   if (!data.discord_user.avatar_decoration_data) hideDecoration = true;
