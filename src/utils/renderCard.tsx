@@ -635,7 +635,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                     color: theme === "dark" ? "#ccc" : "#777",
                   }}
                 >
-                  By {data.spotify.artist}
+                  By {data.spotify.artist.replace(/; /g, ", ")}
                 </p>
               </div>
             </div>
