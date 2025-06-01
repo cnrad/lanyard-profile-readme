@@ -1,15 +1,12 @@
 {
   "name": "lanyard-profile-readme",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "deploy": "opennextjs-cloudflare && wrangler deploy",
-    "preview": "opennextjs-cloudflare && wrangler dev",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
@@ -29,7 +26,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250403.0",
     "@eslint/eslintrc": "^3",
-    "@opennextjs/cloudflare": "0.5.x",
+    "@opennextjs/cloudflare": "1.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -40,5 +37,5 @@
     "typescript": "^5",
     "wrangler": "^4.7.0"
   },
-  "packageManager": "pnpm@10.10.0"
+  "packageManager": "bun@1.2.13"
 }
