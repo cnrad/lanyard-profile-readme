@@ -588,7 +588,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     color: theme === "dark" ? "#ccc" : "#777",
                   }}
                 >
-                  By {data.spotify.artist}
+                  By {data.spotify.artist.replace(/; /g, ", ")}
                 </p>
               </div>
             </div>
