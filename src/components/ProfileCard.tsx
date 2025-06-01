@@ -159,8 +159,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 flexDirection: "row",
                 paddingBottom: "5px",
                 borderBottom:
-                  hideActivity && !activity && !data.listening_to_spotify
-                    ? ""
+                  hideActivity === true ||
+                  (hideActivity === "whenNotUsed" &&
+                    !activity &&
+                    !data.listening_to_spotify)
+                    ? "none"
                     : `solid 0.5px ${
                         theme === "dark"
                           ? "hsl(0, 0%, 100%, 10%)"
@@ -223,6 +226,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   }}
                 />
               </div>
+
               <div
                 style={{
                   height: "80px",
@@ -285,11 +289,15 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                       <img
                         src={`data:image/png;base64,${clanBadge!}`}
                         alt="Clan Badge"
+                        style={{
+                          width: "16px",
+                          height: "16px",
+                        }}
                       />
                       <p
                         style={{ marginBottom: "1.1rem", whiteSpace: "nowrap" }}
                       >
-                        {data.discord_user.primary_guild!.tag}
+                        {data.discord_user.primary_guild.tag}
                       </p>
                     </span>
                   )}
@@ -408,7 +416,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                       width: "70px",
                       height: "70px",
                       marginTop: "4px",
-                      filter: "invert(100)",
                     }}
                   />
                 )}
@@ -427,6 +434,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   />
                 ) : null}
               </div>
+
               <div
                 style={{
                   color: "#999",
@@ -529,9 +537,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   border: data.spotify.album_art_url
                     ? "border: solid 0.5px #222"
                     : undefined,
-                  filter: !data.spotify.album_art_url
-                    ? "invert(100)"
-                    : undefined,
                   width: "80px",
                   height: "80px",
                   borderRadius: "10px",
@@ -553,9 +558,10 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     fontWeight: "bold",
                     color: theme === "dark" ? "#1CB853" : "#0d943d",
                     marginBottom: "15px",
+                    textTransform: "uppercase",
                   }}
                 >
-                  LISTENING TO SPOTIFY...
+                  Listening to Spotify...
                 </p>
                 <p
                   style={{

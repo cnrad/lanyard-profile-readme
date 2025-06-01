@@ -62,7 +62,7 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
     data.discord_user.primary_guild.badge
   ) {
     clanBadge = await encodeBase64(
-      `https://cdn.discordapp.com/clan-badges/${data.discord_user.primary_guild.identity_guild_id}/${data.discord_user.primary_guild.badge}.png?size=16`,
+      `https://cdn.discordapp.com/clan-badges/${data.discord_user.primary_guild.identity_guild_id}/${data.discord_user.primary_guild.badge}.png?size=32`,
       ImageSize.SERVER_TAG
     );
   }

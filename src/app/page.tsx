@@ -3,9 +3,9 @@
 import React, { useState, JSX } from "react";
 import { motion } from "motion/react";
 import { isSnowflake } from "@/utils/snowflake";
-import { PARAMETER_INFO } from "@/utils/parameters";
+import { IParameterInfo, PARAMETER_INFO } from "@/utils/parameters";
 import * as Icon from "lucide-react";
-import { InfoTooltip } from "@/components/popover";
+import { InfoTooltip } from "@/components/Popover";
 import { cn, filterLetters } from "@/utils/helpers";
 
 export default function Home() {
@@ -197,56 +197,60 @@ export default function Home() {
 
               {/* Separated for easier styling/readability */}
               <div className="sm:grid-rows-auto flex flex-col gap-2 sm:grid sm:grid-cols-2">
-                {PARAMETER_INFO.filter((item) => item.type === "boolean").map(
-                  (item) => {
-                    return (
-                      <div
-                        key={item.parameter}
-                        className="flex flex-row items-start gap-2.5 text-sm"
+                {(
+                  PARAMETER_INFO.filter(
+                    (item) => item.type === "boolean"
+                  ) as Extract<IParameterInfo[number], { type: "boolean" }>[]
+                ).map((item) => {
+                  return (
+                    <div
+                      key={item.parameter}
+                      className="flex flex-row items-start gap-2.5 text-sm"
+                    >
+                      <input
+                        type="checkbox"
+                        className={cn(
+                          "mt-0.5 max-h-4 min-h-4 min-w-4 max-w-4 cursor-pointer appearance-none before:overflow-clip before:rounded-[0.25rem] after:absolute after:h-4 after:w-4 after:rounded-[0.25rem] after:border after:border-white/10 after:transition-all after:duration-150 after:ease-out",
+                          {
+                            "after:border-gray-200/50 after:bg-gray-500/40":
+                              options[item.parameter] === !item.invertBoolean,
+                            "after:bg-zinc-700/10 after:hover:bg-zinc-700/25":
+                              options[item.parameter] !== !item.invertBoolean,
+                          }
+                        )}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setOptions((prev) => ({
+                              ...prev,
+                              [item.parameter]: item.invertBoolean
+                                ? !e.target.checked
+                                : e.target.checked,
+                            }));
+                          } else {
+                            const prevOptions = { ...options };
+                            delete prevOptions[item.parameter];
+                            setOptions(prevOptions);
+                          }
+                        }}
+                      />
+
+                      <p
+                        className="text-gray-300"
+                        style={{
+                          textDecoration: PARAMETER_INFO.find(
+                            (p) => p.parameter === item.parameter
+                          )?.deprecated
+                            ? "line-through"
+                            : "none",
+                        }}
                       >
-                        <input
-                          type="checkbox"
-                          className={cn(
-                            "mt-0.5 max-h-4 min-h-4 min-w-4 max-w-4 cursor-pointer appearance-none before:overflow-clip before:rounded-[0.25rem] after:absolute after:h-4 after:w-4 after:rounded-[0.25rem] after:border after:border-white/10 after:transition-all after:duration-150 after:ease-out",
-                            {
-                              "after:border-gray-200/50 after:bg-gray-500/40":
-                                options[item.parameter] === "true",
-                              "after:bg-zinc-700/10 after:hover:bg-zinc-700/25":
-                                options[item.parameter] !== "true",
-                            }
-                          )}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setOptions((prev) => ({
-                                ...prev,
-                                [item.parameter]: item.options?.value ?? "true",
-                              }));
-                            } else {
-                              const prevOptions = { ...options };
-                              delete prevOptions[item.parameter];
-                              setOptions(prevOptions);
-                            }
-                          }}
-                        />
+                        {item.title}
+                      </p>
 
-                        <p
-                          className="text-gray-300"
-                          style={{
-                            textDecoration: PARAMETER_INFO.find(
-                              (p) => p.parameter === item.parameter
-                            )?.deprecated
-                              ? "line-through"
-                              : "none",
-                          }}
-                        >
-                          {item.title}
-                        </p>
-
-                        <InfoTooltip content={item.description || "Unknown"} />
-                      </div>
-                    );
-                  }
-                )}
+                      <InfoTooltip content={item.description || "Unknown"} />
+                    </div>
+                  );
+                })}
               </div>
 
               <a

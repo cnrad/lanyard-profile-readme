@@ -13,6 +13,7 @@ export const encodeBase64 = async (
       cache: "force-cache",
     })
       .then((res) => {
+        // Show unknown icons if media could not be fetched
         if (!res.ok) {
           response = theme === "dark" ? UnknownIconLight : UnknownIconDark;
           throw new Error(`not ok: ${res}`, { cause: res });
@@ -23,6 +24,7 @@ export const encodeBase64 = async (
       .then(async (blob) => {
         let buffer = Buffer.from(await blob.arrayBuffer()) as Buffer;
 
+        // sharp for some reason doesn't work with animated decorations, but so be it because when animated it's >1mb
         if (size) {
           buffer = await sharp(buffer, { animated: true })
             .webp({

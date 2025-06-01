@@ -48,9 +48,7 @@ export type IParameterInfo = Array<
         type: "boolean";
         title: string;
         description?: string;
-        options?: {
-          value?: "true" | "false";
-        };
+        invertBoolean?: boolean; // set to 'true' to invert the boolean value, e.g. `animated` is FALSE when the 'Disable Animated Avatar" parameter is TRUE
       }
     | {
         parameter: string;
@@ -122,9 +120,7 @@ export const PARAMETER_INFO: IParameterInfo = [
     type: "boolean",
     title: "Disable Animated Avatar",
     description: "Disables an animated avatar.",
-    options: {
-      value: "false",
-    },
+    invertBoolean: true,
   },
   {
     parameter: "idleMessage",
@@ -147,9 +143,7 @@ export const PARAMETER_INFO: IParameterInfo = [
     type: "boolean",
     title: "Disable Animated Avatar Decoration",
     description: "Disables animated avatar decorations.",
-    options: {
-      value: "false",
-    },
+    invertBoolean: true,
   },
   {
     parameter: "hideDecoration",

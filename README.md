@@ -69,7 +69,7 @@ If you don't want people seeing the elapsed time on an activity, append the quer
 
 ### ___Hide Server Tag___
 
-If you don't want people seeing your Server Tag (formerly known as Clan or Guild), append the query param `hideTag=true` to the end of the URL. Server Tag is shown by default.
+If you don't want people seeing your Server Tag (formerly known as Clan/Guild Tag), append the query param `hideTag=true` to the end of the URL. Server Tag is shown by default.
 
 ### ___Hide Badges___
 
