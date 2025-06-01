@@ -2,8 +2,8 @@
 import redis from "@/utils/redis";
 
 export async function getUserCount() {
-  let users = await redis.hgetall("users");
-  let count = Object.keys(users);
+  const users = await redis.hgetall("users");
+  const count = Object.keys(users);
 
   return count.length;
 }

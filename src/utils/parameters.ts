@@ -1,7 +1,29 @@
-export type Parameters = {
+export type ProfileSettings = {
   theme?: string;
   bg?: string;
-  clanbg?: string;
+  clanBackgroundColor?: string;
+  animated?: boolean;
+  animatedDecoration?: boolean;
+  hideDiscrim?: boolean;
+  hideStatus?: boolean;
+  hideTimestamp?: boolean;
+  hideBadges?: boolean;
+  hideProfile?: boolean;
+  hideActivity?: boolean | "whenNotUsed";
+  hideSpotify?: boolean;
+  hideTag?: boolean;
+  hideDecoration?: boolean;
+  ignoreAppId?: string[];
+  showDisplayName?: boolean;
+  borderRadius?: string;
+  idleMessage?: string;
+  optimized?: boolean;
+};
+
+export type SearchParams = {
+  theme?: string;
+  bg?: "dark" | "light" | string;
+  clanBackgroundColor?: string;
   animated?: string;
   animatedDecoration?: string;
   hideDiscrim?: string;
@@ -11,7 +33,7 @@ export type Parameters = {
   hideProfile?: string;
   hideActivity?: string;
   hideSpotify?: string;
-  hideClan?: string;
+  hideTag?: string;
   hideDecoration?: string;
   ignoreAppId?: string;
   showDisplayName?: string;
@@ -26,9 +48,7 @@ export type IParameterInfo = Array<
         type: "boolean";
         title: string;
         description?: string;
-        options?: {
-          defaultBool?: boolean;
-        };
+        invertBoolean?: boolean; // set to 'true' to invert the boolean value, e.g. `animated` is FALSE when the 'Disable Animated Avatar" parameter is TRUE
       }
     | {
         parameter: string;
@@ -60,7 +80,8 @@ export const PARAMETER_INFO: IParameterInfo = [
     parameter: "theme",
     type: "list",
     title: "Theme",
-    description: "Changes the background and text colors. Can be overridden with the `bg` parameter.",
+    description:
+      "Changes the background and text colors. Can be overridden with the `bg` parameter.",
     options: {
       list: [
         {
@@ -88,7 +109,8 @@ export const PARAMETER_INFO: IParameterInfo = [
     parameter: "borderRadius",
     type: "string",
     title: "Border Radius",
-    description: "Changes the border radius of the card. Follows the CSS <length> spec (px, rem, etc.).",
+    description:
+      "Changes the border radius of the card. Follows the CSS <length> spec (px, rem, etc.).",
     options: {
       placeholder: "10px",
     },
@@ -98,15 +120,14 @@ export const PARAMETER_INFO: IParameterInfo = [
     type: "boolean",
     title: "Disable Animated Avatar",
     description: "Disables an animated avatar.",
-    options: {
-      defaultBool: true,
-    },
+    invertBoolean: true,
   },
   {
     parameter: "idleMessage",
     type: "string",
     title: "Idle Message",
-    description: 'Changes the idle message. Defaults to "I\'m not currently doing anything!".',
+    description:
+      'Changes the idle message. Defaults to "I\'m not currently doing anything!".',
     options: {
       placeholder: "I'm not currently doing anything!",
     },
@@ -122,9 +143,7 @@ export const PARAMETER_INFO: IParameterInfo = [
     type: "boolean",
     title: "Disable Animated Avatar Decoration",
     description: "Disables animated avatar decorations.",
-    options: {
-      defaultBool: true,
-    },
+    invertBoolean: true,
   },
   {
     parameter: "hideDecoration",
@@ -145,10 +164,10 @@ export const PARAMETER_INFO: IParameterInfo = [
     description: "Hides the time spent on an activity.",
   },
   {
-    parameter: "hideClan",
+    parameter: "hideTag",
     type: "boolean",
-    title: "Hide Clan Tag",
-    description: "Hides your Guild Tag (formerly Clan Tag)",
+    title: "Hide Server Tag",
+    description: "Hides your Server Tag (formerly Guild or Clan Tag)",
   },
   {
     parameter: "hideBadges",

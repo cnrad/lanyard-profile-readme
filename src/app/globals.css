@@ -1,42 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
-    --background: #010103;
-    --foreground: #171717;
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-open-sans);
+  --font-mono: var(--font-roboto-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
-    color: var(--foreground);
-    background: var(--background);
-    font-family: "Poppins", sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-@layer base {
-    :root {
-        --radius: 0.5rem;
-    }
+/* For Popover tooltip */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: "translateY(-4px)";
+  }
+  to {
+    opacity: 1;
+    transform: "translateY(0px)";
+  }
 }
 
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: "translateY(0px)";
+  }
+  to {
+    opacity: 0;
+    transform: "translateY(-4px)";
+  }
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-    background: #131313;
-    border-radius: 6px;
+.PopoverContent[data-state="open"] {
+  animation: fadeIn 10ms ease-out;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #525252;
-    border-radius: 6px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #303030;
+.PopoverContent[data-state="closed"] {
+  animation: fadeOut 10ms ease-in;
 }

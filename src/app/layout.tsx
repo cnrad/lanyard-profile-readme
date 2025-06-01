@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import { CSideScript } from "@c-side/next";
-import { Poppins } from "next/font/google";
+import { Open_Sans } from "next/font/google";
+import { Roboto_Mono } from "next/font/google";
+import Head from "next/head";
 
-const poppins = Poppins({
+const openSans = Open_Sans({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
+  variable: "--font-open-sans",
+});
+
+const robotoMono = Roboto_Mono({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto-mono",
 });
 
 export const metadata: Metadata = {
@@ -26,9 +35,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <CSideScript />
-      <body className={`${poppins.className} antialiased`}>{children}</body>
-      <GoogleAnalytics gaId="G-89E40D5N6D" />
+      <Head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <CSideScript />
+      </Head>
+      <body
+        className={`${openSans.variable} ${robotoMono.variable} antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

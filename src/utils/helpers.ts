@@ -1,12 +1,19 @@
-import type { renderToStaticMarkup as _renderToStaticMarkup } from "react-dom/server";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-export let renderToStaticMarkup: typeof _renderToStaticMarkup;
-import("react-dom/server").then(module => {
-  renderToStaticMarkup = module.renderToStaticMarkup;
-});
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+export function filterLetters(str: string, lettersToRemove: string[] = []) {
+  lettersToRemove.forEach((letter) => {
+    str = str.replaceAll(letter, "");
+  });
+  return str;
+}
 
 export const getFlags = (flag: number): string[] => {
-  let flags: string[] = [];
+  const flags: string[] = [];
 
   // In the order they appear on profiles
   if (flag & 1) flags.push("Discord_Employee"); // 1 << 0
@@ -23,4 +30,39 @@ export const getFlags = (flag: number): string[] => {
   if (flag & 512) flags.push("Early_Supporter"); // 1 << 9
 
   return flags;
+};
+
+export const elapsedTime = (timestamp: number): string => {
+  const startTime = timestamp;
+  const endTime = Number(new Date());
+  let difference = (endTime - startTime) / 1000;
+
+  // we only calculate them, but we don't display them.
+  // this fixes a bug in the Discord API that does not send the correct timestamp to presence.
+  const daysDifference = Math.floor(difference / 60 / 60 / 24);
+  difference -= daysDifference * 60 * 60 * 24;
+
+  const hoursDifference = Math.floor(difference / 60 / 60);
+  difference -= hoursDifference * 60 * 60;
+
+  const minutesDifference = Math.floor(difference / 60);
+  difference -= minutesDifference * 60;
+
+  const secondsDifference = Math.floor(difference);
+
+  return `${
+    hoursDifference >= 1 ? ("0" + hoursDifference).slice(-2) + ":" : ""
+  }${("0" + minutesDifference).slice(-2)}:${("0" + secondsDifference).slice(
+    -2
+  )}`;
+};
+
+export const ImageSize = {
+  USER_AVATAR: 96,
+  USER_DECORATION: 64,
+  SERVER_TAG: 32,
+  BADGE: 24,
+  EMOJI: 32,
+  ACTIVITY_LARGE: 128,
+  ACTIVITY_SMALL: 32,
 };

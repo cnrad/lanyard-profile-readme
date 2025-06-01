@@ -1,25 +1,40 @@
 import sharp from "sharp";
+import { UnknownIconDark, UnknownIconLight } from "./badges";
 
-export const encodeBase64 = async (url: string, size: number, sharpEnabled = true): Promise<string> => {
+export const encodeBase64 = async (
+  url: string,
+  size: number = 128,
+  theme: string = "dark"
+): Promise<string> => {
   let response = "";
 
   try {
     response = await fetch(url, {
-      cache: "no-store",
+      cache: "force-cache",
     })
-      .then(res => res.blob())
-      .then(async blob => {
-        const buffer = Buffer.from(await blob.arrayBuffer());
-        if (!sharpEnabled) return buffer.toString("base64");
+      .then((res) => {
+        // Show unknown icons if media could not be fetched
+        if (!res.ok) {
+          response = theme === "dark" ? UnknownIconLight : UnknownIconDark;
+          throw new Error(`not ok: ${res}`, { cause: res });
+        }
 
-        const webpBuffer = await sharp(buffer, { animated: true })
-          .webp({
-            quality: 50,
-          })
-          .resize(size)
-          .toBuffer();
+        return res.blob();
+      })
+      .then(async (blob) => {
+        let buffer = Buffer.from(await blob.arrayBuffer()) as Buffer;
 
-        return webpBuffer.toString("base64");
+        // sharp for some reason doesn't work with animated decorations, but so be it because when animated it's >1mb
+        if (size) {
+          buffer = await sharp(buffer, { animated: true })
+            .webp({
+              quality: 75,
+            })
+            .resize(size)
+            .toBuffer();
+        }
+
+        return buffer.toString("base64");
       });
   } catch (e) {
     console.log(e);

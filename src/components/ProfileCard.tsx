@@ -1,139 +1,60 @@
-"use server";
+import { Activity, Data } from "@/utils/LanyardTypes";
+import { Badges, UnknownIconDark, UnknownIconLight } from "@/utils/badges";
+import { elapsedTime, getFlags } from "@/utils/helpers";
+import { ProfileSettings } from "@/utils/parameters";
+import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
-import { Badges } from "#/public/assets/badges/BadgesEncoded";
-import { getFlags, renderToStaticMarkup } from "@/utils/helpers";
-import * as LanyardTypes from "@/utils/LanyardTypes";
-import { encodeBase64 } from "@/utils/toBase64";
-import { DetailedHTMLProps, HTMLAttributes } from "react";
+interface ProfileCardProps {
+  settings: ProfileSettings;
+  data: Data;
+  images: {
+    avatar: string | null;
+    avatarDecoration: string | null;
+    clanBadge: string | null;
+    assetLargeImage: string | null;
+    assetSmallImage: string | null;
+    userEmoji: string | null;
+    albumCover: string | null;
+  };
+}
 
-export type Parameters = {
-  theme?: string;
-  bg?: string;
-  clanbg?: string;
-  animated?: string;
-  animatedDecoration?: string;
-  hideDiscrim?: string;
-  hideStatus?: string;
-  hideTimestamp?: string;
-  hideBadges?: string;
-  hideProfile?: string;
-  hideActivity?: string;
-  hideSpotify?: string;
-  hideClan?: string;
-  hideDecoration?: string;
-  ignoreAppId?: string;
-  showDisplayName?: string;
-  borderRadius?: string;
-  idleMessage?: string;
-  optimized: boolean;
-};
-
-const parseBool = (string: string | undefined): boolean => (string === "true" ? true : false);
-
-const parseAppId = (string: string | undefined): Array<string> => {
-  if (string === undefined) return [];
-  return string.split(",");
-};
-
-const elapsedTime = (timestamp: any): string => {
-  let startTime = timestamp;
-  let endTime = Number(new Date());
-  let difference = (endTime - startTime) / 1000;
-
-  // we only calculate them, but we don't display them.
-  // this fixes a bug in the Discord API that does not send the correct timestamp to presence.
-  let daysDifference = Math.floor(difference / 60 / 60 / 24);
-  difference -= daysDifference * 60 * 60 * 24;
-
-  let hoursDifference = Math.floor(difference / 60 / 60);
-  difference -= hoursDifference * 60 * 60;
-
-  let minutesDifference = Math.floor(difference / 60);
-  difference -= minutesDifference * 60;
-
-  let secondsDifference = Math.floor(difference);
-
-  return `${hoursDifference >= 1 ? ("0" + hoursDifference).slice(-2) + ":" : ""}${("0" + minutesDifference).slice(
-    -2,
-  )}:${("0" + secondsDifference).slice(-2)}`;
-};
-
-async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<string> {
-  let { data } = body;
-
-  let avatarBorderColor: string = "#747F8D",
-    avatarExtension: string = "webp",
-    statusExtension: string = "webp",
-    activity: any = false,
-    backgroundColor: string = "1a1c1f",
+export const ProfileCard: React.FC<ProfileCardProps> = ({
+  settings,
+  data,
+  images,
+}: ProfileCardProps) => {
+  const {
+    hideStatus,
+    hideTimestamp,
+    hideBadges,
+    hideProfile,
+    hideActivity,
+    hideSpotify,
+    hideTag,
+    hideDecoration,
+    ignoreAppId,
+    hideDiscrim,
+    showDisplayName,
     theme = "dark",
+    bg,
+    clanBackgroundColor,
     borderRadius = "10px",
-    idleMessage = "I'm not currently doing anything!";
+    idleMessage = "I'm not currently doing anything!",
+  } = settings;
 
-  let hideStatus = parseBool(params.hideStatus);
-  let hideTimestamp = parseBool(params.hideTimestamp);
-  let hideBadges = parseBool(params.hideBadges);
-  let hideProfile = parseBool(params.hideProfile);
-  let hideActivity = params.hideActivity ?? "false";
-  let hideSpotify = parseBool(params.hideSpotify);
-  let hideClan = parseBool(params.hideClan);
-  let hideDecoration = parseBool(params.hideDecoration);
-  let ignoreAppId = parseAppId(params.ignoreAppId);
-  let hideDiscrim = parseBool(params.hideDiscrim);
-  let showDisplayName = parseBool(params.showDisplayName);
+  const {
+    avatar,
+    avatarDecoration,
+    clanBadge,
+    assetLargeImage,
+    assetSmallImage,
+    userEmoji,
+    albumCover,
+  } = images;
 
-  if (!data.discord_user.avatar_decoration_data) hideDecoration = true;
-  if (parseBool(params.hideDiscrim) || body.data.discord_user.discriminator === "0") hideDiscrim = true;
-  if (!body.data.discord_user.clan) hideClan = true;
-  if (data.activities[0]?.emoji?.animated && !params.optimized) statusExtension = "gif";
-  if (data.discord_user.avatar && data.discord_user.avatar.startsWith("a_") && !params.optimized)
-    avatarExtension = "gif";
-  if (params.animated === "false") avatarExtension = "webp";
-  if (params.theme === "light") {
-    backgroundColor = "eee";
-    theme = "light";
-  }
-  if (params.bg) backgroundColor = params.bg;
-  let clanBackgroundColor: string = theme === "light" ? "#e0dede" : "#111214";
-  if (params.clanbg) clanBackgroundColor = params.clanbg;
-  if (params.idleMessage) idleMessage = params.idleMessage;
-  if (params.borderRadius) borderRadius = params.borderRadius;
-
-  let avatar: string;
-  if (data.discord_user.avatar) {
-    avatar = await encodeBase64(
-      `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${
-        data.discord_user.avatar
-      }.${avatarExtension}?size=${avatarExtension === "gif" ? "64" : "256"}`,
-      avatarExtension === "gif" ? 64 : 128,
-    );
-  } else {
-    avatar = await encodeBase64(
-      `https://cdn.discordapp.com/embed/avatars/${
-        data.discord_user.discriminator === "0"
-          ? Number(BigInt(data.discord_user.id) >> BigInt(22)) % 6
-          : Number(data.discord_user.discriminator) % 5
-      }.png`,
-      100,
-    );
-  }
-
-  let clanBadge: string | null = null;
-  if (data.discord_user.clan && data.discord_user.clan.identity_guild_id && data.discord_user.clan.badge) {
-    clanBadge = await encodeBase64(
-      `https://cdn.discordapp.com/clan-badges/${data.discord_user.clan.identity_guild_id}/${data.discord_user.clan.badge}.png?size=16`,
-      16,
-    );
-  }
-
-  let avatarDecoration: string | null = null;
-  if (data.discord_user.avatar_decoration_data?.asset) {
-    avatarDecoration = await encodeBase64(
-      `https://cdn.discordapp.com/avatar-decoration-presets/${data.discord_user.avatar_decoration_data.asset}.png?size=64&passthrough=${params.animatedDecoration || "false"}`,
-      100,
-      false,
-    );
-  }
+  let avatarBorderColor: string = "#747F8D";
+  const backgroundColor: string =
+    bg ?? (theme === "light" ? "ededed" : "1a1c1f");
 
   switch (data.discord_status) {
     case "online":
@@ -150,65 +71,73 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
       break;
   }
 
-  let flags: string[] = getFlags(data.discord_user.public_flags);
-  if (data.discord_user.avatar && data.discord_user.avatar.includes("a_")) flags.push("Nitro");
+  const flags: string[] = getFlags(data.discord_user.public_flags);
+  if (data.discord_user.avatar && data.discord_user.avatar.includes("a_"))
+    flags.push("Nitro");
 
-  let userStatus: Record<string, any> | null = null;
-  if (data.activities[0] && data.activities[0].type === 4) userStatus = data.activities[0];
+  let userStatus: Activity | null = null;
+  if (data.activities[0] && data.activities[0].type === 4)
+    userStatus = data.activities[0];
 
   const activities = data.activities
     // Filter only type 0
-    .filter(activity => activity.type === 0)
+    .filter((activity) => activity.type === 0)
     // Filter ignored app ID
-    .filter(activity => !ignoreAppId.includes(activity.application_id ?? ""));
+    .filter(
+      (activity) => !ignoreAppId?.includes(activity.application_id ?? "")
+    );
+  const activity: Activity | undefined =
+    activities.length > 0 ? activities[0] : undefined;
 
-  // Take the highest one
-  activity = Array.isArray(activities) ? activities[0] : activities;
-
-  // Calculate height of parent SVG element
-  const svgHeight = (): string => {
+  const width = "410px";
+  const height = (() => {
     if (hideProfile) return "130";
-    if (hideActivity === "true") return "91";
-    if (hideActivity === "whenNotUsed" && !activity && !data.listening_to_spotify) return "91";
+    if (hideActivity === true) return "91";
+    if (
+      hideActivity === "whenNotUsed" &&
+      !activity &&
+      !data.listening_to_spotify
+    )
+      return "91";
     if (hideSpotify && data.listening_to_spotify) return "210";
     return "210";
-  };
+  })();
 
   // Calculate height of main div element
-  const divHeight = (): string => {
+  const divHeight = (() => {
     if (hideProfile) return "120";
-    if (hideActivity === "true") return "81";
-    if (hideActivity === "whenNotUsed" && !activity && !data.listening_to_spotify) return "81";
+    if (hideActivity === true) return "81";
+    if (
+      hideActivity === "whenNotUsed" &&
+      !activity &&
+      !data.listening_to_spotify
+    )
+      return "81";
     if (hideSpotify && data.listening_to_spotify) return "200";
     return "200";
-  };
+  })();
 
-  const ForeignDiv = (props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & { xmlns: string }) => (
-    <div {...props}>{props.children}</div>
-  );
+  const ForeignDiv = (
+    props: DetailedHTMLProps<
+      HTMLAttributes<HTMLDivElement> & { xmlns: string },
+      HTMLDivElement
+    >
+  ) => <div {...props}>{props.children}</div>;
 
-  const renderedSVG = (
-    <svg xmlns="http://www.w3.org/2000/svg" width="410px" height={svgHeight()}>
-      <defs>
-        <style>
-          {`.hover-opacity:hover {
-                            opacity: 0.25;
-                        }
-
-                        .transition {
-                            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-                            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-                            transition-duration: 200ms;
-                        }`}
-        </style>
-      </defs>
-      <foreignObject x="0" y="0" width="410" height={svgHeight()}>
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+    >
+      <foreignObject x="0" y="0" width="410" height={height}>
         <ForeignDiv
           xmlns="http://www.w3.org/1999/xhtml"
           style={{
             position: "absolute",
             width: "400px",
-            height: `${divHeight()}px`,
+            height: `${divHeight}px`,
             inset: 0,
             backgroundColor: `#${backgroundColor}`,
             color: theme === "dark" ? "#fff" : "#000",
@@ -230,9 +159,16 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                 flexDirection: "row",
                 paddingBottom: "5px",
                 borderBottom:
-                  hideActivity !== "false" && !activity && !data.listening_to_spotify
-                    ? ""
-                    : `solid 0.5px ${theme === "dark" ? "hsl(0, 0%, 100%, 10%)" : "hsl(0, 0%, 0%, 10%)"}`,
+                  hideActivity === true ||
+                  (hideActivity === "whenNotUsed" &&
+                    !activity &&
+                    !data.listening_to_spotify)
+                    ? "none"
+                    : `solid 0.5px ${
+                        theme === "dark"
+                          ? "hsl(0, 0%, 100%, 10%)"
+                          : "hsl(0, 0%, 0%, 10%)"
+                      }`,
               }}
             >
               <div
@@ -258,7 +194,8 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                   }}
                 />
 
-                {hideDecoration || !data.discord_user.avatar_decoration_data ? null : (
+                {hideDecoration ||
+                !data.discord_user.avatar_decoration_data ? null : (
                   <>
                     <img
                       src={`data:image/webp;base64,${avatarDecoration!}`}
@@ -272,24 +209,24 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                         left: "50%",
                         transform: "translate(-50%, -50%)",
                       }}
-                      className="hover-opacity transition"
-                    />
-
-                    <span
-                      style={{
-                        position: "absolute",
-                        bottom: "14px",
-                        right: "14px",
-                        height: "13px",
-                        width: "13px",
-                        backgroundColor: avatarBorderColor,
-                        borderRadius: "50%",
-                        border: `3px solid #${backgroundColor}`,
-                      }}
                     />
                   </>
                 )}
+
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: "14px",
+                    right: "14px",
+                    height: "13px",
+                    width: "13px",
+                    backgroundColor: avatarBorderColor,
+                    borderRadius: "50%",
+                    border: `3px solid #${backgroundColor}`,
+                  }}
+                />
               </div>
+
               <div
                 style={{
                   height: "80px",
@@ -318,13 +255,20 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                       : data.discord_user.username}
 
                     {!hideDiscrim && !showDisplayName ? (
-                      <span style={{ color: theme === "dark" ? "#ccc" : "#666", fontWeight: "lighter" }}>
+                      <span
+                        style={{
+                          color: theme === "dark" ? "#ccc" : "#666",
+                          fontWeight: "lighter",
+                        }}
+                      >
                         #{data.discord_user.discriminator}
                       </span>
                     ) : null}
                   </h1>
 
-                  {hideClan || (!data.discord_user.clan?.tag && !data.discord_user.clan?.badge) ? null : (
+                  {hideTag ||
+                  (!data.discord_user.primary_guild?.tag &&
+                    !data.discord_user.primary_guild?.badge) ? null : (
                     <span
                       style={{
                         backgroundColor: clanBackgroundColor,
@@ -342,14 +286,25 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                         height: "100%",
                       }}
                     >
-                      <img src={`data:image/png;base64,${clanBadge!}`} alt="Clan Badge" />
-                      <p style={{ marginBottom: "1.1rem", whiteSpace: "nowrap" }}>{data.discord_user.clan!.tag}</p>
+                      <img
+                        src={`data:image/png;base64,${clanBadge!}`}
+                        alt="Clan Badge"
+                        style={{
+                          width: "16px",
+                          height: "16px",
+                        }}
+                      />
+                      <p
+                        style={{ marginBottom: "1.1rem", whiteSpace: "nowrap" }}
+                      >
+                        {data.discord_user.primary_guild.tag}
+                      </p>
                     </span>
                   )}
 
                   {!!hideBadges
                     ? null
-                    : flags.map(v => (
+                    : flags.map((v) => (
                         <img
                           key={v}
                           alt={v}
@@ -392,10 +347,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                   >
                     {userStatus.emoji?.id ? (
                       <img
-                        src={`data:image/png;base64,${await encodeBase64(
-                          `https://cdn.discordapp.com/emojis/${userStatus.emoji.id}.${statusExtension}`,
-                          32,
-                        )}`}
+                        src={`data:image/png;base64,${userEmoji}`}
                         alt="User Status Emoji"
                         style={{
                           width: "15px",
@@ -408,13 +360,17 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                       />
                     ) : null}
 
-                    {userStatus.state && userStatus.emoji?.name && !userStatus.emoji.id
+                    {userStatus.state &&
+                    userStatus.emoji?.name &&
+                    !userStatus.emoji.id
                       ? `${userStatus.emoji.name} ${userStatus.state}`
                       : userStatus.state
-                        ? userStatus.state
-                        : !userStatus.state && userStatus.emoji?.name && !userStatus.emoji.id
-                          ? userStatus.emoji.name
-                          : null}
+                      ? userStatus.state
+                      : !userStatus.state &&
+                        userStatus.emoji?.name &&
+                        !userStatus.emoji.id
+                      ? userStatus.emoji.name
+                      : null}
                   </p>
                 ) : null}
               </div>
@@ -441,12 +397,7 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
               >
                 {activity.assets?.large_image ? (
                   <img
-                    src={`data:image/png;base64,${await encodeBase64(
-                      activity.assets.large_image.startsWith("mp:external/")
-                        ? `https://media.discordapp.net/external/${activity.assets.large_image.replace("mp:external/", "")}`
-                        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`,
-                      196,
-                    )}`}
+                    src={`data:image/png;base64,${assetLargeImage}`}
                     alt="Activity Large Image"
                     style={{
                       width: "80px",
@@ -457,28 +408,21 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                   />
                 ) : (
                   <img
-                    src={`data:image/png;base64,${await encodeBase64(
-                      `https://lanyard-profile-readme.vercel.app/assets/unknown.png`,
-                      64,
-                    )}`}
+                    src={`data:image/png;base64,${
+                      theme === "dark" ? UnknownIconLight : UnknownIconDark
+                    }`}
                     alt="Unknown Icon"
                     style={{
                       width: "70px",
                       height: "70px",
                       marginTop: "4px",
-                      filter: "invert(100)",
                     }}
                   />
                 )}
 
                 {activity.assets?.small_image ? (
                   <img
-                    src={`data:image/png;base64,${await encodeBase64(
-                      activity.assets.small_image.startsWith("mp:external/")
-                        ? `https://media.discordapp.net/external/${activity.assets.small_image.replace("mp:external/", "")}`
-                        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`,
-                      64,
-                    )}`}
+                    src={`data:image/png;base64,${assetSmallImage}`}
                     alt="Activity Small Image"
                     style={{
                       width: "30px",
@@ -490,10 +434,14 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                   />
                 ) : null}
               </div>
+
               <div
                 style={{
                   color: "#999",
-                  marginTop: activity.timestamps?.start && !hideTimestamp ? "-6px" : "5px",
+                  marginTop:
+                    activity.timestamps?.start && !hideTimestamp
+                      ? "-6px"
+                      : "5px",
                   lineHeight: "1",
                   width: "279px",
                 }}
@@ -540,7 +488,9 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                     }}
                   >
                     {activity.state}
-                    {activity.party?.size ? ` (${activity.party.size[0]} of ${activity.party.size[1]})` : null}
+                    {/* {activity.party?.size
+                      ? ` (${activity.party.size[0]} of ${activity.party.size[1]})`
+                      : null} */}
                   </p>
                 ) : null}
                 {activity.timestamps?.start && !hideTimestamp ? (
@@ -555,7 +505,8 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                       margin: "7px 0",
                     }}
                   >
-                    {elapsedTime(new Date(activity.timestamps.start).getTime())} elapsed
+                    {elapsedTime(new Date(activity.timestamps.start).getTime())}{" "}
+                    elapsed
                   </p>
                 ) : null}
               </div>
@@ -564,7 +515,8 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
           {data.listening_to_spotify &&
           !activity &&
           !hideSpotify &&
-          data.activities[Object.keys(data.activities).length - 1].type === 2 ? (
+          data.activities[Object.keys(data.activities).length - 1].type ===
+            2 ? (
             <div
               style={{
                 display: "flex",
@@ -576,15 +528,15 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
               }}
             >
               <img
-                src={await (async () => {
-                  const album = await encodeBase64(data.spotify.album_art_url, 196);
-                  if (album) return `data:image/png;base64,${album}`;
-                  return "https://lanyard-profile-readme.vercel.app/assets/unknown.png";
-                })()}
+                src={`data:image/png;base64,${
+                  albumCover ??
+                  (theme === "dark" ? UnknownIconLight : UnknownIconDark)
+                }`}
                 alt="Album Cover"
                 style={{
-                  border: data.spotify.album_art_url ? "border: solid 0.5px #222" : undefined,
-                  filter: !data.spotify.album_art_url ? "invert(100)" : undefined,
+                  border: data.spotify.album_art_url
+                    ? "border: solid 0.5px #222"
+                    : undefined,
                   width: "80px",
                   height: "80px",
                   borderRadius: "10px",
@@ -606,9 +558,10 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                     fontWeight: "bold",
                     color: theme === "dark" ? "#1CB853" : "#0d943d",
                     marginBottom: "15px",
+                    textTransform: "uppercase",
                   }}
                 >
-                  LISTENING TO SPOTIFY...
+                  Listening to Spotify...
                 </p>
                 <p
                   style={{
@@ -635,12 +588,14 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
                     color: theme === "dark" ? "#ccc" : "#777",
                   }}
                 >
-                  By {data.spotify.artist}
+                  By {data.spotify.artist.replace(/; /g, ", ")}
                 </p>
               </div>
             </div>
           ) : null}
-          {!activity && (!data.listening_to_spotify || hideSpotify) && hideActivity === "false" ? (
+          {!activity &&
+          (!data.listening_to_spotify || hideSpotify) &&
+          !hideActivity ? (
             <div
               style={{
                 display: "flex",
@@ -667,8 +622,6 @@ async function renderCard(body: LanyardTypes.Root, params: Parameters): Promise<
       </foreignObject>
     </svg>
   );
+};
 
-  return renderToStaticMarkup(renderedSVG);
-}
-
-export default renderCard;
+export default ProfileCard;
