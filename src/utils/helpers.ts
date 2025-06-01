@@ -56,3 +56,13 @@ export const elapsedTime = (timestamp: number): string => {
     -2
   )}`;
 };
+
+export enum ImageSize {
+  USER_AVATAR = 64,
+  USER_DECORATION = 64,
+  SERVER_TAG = 16,
+  BADGE = 20,
+  EMOJI = 32,
+  ACTIVITY_LARGE = 80,
+  ACTIVITY_SMALL = 30,
+}

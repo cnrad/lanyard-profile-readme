@@ -11,7 +11,7 @@ export type ProfileSettings = {
   hideProfile?: boolean;
   hideActivity?: boolean | "whenNotUsed";
   hideSpotify?: boolean;
-  hideClan?: boolean;
+  hideTag?: boolean;
   hideDecoration?: boolean;
   ignoreAppId?: string[];
   showDisplayName?: boolean;
@@ -22,7 +22,7 @@ export type ProfileSettings = {
 
 export type SearchParams = {
   theme?: string;
-  bg?: string;
+  bg?: "dark" | "light" | string;
   clanBackgroundColor?: string;
   animated?: string;
   animatedDecoration?: string;
@@ -33,7 +33,7 @@ export type SearchParams = {
   hideProfile?: string;
   hideActivity?: string;
   hideSpotify?: string;
-  hideClan?: string;
+  hideTag?: string;
   hideDecoration?: string;
   ignoreAppId?: string;
   showDisplayName?: string;
@@ -49,7 +49,7 @@ export type IParameterInfo = Array<
         title: string;
         description?: string;
         options?: {
-          defaultBool?: boolean;
+          value?: "true" | "false";
         };
       }
     | {
@@ -123,7 +123,7 @@ export const PARAMETER_INFO: IParameterInfo = [
     title: "Disable Animated Avatar",
     description: "Disables an animated avatar.",
     options: {
-      defaultBool: true,
+      value: "false",
     },
   },
   {
@@ -148,7 +148,7 @@ export const PARAMETER_INFO: IParameterInfo = [
     title: "Disable Animated Avatar Decoration",
     description: "Disables animated avatar decorations.",
     options: {
-      defaultBool: true,
+      value: "false",
     },
   },
   {
@@ -170,10 +170,10 @@ export const PARAMETER_INFO: IParameterInfo = [
     description: "Hides the time spent on an activity.",
   },
   {
-    parameter: "hideClan",
+    parameter: "hideTag",
     type: "boolean",
-    title: "Hide Clan Tag",
-    description: "Hides your Guild Tag (formerly Clan Tag)",
+    title: "Hide Server Tag",
+    description: "Hides your Server Tag (formerly Guild or Clan Tag)",
   },
   {
     parameter: "hideBadges",

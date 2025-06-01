@@ -1,5 +1,6 @@
 import { Activity, Data } from "./LanyardTypes";
 import { ProfileSettings } from "./parameters";
+import { ImageSize } from "./helpers";
 import { encodeBase64 } from "./toBase64";
 
 export async function fetchUserImages(data: Data, settings: ProfileSettings) {
@@ -41,7 +42,8 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
     avatar = await encodeBase64(
       `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${
         data.discord_user.avatar
-      }.${avatarExtension}?size=${avatarExtension === "gif" ? "64" : "256"}`
+      }.${avatarExtension}?size=${avatarExtension === "gif" ? "64" : "256"}`,
+      ImageSize.USER_AVATAR
     );
   } else {
     avatar = await encodeBase64(
@@ -49,17 +51,19 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
         data.discord_user.discriminator === "0"
           ? Number(BigInt(data.discord_user.id) >> BigInt(22)) % 6
           : Number(data.discord_user.discriminator) % 5
-      }.png?size=${128}`
+      }.png?size=${128}`,
+      ImageSize.USER_AVATAR
     );
   }
 
   if (
-    data.discord_user.clan &&
-    data.discord_user.clan.identity_guild_id &&
-    data.discord_user.clan.badge
+    data.discord_user.primary_guild &&
+    data.discord_user.primary_guild.identity_guild_id &&
+    data.discord_user.primary_guild.badge
   ) {
     clanBadge = await encodeBase64(
-      `https://cdn.discordapp.com/clan-badges/${data.discord_user.clan.identity_guild_id}/${data.discord_user.clan.badge}.png?size=16`
+      `https://cdn.discordapp.com/clan-badges/${data.discord_user.primary_guild.identity_guild_id}/${data.discord_user.primary_guild.badge}.png?size=16`,
+      ImageSize.SERVER_TAG
     );
   }
 
@@ -67,7 +71,8 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
     avatarDecoration = await encodeBase64(
       `https://cdn.discordapp.com/avatar-decoration-presets/${
         data.discord_user.avatar_decoration_data.asset
-      }.png?size=64&passthrough=${settings.animatedDecoration || "false"}`
+      }.png?size=64&passthrough=${settings.animatedDecoration || "false"}`,
+      ImageSize.USER_DECORATION
     );
   }
 
@@ -78,7 +83,9 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
             "mp:",
             ""
           )}`
-        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`
+        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`,
+      ImageSize.ACTIVITY_LARGE,
+      settings.theme
     );
 
   if (activity?.assets?.small_image)
@@ -88,18 +95,22 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
             "mp:",
             ""
           )}`
-        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`
+        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`,
+      ImageSize.ACTIVITY_SMALL,
+      settings.theme
     );
 
   if (userStatus?.emoji?.id)
     userEmoji = await encodeBase64(
-      `https://cdn.discordapp.com/emojis/${
-        userStatus.emoji.id
-      }.${statusExtension}?size=${32}`
+      `https://cdn.discordapp.com/emojis/${userStatus.emoji.id}.${statusExtension}?size=32`,
+      ImageSize.EMOJI
     );
 
   if (data.spotify?.album_art_url)
-    albumCover = await encodeBase64(data.spotify.album_art_url);
+    albumCover = await encodeBase64(
+      data.spotify.album_art_url,
+      ImageSize.ACTIVITY_LARGE
+    );
 
   return {
     avatar,

@@ -37,11 +37,11 @@ export interface DiscordUser {
   avatar: string;
   global_name: string;
   display_name: string;
-  clan: ClanTag | null;
+  primary_guild: GuildTag | null;
   avatar_decoration_data: AvatarDecoration | null;
 }
 
-export interface ClanTag {
+export interface GuildTag {
   tag: string;
   badge: string;
   identity_enabled: boolean;

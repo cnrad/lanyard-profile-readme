@@ -1,5 +1,5 @@
 import { Activity, Data } from "@/utils/LanyardTypes";
-import { Badges, UnknownIcon } from "@/utils/badges";
+import { Badges, UnknownIconDark, UnknownIconLight } from "@/utils/badges";
 import { elapsedTime, getFlags } from "@/utils/helpers";
 import { ProfileSettings } from "@/utils/parameters";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
@@ -30,7 +30,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     hideProfile,
     hideActivity,
     hideSpotify,
-    hideClan,
+    hideTag,
     hideDecoration,
     ignoreAppId,
     hideDiscrim,
@@ -207,21 +207,21 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                         transform: "translate(-50%, -50%)",
                       }}
                     />
-
-                    <span
-                      style={{
-                        position: "absolute",
-                        bottom: "14px",
-                        right: "14px",
-                        height: "13px",
-                        width: "13px",
-                        backgroundColor: avatarBorderColor,
-                        borderRadius: "50%",
-                        border: `3px solid #${backgroundColor}`,
-                      }}
-                    />
                   </>
                 )}
+
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: "14px",
+                    right: "14px",
+                    height: "13px",
+                    width: "13px",
+                    backgroundColor: avatarBorderColor,
+                    borderRadius: "50%",
+                    border: `3px solid #${backgroundColor}`,
+                  }}
+                />
               </div>
               <div
                 style={{
@@ -262,9 +262,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     ) : null}
                   </h1>
 
-                  {hideClan ||
-                  (!data.discord_user.clan?.tag &&
-                    !data.discord_user.clan?.badge) ? null : (
+                  {hideTag ||
+                  (!data.discord_user.primary_guild?.tag &&
+                    !data.discord_user.primary_guild?.badge) ? null : (
                     <span
                       style={{
                         backgroundColor: clanBackgroundColor,
@@ -289,7 +289,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                       <p
                         style={{ marginBottom: "1.1rem", whiteSpace: "nowrap" }}
                       >
-                        {data.discord_user.clan!.tag}
+                        {data.discord_user.primary_guild!.tag}
                       </p>
                     </span>
                   )}
@@ -400,7 +400,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   />
                 ) : (
                   <img
-                    src={`data:image/png;base64,${UnknownIcon}`}
+                    src={`data:image/png;base64,${
+                      theme === "dark" ? UnknownIconLight : UnknownIconDark
+                    }`}
                     alt="Unknown Icon"
                     style={{
                       width: "70px",
@@ -518,7 +520,10 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
               }}
             >
               <img
-                src={`data:image/png;base64,${albumCover ?? UnknownIcon}`}
+                src={`data:image/png;base64,${
+                  albumCover ??
+                  (theme === "dark" ? UnknownIconLight : UnknownIconDark)
+                }`}
                 alt="Album Cover"
                 style={{
                   border: data.spotify.album_art_url
