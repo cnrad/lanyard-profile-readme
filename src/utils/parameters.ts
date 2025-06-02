@@ -1,6 +1,7 @@
 export type ProfileSettings = {
   theme?: string;
   bg?: string;
+  gradient?: string;
   clanBackgroundColor?: string;
   animated?: boolean;
   animatedDecoration?: boolean;
@@ -23,6 +24,7 @@ export type ProfileSettings = {
 export type SearchParams = {
   theme?: string;
   bg?: "dark" | "light" | string;
+  gradient?: string;
   clanBackgroundColor?: string;
   animated?: string;
   animatedDecoration?: string;
@@ -103,6 +105,16 @@ export const PARAMETER_INFO: IParameterInfo = [
     options: {
       placeholder: "1A1C1F",
       omit: ["#"],
+    },
+  },
+  {
+    parameter: "gradient",
+    type: "string",
+    title: "Gradient Background",
+    description:
+      "Changes the background to a gradient. Follows the CSS <gradient> spec.",
+    options: {
+      placeholder: "linear-gradient(45deg, #ff0000, #0000ff)",
     },
   },
   {
