@@ -37,6 +37,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     showDisplayName,
     theme = "dark",
     bg,
+    gradient,
     clanBackgroundColor,
     borderRadius = "10px",
     idleMessage = "I'm not currently doing anything!",
@@ -53,9 +54,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   } = images;
 
   let avatarBorderColor: string = "#747F8D";
-  const backgroundColor: string =
-    bg ?? (theme === "light" ? "ededed" : "1a1c1f");
-
+  let backgroundColor, background: string;
+  if (bg) backgroundColor = bg;
+  else
+    backgroundColor = theme === "light" ? "ededed" : "1a1c1f"; // Default background color based on theme
+  if (gradient) background = gradient;
+  else background = `#${backgroundColor}`;
   switch (data.discord_status) {
     case "online":
       avatarBorderColor = "#43B581";
@@ -139,7 +143,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             width: "400px",
             height: `${divHeight}px`,
             inset: 0,
-            backgroundColor: `#${backgroundColor}`,
+            background: background,
             color: theme === "dark" ? "#fff" : "#000",
             fontFamily: `'Century Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
             fontSize: "16px",
