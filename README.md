@@ -94,10 +94,10 @@ If you don't want to display a specific application, append the query param `ign
 ## ___Example URL and result___
 
 ```
-[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true&borderRadius=30px&idleMessage=Probably%20doing%20something%20else...)](https://discord.com/users/94490510688792576)
+[![Discord Presence](https://lanyard.cnrad.dev/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true&borderRadius=30px&idleMessage=Probably%20doing%20something%20else...)](https://discord.com/users/94490510688792576)
 ```
 
-[![Discord Presence](https://lanyard-profile-readme.vercel.app/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true&borderRadius=30px&idleMessage=Probably%20doing%20something%20else...)](https://discord.com/users/94490510688792576)
+[![Discord Presence](https://lanyard.cnrad.dev/api/94490510688792576?theme=light&bg=809ecf&animated=false&hideDiscrim=true&borderRadius=30px&idleMessage=Probably%20doing%20something%20else...)](https://discord.com/users/94490510688792576)
 
 \
 Note: Current Nitro & Boosting badges **do not work due** to Discord API limitations, unless you currently have an animated avatar, in which case it will display the Nitro badge.
