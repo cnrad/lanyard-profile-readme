@@ -96,7 +96,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     if (
       hideActivity === "whenNotUsed" &&
       !activity &&
-      !data.listening_to_spotify
+      (hideSpotify || !data.listening_to_spotify)
     )
       return "91";
     if (hideSpotify && data.listening_to_spotify) return "210";
@@ -110,7 +110,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     if (
       hideActivity === "whenNotUsed" &&
       !activity &&
-      !data.listening_to_spotify
+      (hideSpotify || !data.listening_to_spotify)
     )
       return "81";
     if (hideSpotify && data.listening_to_spotify) return "200";
@@ -162,7 +162,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   hideActivity === true ||
                   (hideActivity === "whenNotUsed" &&
                     !activity &&
-                    !data.listening_to_spotify)
+                    (hideSpotify || !data.listening_to_spotify))
                     ? "none"
                     : `solid 0.5px ${
                         theme === "dark"
@@ -594,7 +594,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             </div>
           ) : null}
           {!activity &&
-          (!data.listening_to_spotify || hideSpotify) &&
+          (hideSpotify || !data.listening_to_spotify) &&
           !hideActivity ? (
             <div
               style={{
