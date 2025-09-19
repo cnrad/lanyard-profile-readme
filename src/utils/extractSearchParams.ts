@@ -65,6 +65,7 @@ export function extractSearchParams(
     bg: params.bg,
     clanBackgroundColor: params.clanBackgroundColor ?? clanBackgroundColor,
     borderRadius: params.borderRadius,
+    borderColor: params.borderColor,
     idleMessage: params.idleMessage,
   };
 }
