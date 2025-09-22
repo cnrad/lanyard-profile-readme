@@ -1,6 +1,6 @@
 import ProfileCard from "@/components/ProfileCard";
 import { Root } from "@/utils/LanyardTypes";
-import { LANYARD_API_URL } from "@/utils/env";
+import { LANYARD_API_KEY, LANYARD_API_URL } from "@/utils/env";
 import { extractSearchParams } from "@/utils/extractSearchParams";
 import { fetchUserImages } from "@/utils/fetchUserImages";
 import { isSnowflake } from "@/utils/snowflake";
@@ -43,6 +43,9 @@ export async function GET(
     `${LANYARD_API_URL}/users/${userId}`,
     {
       cache: "no-store",
+      headers: {
+        ...(LANYARD_API_KEY && { "Authorization": `${LANYARD_API_KEY}` }),
+      },
     }
   ).then(async (res) => (await res.json()) as Root & { error?: string });
 
