@@ -16,7 +16,7 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379
       - LANYARD_API_URL=${LANYARD_API_URL:-https://api.lanyard.rest/v1}
-      - BASE_URL=${BASE_URL:-https://lanyard.cnrad.dev}
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL:-https://lanyard.cnrad.dev}
 
 volumes:
   redis_data:
