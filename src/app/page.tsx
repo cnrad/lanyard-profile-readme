@@ -1,18 +1,19 @@
 "use client";
 
-import React, { useState, JSX } from "react";
-import { motion } from "motion/react";
-import { isSnowflake } from "@/utils/snowflake";
-import { IParameterInfo, PARAMETER_INFO } from "@/utils/parameters";
-import * as Icon from "lucide-react";
 import { InfoTooltip } from "@/components/Popover";
+import { NEXT_PUBLIC_BASE_URL } from "@/utils/env";
 import { cn, filterLetters } from "@/utils/helpers";
+import { IParameterInfo, PARAMETER_INFO } from "@/utils/parameters";
+import { isSnowflake } from "@/utils/snowflake";
+import * as Icon from "lucide-react";
+import { motion } from "motion/react";
+import { JSX, useState } from "react";
 
 export default function Home() {
   const ORIGIN_URL =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "https://lanyard.cnrad.dev";
+      : NEXT_PUBLIC_BASE_URL;
 
   const [userId, setUserId] = useState("");
   const [userError, setUserError] = useState<string | JSX.Element>();
