@@ -1,0 +1,22 @@
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - LANYARD_API_URL=${LANYARD_API_URL:-https://api.lanyard.rest/v1}
+
+volumes:
+  redis_data:
+    driver: local
