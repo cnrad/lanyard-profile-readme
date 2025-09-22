@@ -1,8 +1,9 @@
 import ProfileCard from "@/components/ProfileCard";
-import { isSnowflake } from "@/utils/snowflake";
 import { Root } from "@/utils/LanyardTypes";
+import { LANYARD_API_URL } from "@/utils/env";
 import { extractSearchParams } from "@/utils/extractSearchParams";
 import { fetchUserImages } from "@/utils/fetchUserImages";
+import { isSnowflake } from "@/utils/snowflake";
 
 export async function GET(
   request: Request,
@@ -39,7 +40,7 @@ export async function GET(
     );
 
   const lanyardData = await fetch(
-    `https://api.lanyard.rest/v1/users/${userId}`,
+    `${LANYARD_API_URL}/users/${userId}`,
     {
       cache: "no-store",
     }
