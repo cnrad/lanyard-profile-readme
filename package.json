@@ -37,9 +37,5 @@
     "typescript": "^5",
     "wrangler": "^4.7.0"
   },
-  "packageManager": "bun@1.2.13",
-  "trustedDependencies": [
-    "@tailwindcss/oxide",
-    "unrs-resolver"
-  ]
+  "packageManager": "bun@1.2.13"
 }
