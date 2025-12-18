@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import { Activity, Data } from "@/utils/LanyardTypes";
 import { Badges, UnknownIconDark, UnknownIconLight } from "@/utils/badges";
 import { elapsedTime, getFlags } from "@/utils/helpers";

@@ -7,6 +7,7 @@ import { IParameterInfo, PARAMETER_INFO } from "@/utils/parameters";
 import * as Icon from "lucide-react";
 import { InfoTooltip } from "@/components/Popover";
 import { cn, filterLetters } from "@/utils/helpers";
+import Image from "next/image";
 
 export default function Home() {
   const ORIGIN_URL =
@@ -298,7 +299,7 @@ const MainSection = ({
       )}
     >
       {userId.length > 0 && isSnowflake(userId) ? (
-        <img
+        <Image
           src={url}
           height={280}
           width={500}
