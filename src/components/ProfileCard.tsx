@@ -18,11 +18,15 @@ interface ProfileCardProps {
   };
 }
 
+function isHexColor(value: string) {
+  return /^#?([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/.test(value.trim());
+}
+
 export const ProfileCard: React.FC<ProfileCardProps> = ({
-  settings,
-  data,
-  images,
-}: ProfileCardProps) => {
+                                                          settings,
+                                                          data,
+                                                          images,
+                                                        }: ProfileCardProps) => {
   const {
     hideStatus,
     hideTimestamp,
@@ -53,8 +57,21 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   } = images;
 
   let avatarBorderColor: string = "#747F8D";
-  const backgroundColor: string =
-    bg ?? (theme === "light" ? "ededed" : "1a1c1f");
+  let backgroundColor, background: string;
+  if (bg) {
+    if (isHexColor(bg)) {
+      backgroundColor = bg.startsWith('#') ? bg : `#${bg}`;
+      background = bg.startsWith('#') ? bg : `#${bg}`;
+    }
+    else {
+      background = bg;
+      backgroundColor = theme === "light" ? "ededed" : "1a1c1f";
+    }
+  }
+  else {
+    backgroundColor = theme === "light" ? "ededed" : "1a1c1f";
+    background = theme === "light" ? "ededed" : "1a1c1f";
+  } // Default background color based on theme
 
   switch (data.discord_status) {
     case "online":
@@ -139,7 +156,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             width: "400px",
             height: `${divHeight}px`,
             inset: 0,
-            backgroundColor: `#${backgroundColor}`,
+            background: background,
             color: theme === "dark" ? "#fff" : "#000",
             fontFamily: `'Century Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
             fontSize: "16px",
@@ -165,10 +182,10 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     !data.listening_to_spotify)
                     ? "none"
                     : `solid 0.5px ${
-                        theme === "dark"
-                          ? "hsl(0, 0%, 100%, 10%)"
-                          : "hsl(0, 0%, 0%, 10%)"
-                      }`,
+                      theme === "dark"
+                        ? "hsl(0, 0%, 100%, 10%)"
+                        : "hsl(0, 0%, 0%, 10%)"
+                    }`,
               }}
             >
               <div
@@ -305,20 +322,20 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   {!!hideBadges
                     ? null
                     : flags.map((v) => (
-                        <img
-                          key={v}
-                          alt={v}
-                          src={`data:image/png;base64,${Badges[v]}`}
-                          style={{
-                            width: "auto",
-                            height: "20px",
-                            position: "relative",
-                            top: "50%",
-                            transform: "translate(0%, -50%)",
-                            marginRight: "7px",
-                          }}
-                        />
-                      ))}
+                      <img
+                        key={v}
+                        alt={v}
+                        src={`data:image/png;base64,${Badges[v]}`}
+                        style={{
+                          width: "auto",
+                          height: "20px",
+                          position: "relative",
+                          top: "50%",
+                          transform: "translate(0%, -50%)",
+                          marginRight: "7px",
+                        }}
+                      />
+                    ))}
                 </div>
 
                 {showDisplayName ? (
@@ -365,12 +382,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     !userStatus.emoji.id
                       ? `${userStatus.emoji.name} ${userStatus.state}`
                       : userStatus.state
-                      ? userStatus.state
-                      : !userStatus.state &&
+                        ? userStatus.state
+                        : !userStatus.state &&
                         userStatus.emoji?.name &&
                         !userStatus.emoji.id
-                      ? userStatus.emoji.name
-                      : null}
+                          ? userStatus.emoji.name
+                          : null}
                   </p>
                 ) : null}
               </div>
@@ -516,7 +533,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           !activity &&
           !hideSpotify &&
           data.activities[Object.keys(data.activities).length - 1].type ===
-            2 ? (
+          2 ? (
             <div
               style={{
                 display: "flex",

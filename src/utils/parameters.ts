@@ -99,10 +99,9 @@ export const PARAMETER_INFO: IParameterInfo = [
     parameter: "bg",
     type: "string",
     title: "Background Color",
-    description: "Changes the background color to a hex color (no octothorpe).",
+    description: "Changes the background color to any css Background Option or a hex color.",
     options: {
-      placeholder: "1A1C1F",
-      omit: ["#"],
+      placeholder: "1A1C1F/#1A1C1F/rgb(26,28,31)/rgba(26,28,31,0.5)/linear-gradient(45deg, #ff0000, #0000ff)"
     },
   },
   {
