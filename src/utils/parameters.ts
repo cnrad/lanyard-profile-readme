@@ -16,6 +16,7 @@ export type ProfileSettings = {
   ignoreAppId?: string[];
   showDisplayName?: boolean;
   borderRadius?: string;
+  borderColor?: string;
   idleMessage?: string;
   optimized?: boolean;
 };
@@ -24,6 +25,7 @@ export type SearchParams = {
   theme?: string;
   bg?: "dark" | "light" | string;
   clanBackgroundColor?: string;
+  borderColor?: string;
   animated?: string;
   animatedDecoration?: string;
   hideDiscrim?: string;
@@ -102,6 +104,16 @@ export const PARAMETER_INFO: IParameterInfo = [
     description: "Changes the background color to a hex color (no octothorpe).",
     options: {
       placeholder: "1A1C1F",
+      omit: ["#"],
+    },
+  },
+  {
+    parameter: "borderColor",
+    type: "string",
+    title: "Border Color",
+    description: "Changes the border color to a hex color (no octothorpe).",
+    options: {
+      placeholder: "1B1B26",
       omit: ["#"],
     },
   },

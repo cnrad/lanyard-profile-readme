@@ -37,6 +37,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     showDisplayName,
     theme = "dark",
     bg,
+    borderColor,
     clanBackgroundColor,
     borderRadius = "10px",
     idleMessage = "I'm not currently doing anything!",
@@ -136,8 +137,8 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           xmlns="http://www.w3.org/1999/xhtml"
           style={{
             position: "absolute",
-            width: "400px",
-            height: `${divHeight}px`,
+            width: borderColor ? "398px" : "400px",
+            height: borderColor ? `${parseInt(divHeight) - 2}px` : `${divHeight}px`,
             inset: 0,
             backgroundColor: `#${backgroundColor}`,
             color: theme === "dark" ? "#fff" : "#000",
@@ -147,6 +148,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             flexDirection: "column",
             padding: "5px",
             borderRadius: borderRadius,
+            ...(borderColor && { border: `1px solid #${borderColor}` }),
           }}
         >
           {!hideProfile ? (
