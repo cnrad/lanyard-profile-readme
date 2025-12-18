@@ -53,10 +53,16 @@ If you don't want the default "`I'm not currently doing anything!`" as your idle
 
 If you'd like to show your global display name as well as your username, append the query param `showDisplayName=true` to the end of the URL. This is set to `false` by default.
 
+### ___Text Color___
+
+Append the query param `textColor=:color` to the end of the URL, replacing `:color` with a hex color of your choice (omit the #). The secondary text colors are automatically adjusted based on the `theme` parameter.
+
 ### ___Hide Avatar Decoration___
+
 If you don't want people seeing your Avatar Decoration, append the query param `hideDecoration=true` to the end of the URL. Your Avatar Decoration is shown by default if you have one.
 
 ### ___Enable Animated Avatar Decoration___
+
 If you have an Animated Avatar Decoration, append the query param `animatedDecoration=true` to the URL. This is set to `false` by default to minimize response size.
 
 ### ___Hide Status___

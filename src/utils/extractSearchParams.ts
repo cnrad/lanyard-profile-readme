@@ -63,6 +63,7 @@ export function extractSearchParams(
     optimized,
     theme: params.theme,
     bg: params.bg,
+    textColor: params.textColor,
     clanBackgroundColor: params.clanBackgroundColor ?? clanBackgroundColor,
     borderRadius: params.borderRadius,
     idleMessage: params.idleMessage,
