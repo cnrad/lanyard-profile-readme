@@ -13,8 +13,9 @@ async function fetchRPCIcon(appId: string): Promise<string | null> {
   try {
     const res = await fetch(`https://discord.com/api/v10/applications/${appId}/rpc`);
     if (!res.ok) { rpcIconCache.set(appId, { url: null, ts: Date.now() }); return null; }
-    const json = await res.json();
-    const url = json.icon ? `https://cdn.discordapp.com/app-icons/${appId}/${json.icon}.webp` : null;
+    const json: unknown = await res.json();
+    const icon = typeof json === "object" && json !== null && "icon" in json && typeof (json as { icon?: unknown }).icon === "string" ? (json as { icon: string }).icon : null;
+    const url = icon ? `https://cdn.discordapp.com/app-icons/${appId}/${icon}.webp` : null;
     rpcIconCache.set(appId, { url, ts: Date.now() });
     return url;
   } catch { rpcIconCache.set(appId, { url: null, ts: Date.now() }); return null; }
