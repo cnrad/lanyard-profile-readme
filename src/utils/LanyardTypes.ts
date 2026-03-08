@@ -58,6 +58,7 @@ export interface Activity {
   type: number;
   state: string;
   name: string;
+  platform?: string;
   id: string;
   emoji?: Emoji;
   created_at: number;
