@@ -3,12 +3,30 @@ import { ProfileSettings } from "./parameters";
 import { ImageSize } from "./helpers";
 import { encodeBase64 } from "./toBase64";
 
+// Module-level cache: appId -> { url, ts }, TTL 1 hour
+const rpcIconCache = new Map<string, { url: string | null; ts: number }>();
+
+// Fetches the Discord app icon URL via the public RPC endpoint, with caching
+async function fetchRPCIcon(appId: string): Promise<string | null> {
+  const cached = rpcIconCache.get(appId);
+  if (cached && Date.now() - cached.ts < 3_600_000) return cached.url;
+  try {
+    const res = await fetch(`https://discord.com/api/v10/applications/${appId}/rpc`);
+    if (!res.ok) { rpcIconCache.set(appId, { url: null, ts: Date.now() }); return null; }
+    const json = await res.json();
+    const url = json.icon ? `https://cdn.discordapp.com/app-icons/${appId}/${json.icon}.webp` : null;
+    rpcIconCache.set(appId, { url, ts: Date.now() });
+    return url;
+  } catch { rpcIconCache.set(appId, { url: null, ts: Date.now() }); return null; }
+}
+
 export async function fetchUserImages(data: Data, settings: ProfileSettings) {
   let avatar: string;
   let avatarDecoration: string | null = null;
   let clanBadge: string | null = null;
   let assetLargeImage: string | null = null;
   let assetSmallImage: string | null = null;
+  let assetFallbackImage: string | null = null;
   let userEmoji: string | null = null;
   let albumCover: string | null = null;
 
@@ -94,6 +112,11 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
       settings.theme
     );
 
+  if (!activity?.assets?.large_image && activity?.application_id) {
+    const iconUrl = await fetchRPCIcon(activity.application_id);
+    if (iconUrl) assetFallbackImage = await encodeBase64(iconUrl, ImageSize.ACTIVITY_LARGE, settings.theme);
+  }
+
   if (userStatus?.emoji?.id)
     userEmoji = await encodeBase64(
       `https://cdn.discordapp.com/emojis/${userStatus.emoji.id}.${statusExtension}?size=32`,
@@ -112,6 +135,7 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
     avatarDecoration,
     assetLargeImage,
     assetSmallImage,
+    assetFallbackImage,
     userEmoji,
     albumCover,
   };

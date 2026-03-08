@@ -13,6 +13,7 @@ interface ProfileCardProps {
     clanBadge: string | null;
     assetLargeImage: string | null;
     assetSmallImage: string | null;
+    assetFallbackImage: string | null;
     userEmoji: string | null;
     albumCover: string | null;
   };
@@ -48,6 +49,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     clanBadge,
     assetLargeImage,
     assetSmallImage,
+    assetFallbackImage,
     userEmoji,
     albumCover,
   } = images;
@@ -395,44 +397,64 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   height: "auto",
                 }}
               >
-                {activity.assets?.large_image ? (
-                  <img
-                    src={`data:image/png;base64,${assetLargeImage}`}
-                    alt="Activity Large Image"
-                    style={{
-                      width: "80px",
-                      height: "80px",
-                      border: "solid 0.5px #222",
-                      borderRadius: "10px",
-                    }}
-                  />
-                ) : (
-                  <img
-                    src={`data:image/png;base64,${
-                      theme === "dark" ? UnknownIconLight : UnknownIconDark
-                    }`}
-                    alt="Unknown Icon"
-                    style={{
-                      width: "70px",
-                      height: "70px",
-                      marginTop: "4px",
-                    }}
-                  />
-                )}
-
-                {activity.assets?.small_image ? (
-                  <img
-                    src={`data:image/png;base64,${assetSmallImage}`}
-                    alt="Activity Small Image"
-                    style={{
-                      width: "30px",
-                      height: "30px",
-                      borderRadius: "50%",
-                      marginLeft: "-26px",
-                      marginBottom: "-8px",
-                    }}
-                  />
-                ) : null}
+                {/* Priority: large_image -> RPC app icon -> small_image (promoted) -> UnknownIcon */}
+                {/* Small overlay only shown when large_image and small_image are both present */}
+                {(() => {
+                  const effectiveLargeImage = assetLargeImage ?? assetFallbackImage;
+                  const showSmallOverlay = !!(assetLargeImage && assetSmallImage);
+                  return (
+                    <>
+                      {effectiveLargeImage ? (
+                        <img
+                          src={`data:image/png;base64,${effectiveLargeImage}`}
+                          alt="Activity Large Image"
+                          style={{
+                            width: "80px",
+                            height: "80px",
+                            border: "solid 0.5px #222",
+                            borderRadius: "10px",
+                          }}
+                        />
+                      ) : assetSmallImage ? (
+                        <img
+                          src={`data:image/png;base64,${assetSmallImage}`}
+                          alt="Activity Image"
+                          style={{
+                            width: "80px",
+                            height: "80px",
+                            border: "solid 0.5px #222",
+                            borderRadius: "10px",
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src={`data:image/png;base64,${
+                            theme === "dark" ? UnknownIconLight : UnknownIconDark
+                          }`}
+                          alt="Unknown Icon"
+                          style={{
+                            width: "70px",
+                            height: "70px",
+                            marginTop: "4px",
+                          }}
+                        />
+                      )}
+                      {showSmallOverlay ? (
+                        <img
+                          src={`data:image/png;base64,${assetSmallImage}`}
+                          alt="Activity Small Image"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            borderRadius: "50%",
+                            marginLeft: "-26px",
+                            marginBottom: "-8px",
+                          }}
+                        />
+                      ) : null}
+                    </>
+                  );
+                })()}
               </div>
 
               <div
