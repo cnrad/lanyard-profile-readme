@@ -17,6 +17,7 @@ export type ProfileSettings = {
   showDisplayName?: boolean;
   borderRadius?: string;
   idleMessage?: string;
+  fontScale?: number;
   optimized?: boolean;
 };
 
@@ -39,6 +40,7 @@ export type SearchParams = {
   showDisplayName?: string;
   borderRadius?: string;
   idleMessage?: string;
+  fontScale?: string;
 };
 
 export type IParameterInfo = Array<
@@ -137,6 +139,16 @@ export const PARAMETER_INFO: IParameterInfo = [
     type: "boolean",
     title: "Show Display Name",
     description: "Shows your global display name alongside your username.",
+  },
+  {
+    parameter: "fontScale",
+    type: "string",
+    title: "Font Scale",
+    description:
+      "Scales text size inside the card. Accepts values from 0.75 to 1.00.",
+    options: {
+      placeholder: "0.90",
+    },
   },
   {
     parameter: "animatedDecoration",
