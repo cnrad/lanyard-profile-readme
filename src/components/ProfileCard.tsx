@@ -13,6 +13,7 @@ interface ProfileCardProps {
     clanBadge: string | null;
     assetLargeImage: string | null;
     assetSmallImage: string | null;
+    assetFallbackImage: string | null;
     userEmoji: string | null;
     albumCover: string | null;
   };
@@ -49,6 +50,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     clanBadge,
     assetLargeImage,
     assetSmallImage,
+    assetFallbackImage,
     userEmoji,
     albumCover,
   } = images;
@@ -89,6 +91,29 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     );
   const activity: Activity | undefined =
     activities.length > 0 ? activities[0] : undefined;
+  const activityPlatformRaw = activity?.platform?.toLowerCase() ?? null;
+  const isPlayStationPlatform = !!(
+    activityPlatformRaw &&
+    (activityPlatformRaw.startsWith("ps") ||
+      activityPlatformRaw.includes("playstation"))
+  );
+  const isXboxPlatform = !!(
+    activityPlatformRaw && activityPlatformRaw.includes("xbox")
+  );
+  const activityPlatformLabel = activityPlatformRaw
+    ? isPlayStationPlatform
+      ? activityPlatformRaw.startsWith("ps")
+        ? activityPlatformRaw.toUpperCase()
+        : "PlayStation"
+      : isXboxPlatform
+      ? "Xbox"
+      : activityPlatformRaw.toUpperCase()
+    : null;
+  const activityPlatformIconKind = isPlayStationPlatform
+    ? "playstation"
+    : isXboxPlatform
+    ? "xbox"
+    : "generic";
 
   // Non-Spotify listening activity (e.g. Apple Music via discord-music-presence)
   const musicActivity: Activity | undefined = !data.listening_to_spotify
@@ -405,44 +430,64 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   height: "auto",
                 }}
               >
-                {activity.assets?.large_image ? (
-                  <img
-                    src={`data:image/png;base64,${assetLargeImage}`}
-                    alt="Activity Large Image"
-                    style={{
-                      width: "80px",
-                      height: "80px",
-                      border: "solid 0.5px #222",
-                      borderRadius: "10px",
-                    }}
-                  />
-                ) : (
-                  <img
-                    src={`data:image/png;base64,${
-                      theme === "dark" ? UnknownIconLight : UnknownIconDark
-                    }`}
-                    alt="Unknown Icon"
-                    style={{
-                      width: "70px",
-                      height: "70px",
-                      marginTop: "4px",
-                    }}
-                  />
-                )}
-
-                {activity.assets?.small_image ? (
-                  <img
-                    src={`data:image/png;base64,${assetSmallImage}`}
-                    alt="Activity Small Image"
-                    style={{
-                      width: "30px",
-                      height: "30px",
-                      borderRadius: "50%",
-                      marginLeft: "-26px",
-                      marginBottom: "-8px",
-                    }}
-                  />
-                ) : null}
+                {/* Priority: large_image -> RPC app icon -> small_image (promoted) -> UnknownIcon */}
+                {/* Small overlay only shown when large_image and small_image are both present */}
+                {(() => {
+                  const effectiveLargeImage = assetLargeImage ?? assetFallbackImage;
+                  const showSmallOverlay = !!(assetLargeImage && assetSmallImage);
+                  return (
+                    <>
+                      {effectiveLargeImage ? (
+                        <img
+                          src={`data:image/png;base64,${effectiveLargeImage}`}
+                          alt="Activity Large Image"
+                          style={{
+                            width: "80px",
+                            height: "80px",
+                            border: "solid 0.5px #222",
+                            borderRadius: "10px",
+                          }}
+                        />
+                      ) : assetSmallImage ? (
+                        <img
+                          src={`data:image/png;base64,${assetSmallImage}`}
+                          alt="Activity Image"
+                          style={{
+                            width: "80px",
+                            height: "80px",
+                            border: "solid 0.5px #222",
+                            borderRadius: "10px",
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src={`data:image/png;base64,${
+                            theme === "dark" ? UnknownIconLight : UnknownIconDark
+                          }`}
+                          alt="Unknown Icon"
+                          style={{
+                            width: "70px",
+                            height: "70px",
+                            marginTop: "4px",
+                          }}
+                        />
+                      )}
+                      {showSmallOverlay ? (
+                        <img
+                          src={`data:image/png;base64,${assetSmallImage}`}
+                          alt="Activity Small Image"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            borderRadius: "50%",
+                            marginLeft: "-26px",
+                            marginBottom: "-8px",
+                          }}
+                        />
+                      ) : null}
+                    </>
+                  );
+                })()}
               </div>
 
               <div
@@ -470,6 +515,84 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 >
                   {activity.name}
                 </p>
+                {activityPlatformLabel ? (
+                  <p
+                    style={{
+                      color: theme === "dark" ? "#ccc" : "#777",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      fontSize: "0.78rem",
+                      textOverflow: "ellipsis",
+                      height: "15px",
+                      margin: "7px 0",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "15px",
+                        height: "15px",
+                      }}
+                    >
+                      {activityPlatformIconKind === "playstation" ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="15"
+                          height="15"
+                          aria-label="PlayStation"
+                          style={{ display: "block" }}
+                        >
+                          <circle cx="12" cy="12" r="12" fill="#0f6bdc" />
+                          <path
+                            d="M9 5h2.4c2 0 3.4 1.1 3.4 2.8v2.8c0 1.7-1.4 2.8-3.4 2.8H11v5H9V5Zm2 1.8v4.8h.5c.9 0 1.3-.3 1.3-1V7.8c0-.7-.4-1-1.3-1H11Zm-4.6 7.6 8.3-2.3v1.8l-5.2 1.6c-.6.2-.7.4-.1.6l2.5.8v1.7L7 17.4c-1.7-.5-1.9-2-1.6-3Z"
+                            fill="#fff"
+                          />
+                        </svg>
+                      ) : activityPlatformIconKind === "xbox" ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="15"
+                          height="15"
+                          aria-label="Xbox"
+                          style={{ display: "block" }}
+                        >
+                          <circle cx="12" cy="12" r="12" fill="#107c10" />
+                          <path d="M7.2 7.2C8.4 6.3 10.1 5.8 12 5.8c1.9 0 3.6.5 4.8 1.4L12 12 7.2 7.2Z" fill="#fff" />
+                          <path d="M6.3 8.8 10.9 13.4 7.2 17.1c-.6-.6-1.1-1.4-1.4-2.3-.5-1.4-.3-3 .5-4Z" fill="#fff" />
+                          <path d="M17.7 8.8 13.1 13.4l3.7 3.7c.6-.6 1.1-1.4 1.4-2.3.5-1.4.3-3-.5-4Z" fill="#fff" />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="15"
+                          height="15"
+                          aria-label="Game Platform"
+                          style={{ display: "block" }}
+                        >
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="12"
+                            fill={theme === "dark" ? "#444" : "#888"}
+                          />
+                          <path
+                            d="M8.2 9.5h7.6c2 0 3.3 2.1 2.4 3.9l-1.1 2.1c-.6 1.1-2 1.5-3.1.9l-2-1.1-2 1.1c-1.1.6-2.5.2-3.1-.9l-1.1-2.1c-.9-1.8.4-3.9 2.4-3.9Zm1.3 1.9v1h-1v1h1v1h1v-1h1v-1h-1v-1h-1Zm4.9 1.2a.8.8 0 1 0 0 1.6.8.8 0 0 0 0-1.6Zm1.9-1.2a.8.8 0 1 0 0 1.6.8.8 0 0 0 0-1.6Z"
+                            fill="#fff"
+                          />
+                        </svg>
+                      )}
+                    </span>
+                    {activityPlatformLabel}
+                  </p>
+                ) : null}
                 {activity.details ? (
                   <p
                     style={{
