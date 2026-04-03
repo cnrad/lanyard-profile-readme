@@ -43,6 +43,10 @@ export function extractSearchParams(
   const showDisplayName = parseBool(params.showDisplayName);
   const animated = parseBool(params.animated);
   const animatedDecoration = parseBool(params.animatedDecoration);
+  const parsedFontScale = Number(params.fontScale);
+  const fontScale = Number.isFinite(parsedFontScale)
+    ? Math.min(1, Math.max(0.75, parsedFontScale))
+    : 1;
 
   const clanBackgroundColor: string =
     params.theme === "light" ? "#e0dede" : "#111214";
@@ -68,5 +72,6 @@ export function extractSearchParams(
     clanBackgroundColor: params.clanBackgroundColor ?? clanBackgroundColor,
     borderRadius: params.borderRadius,
     idleMessage: params.idleMessage,
+    fontScale,
   };
 }

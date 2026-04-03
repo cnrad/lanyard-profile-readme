@@ -41,6 +41,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     clanBackgroundColor,
     borderRadius = "10px",
     idleMessage = "I'm not currently doing anything!",
+    fontScale = 1,
   } = settings;
 
   const {
@@ -89,6 +90,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     );
   const activity: Activity | undefined =
     activities.length > 0 ? activities[0] : undefined;
+  const effectiveFontScale = Math.min(1, Math.max(0.75, fontScale));
 
   // Non-Spotify listening activity (e.g. Apple Music via discord-music-presence)
   const musicActivity: Activity | undefined = !data.listening_to_spotify
@@ -152,7 +154,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             backgroundColor: `#${backgroundColor}`,
             color: theme === "dark" ? "#fff" : "#000",
             fontFamily: `'Century Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
-            fontSize: "16px",
+            fontSize: `${16 * effectiveFontScale}px`,
             display: "flex",
             flexDirection: "column",
             padding: "5px",
@@ -255,7 +257,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 >
                   <h1
                     style={{
-                      fontSize: "1.15rem",
+                      fontSize: `${1.15 * effectiveFontScale}rem`,
                       margin: "0 12px 0 0",
                       whiteSpace: "nowrap",
                     }}
@@ -290,7 +292,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                         display: "flex",
                         alignItems: "center",
                         gap: "0.25rem",
-                        fontSize: "16px",
+                        fontSize: `${1 * effectiveFontScale}rem`,
                         fontWeight: "500",
                         fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
                         height: "100%",
@@ -334,7 +336,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 {showDisplayName ? (
                   <h2
                     style={{
-                      fontSize: "0.95rem",
+                      fontSize: `${0.95 * effectiveFontScale}rem`,
                       margin: 0,
                       whiteSpace: "nowrap",
                       fontWeight: "400",
@@ -346,7 +348,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 {userStatus && !hideStatus ? (
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: `${0.9 * effectiveFontScale}rem`,
                       margin: 0,
                       color: theme === "dark" ? "#aaa" : "#333",
                       fontWeight: 400,
@@ -394,7 +396,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 flexDirection: "row",
                 height: "120px",
                 marginLeft: "15px",
-                fontSize: "0.75rem",
+                fontSize: `${0.75 * effectiveFontScale}rem`,
                 paddingTop: "18px",
               }}
             >
@@ -459,7 +461,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 <p
                   style={{
                     color: theme === "dark" ? "#fff" : "#000",
-                    fontSize: "0.85rem",
+                    fontSize: `${0.85 * effectiveFontScale}rem`,
                     fontWeight: "bold",
                     overflow: "hidden",
                     whiteSpace: "nowrap",
@@ -476,7 +478,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                       color: theme === "dark" ? "#ccc" : "#777",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
-                      fontSize: "0.85rem",
+                      fontSize: `${0.85 * effectiveFontScale}rem`,
                       textOverflow: "ellipsis",
                       height: "15px",
                       margin: "7px 0",
@@ -491,7 +493,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                       color: theme === "dark" ? "#ccc" : "#777",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
-                      fontSize: "0.85rem",
+                      fontSize: `${0.85 * effectiveFontScale}rem`,
                       textOverflow: "ellipsis",
                       height: "15px",
                       margin: "7px 0",
@@ -509,7 +511,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                       color: theme === "dark" ? "#ccc" : "#777",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
-                      fontSize: "0.85rem",
+                      fontSize: `${0.85 * effectiveFontScale}rem`,
                       textOverflow: "ellipsis",
                       height: "15px",
                       margin: "7px 0",
@@ -533,7 +535,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 flexDirection: "row",
                 height: "120px",
                 marginLeft: "15px",
-                fontSize: "0.8rem",
+                fontSize: `${0.8 * effectiveFontScale}rem`,
                 paddingTop: "18px",
               }}
             >
@@ -564,7 +566,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
               >
                 <p
                   style={{
-                    fontSize: "0.75rem",
+                    fontSize: `${0.75 * effectiveFontScale}rem`,
                     fontWeight: "bold",
                     color: theme === "dark" ? "#1CB853" : "#0d943d",
                     marginBottom: "15px",
@@ -578,7 +580,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     height: "15px",
                     color: theme === "dark" ? "#fff" : "#000",
                     fontWeight: "bold",
-                    fontSize: "0.85rem",
+                    fontSize: `${0.85 * effectiveFontScale}rem`,
                     overflow: "hidden",
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
@@ -593,7 +595,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     height: "15px",
                     overflow: "hidden",
                     whiteSpace: "nowrap",
-                    fontSize: "0.85rem",
+                    fontSize: `${0.85 * effectiveFontScale}rem`,
                     textOverflow: "ellipsis",
                     color: theme === "dark" ? "#ccc" : "#777",
                   }}
@@ -698,7 +700,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
               <p
                 style={{
                   fontStyle: "italic",
-                  fontSize: "0.8rem",
+                  fontSize: `${0.8 * effectiveFontScale}rem`,
                   color: theme === "dark" ? "#aaa" : "#444",
                   height: "auto",
                   textAlign: "center",
