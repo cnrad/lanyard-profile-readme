@@ -1,6 +1,6 @@
 import { Activity, Data } from "@/utils/LanyardTypes";
 import { Badges, UnknownIconDark, UnknownIconLight } from "@/utils/badges";
-import { elapsedTime, getFlags } from "@/utils/helpers";
+import { elapsedTime, getFlags, adjustTextColor } from "@/utils/helpers";
 import { ProfileSettings } from "@/utils/parameters";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
@@ -38,6 +38,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     showDisplayName,
     theme = "dark",
     bg,
+    textColor,
     clanBackgroundColor,
     borderRadius = "10px",
     idleMessage = "I'm not currently doing anything!",
@@ -56,6 +57,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   let avatarBorderColor: string = "#747F8D";
   const backgroundColor: string =
     bg ?? (theme === "light" ? "ededed" : "1a1c1f");
+
+  const primaryTextColor = textColor ? `#${textColor}` : (theme === "dark" ? "#fff" : "#000");
+  const secondaryTextColor = textColor 
+    ? `#${adjustTextColor(textColor, theme, 20)}` // calculated using base colors
+    : (theme === "dark" ? "#ccc" : "#777");
 
   switch (data.discord_status) {
     case "online":
@@ -150,7 +156,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             height: `${divHeight}px`,
             inset: 0,
             backgroundColor: `#${backgroundColor}`,
-            color: theme === "dark" ? "#fff" : "#000",
+            color: primaryTextColor,
             fontFamily: `'Century Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
             fontSize: "16px",
             display: "flex",
@@ -267,7 +273,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     {!hideDiscrim && !showDisplayName ? (
                       <span
                         style={{
-                          color: theme === "dark" ? "#ccc" : "#666",
+                          color: secondaryTextColor,
                           fontWeight: "lighter",
                         }}
                       >
@@ -338,6 +344,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                       margin: 0,
                       whiteSpace: "nowrap",
                       fontWeight: "400",
+                      color: secondaryTextColor
                     }}
                   >
                     {data.discord_user.username}
@@ -348,7 +355,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     style={{
                       fontSize: "0.9rem",
                       margin: 0,
-                      color: theme === "dark" ? "#aaa" : "#333",
+                      color: secondaryTextColor,
                       fontWeight: 400,
                       overflow: "hidden",
                       whiteSpace: "nowrap",
@@ -458,7 +465,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
               >
                 <p
                   style={{
-                    color: theme === "dark" ? "#fff" : "#000",
+                    color: primaryTextColor,
                     fontSize: "0.85rem",
                     fontWeight: "bold",
                     overflow: "hidden",
@@ -473,7 +480,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 {activity.details ? (
                   <p
                     style={{
-                      color: theme === "dark" ? "#ccc" : "#777",
+                      color: secondaryTextColor,
                       overflow: "hidden",
                       whiteSpace: "nowrap",
                       fontSize: "0.85rem",
@@ -488,7 +495,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 {activity.state ? (
                   <p
                     style={{
-                      color: theme === "dark" ? "#ccc" : "#777",
+                      color: secondaryTextColor,
                       overflow: "hidden",
                       whiteSpace: "nowrap",
                       fontSize: "0.85rem",
@@ -506,7 +513,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 {activity.timestamps?.start && !hideTimestamp ? (
                   <p
                     style={{
-                      color: theme === "dark" ? "#ccc" : "#777",
+                      color: secondaryTextColor,
                       overflow: "hidden",
                       whiteSpace: "nowrap",
                       fontSize: "0.85rem",
@@ -576,7 +583,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 <p
                   style={{
                     height: "15px",
-                    color: theme === "dark" ? "#fff" : "#000",
+                    color: primaryTextColor,
                     fontWeight: "bold",
                     fontSize: "0.85rem",
                     overflow: "hidden",
@@ -595,7 +602,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     whiteSpace: "nowrap",
                     fontSize: "0.85rem",
                     textOverflow: "ellipsis",
-                    color: theme === "dark" ? "#ccc" : "#777",
+                    color: secondaryTextColor,
                   }}
                 >
                   By {data.spotify.artist.replace(/; /g, ", ")}
@@ -699,7 +706,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 style={{
                   fontStyle: "italic",
                   fontSize: "0.8rem",
-                  color: theme === "dark" ? "#aaa" : "#444",
+                  color: secondaryTextColor,
                   height: "auto",
                   textAlign: "center",
                 }}

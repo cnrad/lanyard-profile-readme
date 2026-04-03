@@ -1,6 +1,7 @@
 export type ProfileSettings = {
   theme?: string;
   bg?: string;
+  textColor?: string;
   clanBackgroundColor?: string;
   animated?: boolean;
   animatedDecoration?: boolean;
@@ -24,6 +25,7 @@ export type ProfileSettings = {
 export type SearchParams = {
   theme?: string;
   bg?: "dark" | "light" | string;
+  textColor?: string;
   clanBackgroundColor?: string;
   animated?: string;
   animatedDecoration?: string;
@@ -104,6 +106,16 @@ export const PARAMETER_INFO: IParameterInfo = [
     description: "Changes the background color to a hex color (no octothorpe).",
     options: {
       placeholder: "1A1C1F",
+      omit: ["#"],
+    },
+  },
+  {
+    parameter: "textColor",
+    type: "string",
+    title: "Text Color",
+    description: "Changes the primary text color to a hex color (no octothorpe). Secondary text colors are automatically adjusted based on the `theme` parameter.",
+    options: {
+      placeholder: "FFFFFF",
       omit: ["#"],
     },
   },
