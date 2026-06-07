@@ -66,3 +66,21 @@ export const ImageSize = {
   ACTIVITY_LARGE: 128,
   ACTIVITY_SMALL: 32,
 };
+
+export function getImageDataUri(base64: string | null): string {
+  if (!base64) return "";
+  if (base64.startsWith("data:")) return base64; // already a data URI
+
+  let mime = "image/png";
+  if (base64.startsWith("UklGR")) {
+    mime = "image/webp";
+  } else if (base64.startsWith("R0lGOD")) {
+    mime = "image/gif";
+  } else if (base64.startsWith("/9j/")) {
+    mime = "image/jpeg";
+  } else if (base64.startsWith("iVBORw")) {
+    mime = "image/png";
+  }
+
+  return `data:${mime};base64,${base64}`;
+}

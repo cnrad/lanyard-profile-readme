@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, JSX } from "react";
+import React, { useState, useEffect, JSX } from "react";
 import { motion } from "motion/react";
 import { isSnowflake } from "@/utils/snowflake";
 import { IParameterInfo, PARAMETER_INFO } from "@/utils/parameters";
@@ -9,10 +9,17 @@ import { InfoTooltip } from "@/components/Popover";
 import { cn, filterLetters } from "@/utils/helpers";
 
 export default function Home() {
+  const [originUrl, setOriginUrl] = useState("");
+
+  useEffect(() => {
+    setOriginUrl(window.location.origin);
+  }, []);
+
   const ORIGIN_URL =
-    process.env.NODE_ENV === "development"
+    originUrl ||
+    (process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "https://lanyard.cnrad.dev";
+      : "https://lanyard.cnrad.dev");
 
   const [userId, setUserId] = useState("");
   const [userError, setUserError] = useState<string | JSX.Element>();
@@ -300,10 +307,9 @@ const MainSection = ({
       {userId.length > 0 && isSnowflake(userId) ? (
         <img
           src={url}
-          height={280}
-          width={500}
           alt="Your Lanyard Banner"
           className="mx-auto"
+          style={{ height: "auto", width: "100%", maxWidth: "410px" }}
         />
       ) : (
         <div className="w-full min-h-64 rounded-xl border border-white/10 bg-gray-50/5 flex items-center justify-center text-white/25 font-mono text-sm px-16 text-center">

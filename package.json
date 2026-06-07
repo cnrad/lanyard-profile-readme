@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "dev": "next dev",
     "build": "next build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
@@ -16,7 +17,7 @@
     "ioredis": "^5.6.0",
     "lucide-react": "^0.487.0",
     "motion": "^12.6.3",
-    "next": "^15.2.8",
+    "next": "15.2.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sharp": "^0.34.1",

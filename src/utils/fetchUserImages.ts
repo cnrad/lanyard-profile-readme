@@ -7,8 +7,6 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
   let avatar: string;
   let avatarDecoration: string | null = null;
   let clanBadge: string | null = null;
-  let assetLargeImage: string | null = null;
-  let assetSmallImage: string | null = null;
   let userEmoji: string | null = null;
   let albumCover: string | null = null;
 
@@ -35,8 +33,7 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
       (activity) =>
         !settings.ignoreAppId?.includes(activity.application_id ?? "")
     );
-  const activity: Activity | undefined =
-    activities.length > 0 ? activities[0] : undefined;
+
 
   if (data.discord_user.avatar) {
     avatar = await encodeBase64(
@@ -76,23 +73,51 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
     );
   }
 
-  if (activity?.assets?.large_image)
-    assetLargeImage = await encodeBase64(
-      activity.assets?.large_image.startsWith("mp:external/")
-        ? `${activity.assets.large_image.replace(/mp:external\/([^\/]*)\/(http[s])/g, "$2:/")}`
-        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp`,
-      ImageSize.ACTIVITY_LARGE,
-      settings.theme
-    );
+  const activityImages: Array<{ largeImage: string | null; smallImage: string | null }> = [];
+  for (const act of activities) {
+    let largeImage: string | null = null;
+    let smallImage: string | null = null;
 
-  if (activity?.assets?.small_image)
-    assetSmallImage = await encodeBase64(
-      activity.assets.small_image.startsWith("mp:external/")
-        ? `${activity.assets.small_image.replace(/mp:external\/([^\/]*)\/(http[s])/g, "$2:/")}`
-        : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.webp`,
-      ImageSize.ACTIVITY_SMALL,
-      settings.theme
-    );
+    if (act.assets?.large_image) {
+      largeImage = await encodeBase64(
+        act.assets.large_image.startsWith("mp:external/")
+          ? `${act.assets.large_image.replace(/mp:external\/([^\/]*)\/(http[s])/g, "$2:/")}`
+          : `https://cdn.discordapp.com/app-assets/${act.application_id}/${act.assets.large_image}.webp`,
+        ImageSize.ACTIVITY_LARGE,
+        settings.theme
+      );
+    } else if (act.application_id) {
+      try {
+        const appInfo = await fetch(
+          `https://discord.com/api/v9/applications/${act.application_id}/rpc`,
+          {
+            next: { revalidate: 86400 } // Cache application details for 1 day
+          }
+        ).then(res => res.ok ? res.json() as Promise<{ icon?: string } | null> : null);
+
+        if (appInfo && appInfo.icon) {
+          largeImage = await encodeBase64(
+            `https://cdn.discordapp.com/app-icons/${act.application_id}/${appInfo.icon}.webp`,
+            ImageSize.ACTIVITY_LARGE,
+            settings.theme
+          );
+        }
+      } catch (error) {
+        console.error(`Failed to fetch fallback icon for app ${act.application_id}:`, error);
+      }
+    }
+
+    if (act.assets?.small_image)
+      smallImage = await encodeBase64(
+        act.assets.small_image.startsWith("mp:external/")
+          ? `${act.assets.small_image.replace(/mp:external\/([^\/]*)\/(http[s])/g, "$2:/")}`
+          : `https://cdn.discordapp.com/app-assets/${act.application_id}/${act.assets.small_image}.webp`,
+        ImageSize.ACTIVITY_SMALL,
+        settings.theme
+      );
+
+    activityImages.push({ largeImage, smallImage });
+  }
 
   if (userStatus?.emoji?.id)
     userEmoji = await encodeBase64(
@@ -122,8 +147,7 @@ export async function fetchUserImages(data: Data, settings: ProfileSettings) {
     avatar,
     clanBadge,
     avatarDecoration,
-    assetLargeImage,
-    assetSmallImage,
+    activityImages,
     userEmoji,
     albumCover,
   };
