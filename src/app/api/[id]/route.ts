@@ -4,9 +4,19 @@ import { Root, Data } from "@/utils/LanyardTypes";
 import { extractSearchParams } from "@/utils/extractSearchParams";
 import { fetchUserImages } from "@/utils/fetchUserImages";
 
-async function fetchLanyard(id: string): Promise<Data | null> {
+// defaults to the public instance so existing badges for everyone else keep
+// working; pass ?source=self to pull from the self-hosted larpyard instead
+const LANYARD_HOSTS = {
+  public: "https://api.lanyard.rest",
+  self: "https://larpyard.arshnah.in",
+};
+
+async function fetchLanyard(
+  id: string,
+  source: keyof typeof LANYARD_HOSTS
+): Promise<Data | null> {
   try {
-    const json = (await fetch(`https://api.lanyard.rest/v1/users/${id}`, {
+    const json = (await fetch(`${LANYARD_HOSTS[source]}/v1/users/${id}`, {
       cache: "no-store",
     }).then((res) => res.json())) as Root & { error?: string };
     if (!json.success || "error" in json) return null;
@@ -67,7 +77,10 @@ export async function GET(
       }
     );
 
-  const data = pickPresence(await Promise.all(ids.map(fetchLanyard)));
+  const source = searchParams.get("source") === "self" ? "self" : "public";
+  const data = pickPresence(
+    await Promise.all(ids.map((id) => fetchLanyard(id, source)))
+  );
 
   if (!data)
     return Response.json(
