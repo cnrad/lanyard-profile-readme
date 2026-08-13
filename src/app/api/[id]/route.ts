@@ -5,18 +5,17 @@ import { extractSearchParams } from "@/utils/extractSearchParams";
 import { fetchUserImages } from "@/utils/fetchUserImages";
 
 // defaults to the public instance so existing badges for everyone else keep
-// working; pass ?source=self to pull from the self-hosted larpyard instead
+// working; pass ?source=self to try the self-hosted larpyard first, falling
+// back to public for any ID larpyard isn't monitoring (e.g. an alt account
+// that's only in the public Lanyard support server, not larpyard's guild)
 const LANYARD_HOSTS = {
   public: "https://api.lanyard.rest",
   self: "https://larpyard.arshnah.in",
 };
 
-async function fetchLanyard(
-  id: string,
-  source: keyof typeof LANYARD_HOSTS
-): Promise<Data | null> {
+async function fetchFrom(id: string, host: string): Promise<Data | null> {
   try {
-    const json = (await fetch(`${LANYARD_HOSTS[source]}/v1/users/${id}`, {
+    const json = (await fetch(`${host}/v1/users/${id}`, {
       cache: "no-store",
     }).then((res) => res.json())) as Root & { error?: string };
     if (!json.success || "error" in json) return null;
@@ -24,6 +23,16 @@ async function fetchLanyard(
   } catch {
     return null;
   }
+}
+
+async function fetchLanyard(
+  id: string,
+  source: keyof typeof LANYARD_HOSTS
+): Promise<Data | null> {
+  const primary = await fetchFrom(id, LANYARD_HOSTS[source]);
+  if (primary) return primary;
+  if (source === "self") return fetchFrom(id, LANYARD_HOSTS.public);
+  return null;
 }
 
 // Picks the first linked account (in the order given) that isn't offline,
