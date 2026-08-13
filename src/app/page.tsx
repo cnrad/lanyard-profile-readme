@@ -82,7 +82,16 @@ export default function Home() {
               >
                 Lanyard
               </a>{" "}
-              to display your Discord Presence anywhere.
+              to display your Discord Presence anywhere. Also running{" "}
+              <a
+                href="https://larpyard.arshnah.in"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-white underline decoration-transparent underline-offset-2 transition-colors duration-150 ease-out hover:decoration-white"
+              >
+                larpyard
+              </a>
+              , a self-hosted Lanyard instance.
             </p>
 
             <div className="flex h-[2.25rem] w-full flex-row gap-2">
